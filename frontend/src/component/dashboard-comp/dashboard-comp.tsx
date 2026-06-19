@@ -9,7 +9,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
 
 export default function DashboardComp() {
-  const [activeTab, setActiveTab] = useState("dashboard/room");
+  const [activeTab, setActiveTab] = useState("dashboard/overview");
 
   const renderContent = () => {
     switch (activeTab) {
