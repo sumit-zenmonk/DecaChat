@@ -5,7 +5,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 1%;
-    background-color: #222222;
+    background-color: #1a1a1a;
     color: #A0A3FF;
     border-bottom: 1px solid #c4c4c4;
 }
@@ -30,12 +30,12 @@
 }
 
 .logoutbtn {
-    color: rgb(231, 0, 0);
+    color: rgb(255, 87, 87);
+    font-weight: 700;
 }
 
 .logoutbtn:hover {
-    color: white;
-    background-color: rgb(194, 0, 0);
+    color: rgb(255, 47, 47);
 }
 
 .loginButton {
@@ -43,7 +43,14 @@
     color: #bbbdff;
 }
 
+.createRoomButton {
+    font-weight: 700;
+    color: #2F2EBE;
+    background-color: #bbbdff;
+    border-radius: 20px;
+}
+
 .iconButton {
     font-weight: 700;
-    color: #bbbdff;
+    color: #d6d8ff;
 }

@@ -32,7 +32,7 @@ export default function HeaderComp() {
             </Box>
 
             <Box className={styles.rightContainer}>
-                <Button>Create New Room</Button>
+                <Button className={styles.createRoomButton}>Create New Room</Button>
                 <IconButton className={styles.iconButton}><PeopleOutlineOutlinedIcon /></IconButton>
                 <IconButton className={styles.iconButton}><NotificationsNoneOutlinedIcon /></IconButton>
 
