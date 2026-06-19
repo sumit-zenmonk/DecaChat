@@ -5,9 +5,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 1%;
-    background-color: #1a1a1a;
+    background-color: #111111;
     color: #A0A3FF;
-    border-bottom: 1px solid #c4c4c4;
+    border-bottom: 1px solid #222222;
 }
 
 .leftContainer {

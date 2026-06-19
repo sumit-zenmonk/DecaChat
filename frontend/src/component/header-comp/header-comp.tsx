@@ -9,11 +9,14 @@ import { enqueueSnackbar } from "notistack"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts"
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
+import { useState } from "react"
+import CreateRoomModal from "../create-room-modal/create-room-modal"
 
 export default function HeaderComp() {
     const router = useRouter()
     const dispatch = useAppDispatch();
     const { user } = useAppSelector((state: RootState) => state.authReducer);
+    const [openCreateRoomModal, setOpenCreateRoomModal] = useState(false);
 
     const handleLogOut = async () => {
         try {
@@ -25,6 +28,18 @@ export default function HeaderComp() {
         }
     }
 
+    const handleAddRoomClose = () => {
+        setOpenCreateRoomModal(false);
+    };
+
+    const handleAddRoomOpen = () => {
+        if (!user) {
+            enqueueSnackbar("Need Login", { variant: "error" });
+            return;
+        }
+        setOpenCreateRoomModal(true);
+    };
+
     return (
         <Box className={styles.container}>
             <Box className={styles.leftContainer}>
@@ -32,7 +47,7 @@ export default function HeaderComp() {
             </Box>
 
             <Box className={styles.rightContainer}>
-                <Button className={styles.createRoomButton}>Create New Room</Button>
+                <Button className={styles.createRoomButton} onClick={handleAddRoomOpen}>Create New Room</Button>
                 <IconButton className={styles.iconButton}><PeopleOutlineOutlinedIcon /></IconButton>
                 <IconButton className={styles.iconButton}><NotificationsNoneOutlinedIcon /></IconButton>
 
@@ -56,6 +71,8 @@ export default function HeaderComp() {
                     </Button>
                 )}
             </Box>
+
+            <CreateRoomModal isOpen={openCreateRoomModal} onClose={handleAddRoomClose} />
         </Box >
     )
 }

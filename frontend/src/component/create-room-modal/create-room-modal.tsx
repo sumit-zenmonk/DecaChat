@@ -60,28 +60,55 @@ export default function CreateRoomModal({ isOpen, onClose }: RoomModalProps) {
                 </Box>
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                    <TextField
-                        label="Name"
-                        {...register("name")}
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                        fullWidth
-                    />
-                    <TextField
-                        label="Description"
-                        {...register("description")}
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
-                        fullWidth
-                        multiline
-                        minRows={4}
-                        maxRows={6}
-                    />
+
+                    <Box className={styles.fieldBox}>
+                        <Box className={styles.field}>
+                            <TextField
+                                placeholder="Name"
+                                {...register("name")}
+                                error={!!errors.name}
+                                helperText={errors.name?.message}
+                                fullWidth
+                                slotProps={{
+                                    input: {
+                                        // startAdornment: (
+                                        //     <EmailOutlinedIcon className={styles.fieldIcon} />
+                                        // ),
+                                        className: (styles.textField),
+                                    },
+                                }}
+                            />
+                        </Box>
+                    </Box>
+
+                    <Box className={styles.fieldBox}>
+                        <Box className={styles.field}>
+                            <TextField
+                                placeholder="Description"
+                                {...register("description")}
+                                error={!!errors.description}
+                                helperText={errors.description?.message}
+                                fullWidth
+                                multiline
+                                minRows={4}
+                                maxRows={6}
+                                slotProps={{
+                                    input: {
+                                        // startAdornment: (
+                                        //     <EmailOutlinedIcon className={styles.fieldIcon} />
+                                        // ),
+                                        className: (styles.textField),
+                                    },
+                                }}
+                            />
+                        </Box>
+                    </Box>
+
 
                     <Button
                         type="submit"
-                        color="primary"
                         fullWidth
+                        className={styles.AddRoomButton}
                     // disabled={loading}
                     // startIcon={loading && <CircularProgress size={20} />}
                     >

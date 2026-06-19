@@ -56,7 +56,7 @@ export default function LoginForm() {
                     </Typography>
 
                     <Typography variant="h5" className={styles.description}>
-                        Sign in to join the conversation and claim a writer slot.
+                        Sign in to join the conversation and claim a member slot.
                     </Typography>
                 </Box>
 
