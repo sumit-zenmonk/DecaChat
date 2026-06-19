@@ -1,12 +1,14 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Box, Button } from "@mui/material"
+import { Box, Button, IconButton, Typography } from "@mui/material"
 import { RootState } from "@/redux/store"
 import styles from "./header-comp.module.css"
 import { logoutUser } from "@/redux/feature/auth/auth-action"
 import { enqueueSnackbar } from "notistack"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts"
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 
 export default function HeaderComp() {
     const router = useRouter()
@@ -19,35 +21,23 @@ export default function HeaderComp() {
             localStorage.clear()
             router.replace("/")
         } catch (err: any) {
-            enqueueSnackbar(err, { variant: "error", })
+            enqueueSnackbar(err, { variant: "error" })
         }
     }
 
     return (
-        <header className={styles.header}>
+        <Box className={styles.container}>
             <Box className={styles.leftContainer}>
-                <p onClick={() => { router.push("/") }}>Deca Chat</p>
+                <Typography onClick={() => { router.push("/") }} className={styles.title}>Deca Chat</Typography>
             </Box>
 
             <Box className={styles.rightContainer}>
-                <Button
-                    onClick={() => {
-                        router.push("/")
-                    }}
-                >
-                    Public Room
-                </Button>
+                <Button>Create New Room</Button>
+                <IconButton className={styles.iconButton}><PeopleOutlineOutlinedIcon /></IconButton>
+                <IconButton className={styles.iconButton}><NotificationsNoneOutlinedIcon /></IconButton>
 
                 {user ? (
                     <>
-                        <Button
-                            onClick={() => {
-                                router.push("/dashboard")
-                            }}
-                        >
-                            Dashboard
-                        </Button>
-
                         <Button
                             className={styles.logoutbtn}
                             onClick={async () => { await handleLogOut() }}
@@ -57,6 +47,7 @@ export default function HeaderComp() {
                     </>
                 ) : (
                     <Button
+                        className={styles.loginButton}
                         onClick={() => {
                             router.push("/login")
                         }}
@@ -65,6 +56,6 @@ export default function HeaderComp() {
                     </Button>
                 )}
             </Box>
-        </header >
+        </Box >
     )
 }

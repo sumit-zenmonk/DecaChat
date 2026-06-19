@@ -4,6 +4,7 @@
   scrollbar-width: none;
   scroll-behavior: smooth;
   transition: all ease .5s;
+  overflow: scroll;
 }
 
 body {
