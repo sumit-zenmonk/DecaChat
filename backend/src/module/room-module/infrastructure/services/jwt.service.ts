@@ -10,7 +10,6 @@ export class JwtHelperService {
         const payload = {
             uuid: userObj.uuid,
             email: userObj.email,
-            name: userObj.name,
         };
 
         return await this.jwtService.signAsync(payload);

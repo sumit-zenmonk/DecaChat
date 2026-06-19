@@ -7,7 +7,6 @@ import { SocketEventNameEnum } from "@/service/socket/socket-event.enum";
 import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
-import { getUserProfile } from "@/redux/feature/auth/auth-action";
 
 export const LayoutSocketListener = () => {
     const dispatch = useAppDispatch();
@@ -15,7 +14,6 @@ export const LayoutSocketListener = () => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getUserProfile());
             const auth_socket = connectAuthSocket(token);
 
             auth_socket.on(SocketEventNameEnum.ROOM_CREATED, (data) => {

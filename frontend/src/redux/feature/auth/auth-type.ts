@@ -1,7 +1,6 @@
 export interface User {
   uuid: string
   email: string | null
-  name: string | null
   profile_image: string | null
   is_online: boolean
 }

@@ -3,10 +3,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { AuthState } from "./auth-type"
 import {
-    signupUser,
     loginUser,
     logoutUser,
-    getUserProfile,
 } from "./auth-action"
 import Cookies from 'js-cookie';
 
@@ -37,23 +35,6 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(signupUser.pending, (state) => {
-                state.loading = true;
-                state.status = "pending"
-            })
-            .addCase(signupUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.error = null;
-                state.status = "succeed";
-            })
-            .addCase(signupUser.rejected, (state, action) => {
-                state.loading = false;
-                state.status = "rejected";
-                state.user = null;
-                state.error = action.payload as string;
-                Cookies.remove("token")
-                Cookies.remove("role")
-            })
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
                 state.status = "pending"
@@ -88,9 +69,6 @@ const authSlice = createSlice({
                 Cookies.remove("token");
                 Cookies.remove("role")
                 state.error = action.payload as string
-            })
-            .addCase(getUserProfile.fulfilled, (state, action) => {
-                state.user = action.payload.user;
             })
     }
 })

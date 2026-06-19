@@ -10,7 +10,6 @@ import { loginUser } from "@/redux/feature/auth/auth-action"
 import { useRouter } from "next/navigation"
 import ForumIcon from '@mui/icons-material/Forum';
 import EmailIcon from '@mui/icons-material/Email';
-import PasswordIcon from '@mui/icons-material/Password';
 
 import {
     Box,
@@ -83,28 +82,6 @@ export default function LoginForm() {
                                 </span>
                             )}
                         </Box>
-
-                        <Box className={styles.field}>
-                            <TextField
-                                placeholder="jhon3243"
-                                type="password"
-                                fullWidth
-                                {...register("password")}
-                                slotProps={{
-                                    input: {
-                                        startAdornment: (
-                                            <PasswordIcon color="primary" />
-                                        ),
-                                        className: (styles.textField),
-                                    },
-                                }}
-                            />
-                            {errors.password && (
-                                <span className={styles.error}>
-                                    {errors.password.message}
-                                </span>
-                            )}
-                        </Box>
                     </Box>
 
                     <Box className={styles.buttonBox}>
@@ -112,15 +89,7 @@ export default function LoginForm() {
                             type="submit"
                             className={styles.button}
                         >
-                            Login
-                        </Button>
-
-                        <Button
-                            variant="text"
-                            className={styles.button}
-                            onClick={() => router.replace("/signup")}
-                        >
-                            Create New Account?
+                            Continue With Email
                         </Button>
 
                         <Divider className={styles.divider}>OR</Divider>

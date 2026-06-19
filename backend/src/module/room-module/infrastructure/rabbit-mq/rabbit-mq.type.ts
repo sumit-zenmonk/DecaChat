@@ -1,7 +1,6 @@
 // Payload Types for Room Module
 export interface UserRegisteredMQEventPayload {
     uuid: string;
-    name: string;
     email: string;
     created_at?: Date;
     updated_at?: Date;

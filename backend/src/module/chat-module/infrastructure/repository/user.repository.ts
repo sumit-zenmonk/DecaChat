@@ -24,7 +24,6 @@ export class UserRepository extends Repository<UserEntity> {
             },
             select: {
                 email: true,
-                name: true,
                 uuid: true,
             }
         });
@@ -38,7 +37,6 @@ export class UserRepository extends Repository<UserEntity> {
             },
             select: {
                 email: true,
-                name: true,
                 uuid: true,
             }
         });

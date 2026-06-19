@@ -18,13 +18,12 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async findByUuid(uuid: string) {
-        const user = await this.find({
+        const user = await this.findOne({
             where: {
                 uuid: uuid
             },
             select: {
                 email: true,
-                name: true,
                 uuid: true,
             }
         });
@@ -32,15 +31,13 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async findByEmail(email: string) {
-        const user = await this.find({
+        const user = await this.findOne({
             where: {
                 email: email
             },
             select: {
                 email: true,
-                name: true,
                 uuid: true,
-                password: true,
             }
         });
         return user;

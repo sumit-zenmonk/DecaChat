@@ -48,7 +48,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             const decoded = await this.jwtHelperService.verifyJwtToken(token);
             const user = await this.userRepository.findByUuid(decoded.uuid);
 
-            if (!user || user.length === 0) {
+            if (!user) {
                 client.disconnect();
                 return;
             }

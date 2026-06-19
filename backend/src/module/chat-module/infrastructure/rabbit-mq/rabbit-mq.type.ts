@@ -3,7 +3,6 @@ import { RoomMemberRole } from "../../domain/room-member/room-member.enum";
 // Payload Types for Chat Module
 export interface UserRegisteredMQEventPayload {
     uuid: string;
-    name: string;
     email: string;
     created_at?: Date;
     updated_at?: Date;
@@ -31,7 +30,6 @@ export interface RoomMemberDeletedMQEventPayload {
 
 export interface User {
     uuid: string;
-    name: string;
     email: string;
     created_at: Date,
     updated_at: Date,
