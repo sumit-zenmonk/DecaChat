@@ -153,7 +153,9 @@
 .cardButtonBox {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  gap: 10px;
 }
 
 .joinButton {
@@ -165,10 +167,7 @@
   border-radius: 20px;
 }
 
-.joinButton:disabled {
-  color: #2F2EBE;
-}
-
+.joinButton:disabled,
 .viewButton {
   width: 100%;
   font-weight: 700;
@@ -177,6 +176,14 @@
   background: rgb(17, 17, 17);
   border-radius: 20px;
   border: 1px solid rgb(80, 80, 80);
+}
+
+.viewButton:hover {
+  background-color: #797bc4;
+}
+
+.joinButton:disabled {
+  background: rgb(28, 28, 28);
 }
 
 .loader {

@@ -4,9 +4,9 @@ import { useState } from "react";
 import styles from "./dashboard-comp.module.css";
 import { Box, Button, Typography } from "@mui/material";
 import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaicOutlined';
-import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function DashboardComp() {
@@ -34,30 +34,30 @@ export default function DashboardComp() {
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activePath === "/members" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/rooms" ? styles.active : ""
             }`}
-          onClick={() => handleActivePath("/members")}
+          onClick={() => handleActivePath("/rooms")}
         >
-          <EditNoteOutlinedIcon />
-          <Typography>Members</Typography>
+          <RoomPreferencesIcon />
+          <Typography>Your Rooms</Typography>
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activePath === "/settings" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/rooms/join" ? styles.active : ""
             }`}
-          onClick={() => handleActivePath("/settings")}
+          onClick={() => handleActivePath("/rooms/join")}
+        >
+          <GroupsIcon />
+          <Typography>Joined Rooms</Typography>
+        </Box>
+
+        <Box
+          className={`${styles.menuItem} ${activePath === "/setting" ? styles.active : ""
+            }`}
+          onClick={() => handleActivePath("/setting")}
         >
           <SettingsOutlinedIcon />
           <Typography>Settings</Typography>
-        </Box>
-
-        <Box
-          className={`${styles.menuItem} ${activePath === "/logs" ? styles.active : ""
-            }`}
-          onClick={() => handleActivePath("/logs")}
-        >
-          <RestoreOutlinedIcon />
-          <Typography>Logs</Typography>
         </Box>
       </Box>
     </Box>

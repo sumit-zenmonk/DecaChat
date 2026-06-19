@@ -129,16 +129,14 @@ export default function Home() {
                       <Typography className={styles.description}>{room.description}</Typography>
 
                       <Box className={styles.cardButtonBox}>
-                        {
-                          !isJoined &&
-                          <Button
-                            className={styles.joinButton}
-                            onClick={() => handleJoin(room.uuid)}
-                            disabled={!!isJoined}
-                          >
-                            Join Room
-                          </Button>
-                        }
+                        <Button
+                          className={styles.joinButton}
+                          onClick={() => handleJoin(room.uuid)}
+                          disabled={!!isJoined}
+                        >
+                          {!isJoined ? 'Join Room' : 'Already Joined'}
+                        </Button>
+
                         <Button
                           className={styles.viewButton}
                           onClick={() => router.push(`/room/${room.uuid}`)}
