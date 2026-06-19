@@ -8,8 +8,6 @@ import DashboardComp from "@/component/dashboard-comp/dashboard-comp";
 export default function Home() {
   return (
     <Box className={styles.container}>
-      <HeaderComp />
-      <DashboardComp />
     </Box>
   );
 }
