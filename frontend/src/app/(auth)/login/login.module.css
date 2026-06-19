@@ -4,33 +4,40 @@
     align-content: center;
     justify-content: center;
     width: 30%;
-    height: 90%;
-    border: 1px solid rgb(82, 82, 82);
+    height: 70%;
     border-radius: 16px;
 }
 
 .formWrapper {
-    width: 100%;
+    width: 90%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
     justify-content: center;
+    border: 1px solid rgb(69, 69, 69);
     background-color: #222222;
     color: rgb(222, 222, 222);
     border-radius: 16px;
     padding: 3%;
+    gap: 5%;
 }
 
 .forumIcon {
     font-size: 3rem;
     border-radius: 16px;
-    border: 1px solid rgb(82, 82, 82);
+    border: 1px solid rgb(69, 69, 69);
     padding: 1%;
     border-radius: 10px;
     color: #C0C1FF;
     background-color: #323232;
+}
+
+.fieldIcon {
+    font-size: 2rem;
+    padding: 1%;
+    color: rgb(96, 96, 96);
 }
 
 .topWrapper {
@@ -80,7 +87,6 @@
     height: 70%;
     display: flex;
     flex-direction: column;
-    gap: 5%;
 }
 
 .field {
@@ -88,14 +94,13 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    margin-bottom: 1%;
     width: 80%;
     border-radius: 16px;
 }
 
 .textField {
     border: 1px solid rgb(165, 165, 165);
-    padding: 2%;
+    padding: 1%;
     border-radius: 16px;
     color: white;
     gap: 10px;
@@ -108,8 +113,7 @@
     font-weight: 500;
 }
 
-.button,
-.loginBtn {
+.button {
     padding: 3%;
     margin-top: 2%;
     border-radius: 16px;
@@ -117,6 +121,11 @@
     background-color: #C0C1FF;
     color: #2F2EBE;
     font-weight: 900;
+}
+
+
+.button:hover {
+    box-shadow: 0 5px 0 .5px #dbe8ffa9;
 }
 
 .divider {
@@ -137,7 +146,7 @@
     gap: 5%;
     padding: 3%;
     text-transform: none;
-    border: 1px solid rgb(158, 158, 158);
+    border: 1px solid rgb(69, 69, 69);
     transition: all ease .5s;
 }
 
@@ -151,4 +160,23 @@
     display: flex;
     justify-content: flex-start;
     margin-right: auto;
+}
+
+.bottomButtonBox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.bottomButton {
+    font-weight: 700;
+    width: 50%;
+    color: rgb(162, 162, 162);
+}
+
+.bottomButton:hover {
+    color: rgb(230, 230, 230);
 }

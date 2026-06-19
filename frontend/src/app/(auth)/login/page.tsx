@@ -9,7 +9,8 @@ import { loginSchema, LoginSchemaType } from "@/schemas/login"
 import { loginUser } from "@/redux/feature/auth/auth-action"
 import { useRouter } from "next/navigation"
 import ForumIcon from '@mui/icons-material/Forum';
-import EmailIcon from '@mui/icons-material/Email';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 
 import {
     Box,
@@ -51,11 +52,11 @@ export default function LoginForm() {
                     <ForumIcon className={styles.forumIcon} />
 
                     <Typography variant="h5" className={styles.title}>
-                        Welcome Again
+                        Welcome
                     </Typography>
 
                     <Typography variant="h5" className={styles.description}>
-                        Check Rooms and have Discussions With Other Members
+                        Sign in to join the conversation and claim a writer slot.
                     </Typography>
                 </Box>
 
@@ -70,7 +71,7 @@ export default function LoginForm() {
                                 slotProps={{
                                     input: {
                                         startAdornment: (
-                                            <EmailIcon color="primary" />
+                                            <EmailOutlinedIcon className={styles.fieldIcon} />
                                         ),
                                         className: (styles.textField),
                                     },
@@ -89,7 +90,7 @@ export default function LoginForm() {
                             type="submit"
                             className={styles.button}
                         >
-                            Continue With Email
+                            Continue With Email <ArrowForwardOutlinedIcon />
                         </Button>
 
                         <Divider className={styles.divider}>OR</Divider>
@@ -107,8 +108,14 @@ export default function LoginForm() {
                             </Typography>
                         </Button>
                     </Box>
+
+                    <Box className={styles.bottomButtonBox}>
+                        <Button onClick={() => router.push('/')} className={styles.bottomButton}>
+                            Continue As Guest
+                        </Button>
+                    </Box>
                 </form>
-            </Card>
-        </Box>
+            </Card >
+        </Box >
     )
 }
