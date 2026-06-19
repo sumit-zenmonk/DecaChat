@@ -44,10 +44,24 @@ export default function SortListComp() {
                     horizontal: 'left',
                 }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem
+                    onClick={handleClose}
+                    sx={{
+                        color: "black"
+                    }}
+                >
+                    ASC
+                </MenuItem>
+                <MenuItem
+                    onClick={handleClose}
+
+                    sx={{
+                        color: "black"
+                    }}
+                >
+                    DESC
+                </MenuItem>
             </Menu>
-        </div>
+        </div >
     );
 }
