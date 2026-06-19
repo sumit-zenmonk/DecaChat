@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Card, CardContent, CircularProgress, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CircularProgress, Tab, Tabs, TextField, Typography } from "@mui/material";
 import styles from "./home.module.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
@@ -20,6 +20,11 @@ export default function Home() {
   const { user } = useAppSelector((state: RootState) => state.authReducer);
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
+  const [value, setValue] = useState('active');
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
 
   useEffect(() => {
     if (!publicRooms.length) {
@@ -58,7 +63,7 @@ export default function Home() {
           Find Your Space
         </Typography>
 
-        <Typography variant="h5" className={styles.description}>
+        <Typography variant="h5" className={styles.subTitle}>
           Connect with communities, join real-time discussions, or start your own room instantly.
         </Typography>
 
@@ -77,8 +82,15 @@ export default function Home() {
       </Box>
 
       <Box className={styles.bottomContainer}>
-        <Box className={styles.header}>
-
+        <Box className={styles.optionContainer}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+          >
+            <Tab value="active" label="Active" />
+            <Tab value="full" label="Full" />
+            <Tab value="newest" label="Newest" />
+          </Tabs>
         </Box>
 
         <Box id="scrollableDiv" className={styles.scrollWrapper}>
@@ -92,8 +104,7 @@ export default function Home() {
           >
             <Box className={styles.roomWrapper}>
               {publicRooms && publicRooms.map((room: Room) => {
-                const isJoined = joinedRooms ? joinedRooms.find((joinRoom) => joinRoom.uuid === room.uuid) : [];
-                const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
+                const isJoined = joinedRooms ? joinedRooms.find((joinRoom) => joinRoom.uuid === room.uuid) : null;
 
                 return (
                   <Card
@@ -111,23 +122,24 @@ export default function Home() {
                       <Typography className={styles.roomName}>{room.name}</Typography>
                       <Typography className={styles.description}>{room.description}</Typography>
 
-                      {
-                        user &&
+                      <Box className={styles.cardButtonBox}>
+                        {
+                          !isJoined &&
+                          <Button
+                            className={styles.joinButton}
+                            onClick={() => handleJoin(room.uuid)}
+                            disabled={!!isJoined}
+                          >
+                            Join Room
+                          </Button>
+                        }
                         <Button
-                          onClick={() => handleJoin(room.uuid)}
-                          disabled={!!isJoined}
+                          className={styles.viewButton}
+                          onClick={() => router.push(`/room/${room.uuid}`)}
                         >
-                          {
-                            !isJoined ?
-                              'Join' : 'Already joined'
-                          }
+                          View Room
                         </Button>
-                      }
-                      <Button
-                        onClick={() => router.push(`/room/${room.uuid}`)}
-                      >
-                        View Room
-                      </Button>
+                      </Box>
                     </CardContent>
                   </Card>
                 );

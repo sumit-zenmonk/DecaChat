@@ -10,7 +10,6 @@ export class LoginUserController {
     @Post()
     async loginUser(@Req() req: Request, @Body() body: LoginUserDto) {
         const { token, isUserExists } = await this.loginUserService.handle(req, body);
-        console.log(token, isUserExists);
         return {
             message: "Logged In User",
             access_token: token,

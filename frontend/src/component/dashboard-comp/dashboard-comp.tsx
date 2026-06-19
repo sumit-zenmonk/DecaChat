@@ -15,7 +15,6 @@ export default function DashboardComp() {
   const shareUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
   const [activePath, setActivePath] = useState(shareUrl);
   const router = useRouter();
-    console.log(pathname,searchParams,shareUrl);
 
   const handleActivePath = (path: string) => {
     setActivePath(path);

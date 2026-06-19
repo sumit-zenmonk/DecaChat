@@ -3,11 +3,12 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgb(11, 11, 11);
+  background-color: #070707;
 }
 
 .topContainer {
   width: 100%;
+  height: 40%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +16,7 @@
 }
 
 .title,
-.description {
+.subTitle {
   text-align: center;
 }
 
@@ -24,10 +25,15 @@
   font-weight: 700;
 }
 
-.description {
+.subTitle {
   font-size: 1.2rem;
   font-weight: 500;
   color: rgb(223, 223, 223);
+}
+
+.bottomContainer {
+  width: 100%;
+  height: 60%;
 }
 
 .field {
@@ -38,25 +44,26 @@
 .textField {
   background: rgb(24, 24, 24);
   width: 50%;
-  border: 1px solid rgb(165, 165, 165);
+  border: 1px solid rgb(48, 48, 48);
   border-radius: 16px;
   color: white;
 }
 
-.header {
+.optionContainer {
   width: 100%;
-  padding: 1%;
+  height: 10%;
   background: rgb(0, 0, 0);
 }
 
 .scrollWrapper {
   width: 100%;
-  height: 100%;
+  height: 90%;
   overflow: auto;
 }
 
 .roomWrapper {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -76,25 +83,14 @@
   display: flex;
   gap: 2%;
   flex-direction: column;
-  background: white;
+  background: rgb(17, 17, 17);
   transition: transform 0.2s;
-  position: relative;
-  border: 1px solid #b1b1b1;
+  border: 1px solid #484848;
 }
 
 .card:hover {
   transform: translateY(-1%);
   box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.05);
-}
-
-.imageWrapper {
-  width: 100%;
-  background: #f3f4f6;
-}
-
-.image {
-  width: 100%;
-  object-fit: cover;
 }
 
 .cardContent {
@@ -105,26 +101,43 @@
 }
 
 .roomName {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: #c1c1c1;
 }
 
 .description {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: #6a6a6a;
 }
 
-.price {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #008a33;
+.cardButtonBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
-.stock {
-  font-size: 1rem;
+.joinButton {
+  width: 100%;
   font-weight: 700;
-  color: #004d84;
+  color: #2F2EBE;
+  background-color: #bbbdff;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.joinButton:disabled {
+  color: #2F2EBE;
+}
+
+.viewButton {
+  width: 100%;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 10px;
+  background: rgb(17, 17, 17);
+  border-radius: 20px;
+  border: 1px solid rgb(80, 80, 80);
 }
 
 .loader {

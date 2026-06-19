@@ -9,7 +9,6 @@ export class CreateRoomController {
 
     @Post()
     async createRoom(@Req() req: Request, @Body() body: CreateRoomDto) {
-        console.log(body);
         await this.createRoomService.handle(req, body);
 
         return {
