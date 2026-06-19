@@ -9,6 +9,8 @@ import { loginSchema, LoginSchemaType } from "@/schemas/login"
 import { loginUser } from "@/redux/feature/auth/auth-action"
 import { useRouter } from "next/navigation"
 import ForumIcon from '@mui/icons-material/Forum';
+import EmailIcon from '@mui/icons-material/Email';
+import PasswordIcon from '@mui/icons-material/Password';
 
 import {
     Box,
@@ -50,76 +52,92 @@ export default function LoginForm() {
                     <ForumIcon className={styles.forumIcon} />
 
                     <Typography variant="h5" className={styles.title}>
-                        Welcome
+                        Welcome Again
                     </Typography>
 
                     <Typography variant="h5" className={styles.description}>
-                        Join Us! It's free to join conversation and became member in rooms.
+                        Check Rooms and have Discussions With Other Members
                     </Typography>
                 </Box>
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                    <Box className={styles.field}>
-                        <TextField
-                            placeholder="JohnDoe@gmail.com"
-                            type="email"
-                            fullWidth
-                            {...register("email")}
-                            className={styles.textField}
-                        />
-                        {errors.email && (
-                            <span className={styles.error}>
-                                {errors.email.message}
-                            </span>
-                        )}
+                    <Box className={styles.fieldBox}>
+                        <Box className={styles.field}>
+                            <TextField
+                                placeholder="JohnDoe@gmail.com"
+                                type="email"
+                                fullWidth
+                                {...register("email")}
+                                slotProps={{
+                                    input: {
+                                        startAdornment: (
+                                            <EmailIcon color="primary" />
+                                        ),
+                                        className: (styles.textField),
+                                    },
+                                }}
+                            />
+                            {errors.email && (
+                                <span className={styles.error}>
+                                    {errors.email.message}
+                                </span>
+                            )}
+                        </Box>
+
+                        <Box className={styles.field}>
+                            <TextField
+                                placeholder="jhon3243"
+                                type="password"
+                                fullWidth
+                                {...register("password")}
+                                slotProps={{
+                                    input: {
+                                        startAdornment: (
+                                            <PasswordIcon color="primary" />
+                                        ),
+                                        className: (styles.textField),
+                                    },
+                                }}
+                            />
+                            {errors.password && (
+                                <span className={styles.error}>
+                                    {errors.password.message}
+                                </span>
+                            )}
+                        </Box>
                     </Box>
 
-                    <Box className={styles.field}>
-                        <TextField
-                            placeholder="jhon3243"
-                            type="password"
-                            fullWidth
-                            {...register("password")}
-                            className={styles.textField}
-                        />
-                        {errors.password && (
-                            <span className={styles.error}>
-                                {errors.password.message}
-                            </span>
-                        )}
+                    <Box className={styles.buttonBox}>
+                        <Button
+                            type="submit"
+                            className={styles.button}
+                        >
+                            Login
+                        </Button>
+
+                        <Button
+                            variant="text"
+                            className={styles.button}
+                            onClick={() => router.replace("/signup")}
+                        >
+                            Create New Account?
+                        </Button>
+
+                        <Divider className={styles.divider}>OR</Divider>
+
+                        <Button className={styles.providerLoginBox}>
+                            {/* <GoogleIcon color="primary" /> */}
+                            <Image
+                                src={'/google.png'}
+                                alt="google icon"
+                                width={25}
+                                height={25}
+                            />
+                            <Typography>
+                                Login with Google
+                            </Typography>
+                        </Button>
                     </Box>
-
-                    <Button
-                        type="submit"
-                        className={styles.button}
-                    >
-                        Login
-                    </Button>
-
-                    <Button
-                        variant="text"
-                        className={styles.button}
-                        onClick={() => router.replace("/signup")}
-                    >
-                        Create New Account?
-                    </Button>
-
-                    <Divider className={styles.divider}>OR</Divider>
-
-                    <Button
-                        className={styles.providerLoginBox}
-                    >
-                        {/* <GoogleIcon /> */}
-                        <Image
-                            src={'/google.png'}
-                            alt="google icon"
-                            width={25}
-                            height={25}
-                        />
-                        <Typography>
-                            Login with Google
-                        </Typography>
-                    </Button>
                 </form>
             </Card>
         </Box>
