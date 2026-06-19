@@ -7,62 +7,59 @@ import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaic
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function DashboardComp() {
-  const [activeTab, setActiveTab] = useState("dashboard/overview");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const shareUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  const [activePath, setActivePath] = useState(shareUrl);
+  const router = useRouter();
+    console.log(pathname,searchParams,shareUrl);
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "dashboard/overview":
-        return <></>;
-      default:
-        return <></>;
-    }
-  };
+  const handleActivePath = (path: string) => {
+    setActivePath(path);
+    router.push(path);
+  }
 
   return (
     <Box className={styles.container}>
       <Box className={styles.sidebar}>
         <Box
-          className={`${styles.menuItem} ${activeTab === "dashboard/overview" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/" ? styles.active : ""
             }`}
-          onClick={() => setActiveTab("dashboard/overview")}
+          onClick={() => handleActivePath("/")}
         >
           <AutoAwesomeMosaicOutlinedIcon />
           <Typography>Overview</Typography>
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activeTab === "dashboard/members" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/members" ? styles.active : ""
             }`}
-          onClick={() => setActiveTab("dashboard/members")}
+          onClick={() => handleActivePath("/members")}
         >
           <EditNoteOutlinedIcon />
           <Typography>Members</Typography>
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activeTab === "dashboard/settings" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/settings" ? styles.active : ""
             }`}
-          onClick={() => setActiveTab("dashboard/settings")}
+          onClick={() => handleActivePath("/settings")}
         >
           <SettingsOutlinedIcon />
           <Typography>Settings</Typography>
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activeTab === "dashboard/logs" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/logs" ? styles.active : ""
             }`}
-          onClick={() => setActiveTab("dashboard/logs")}
+          onClick={() => handleActivePath("/logs")}
         >
           <RestoreOutlinedIcon />
           <Typography>Logs</Typography>
         </Box>
-      </Box>
-
-      {/* Main Content */}
-      <Box className={styles.main}>
-        {renderContent()}
       </Box>
     </Box>
   );
