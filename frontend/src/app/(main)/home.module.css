@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-content: center;
+  gap: 15%;
 }
 
 .title,
@@ -38,14 +39,23 @@
 
 .field {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 50px;
+}
+
+.textFieldWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .textField {
   background: rgb(24, 24, 24);
   width: 50%;
   border: 1px solid rgb(48, 48, 48);
-  border-radius: 16px;
+  border-radius: 50px;
   color: white;
 }
 
@@ -53,6 +63,35 @@
   width: 100%;
   height: 10%;
   background: rgb(0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Container for the tabs */
+.tabContainer {
+  background-color: transparent;
+}
+
+/* Base style for all tabs */
+.customTab {
+  color: rgba(255, 255, 255, 0.7) !important;
+  /* Dimmed white for unselected */
+  font-weight: bold;
+  text-transform: none !important;
+  /* Prevents forced uppercase */
+}
+
+/* Style for the active/selected tab */
+.customTab:global(.Mui-selected) {
+  color: #c1a9ff !important;
+  /* Pure white for selected */
+}
+
+/* Style for the sliding underline indicator */
+.tabContainer :global(.MuiTabs-indicator) {
+  background-color: #9974ff !important;
+  /* White indicator bar */
 }
 
 .scrollWrapper {

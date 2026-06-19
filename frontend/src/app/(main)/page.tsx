@@ -11,6 +11,7 @@ import { createRoomMember } from "@/redux/feature/member/member-action";
 import { Room } from "@/redux/feature/room/room-type";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SortListComp from "@/component/sort-comp/sort-comp";
 
 export default function Home() {
   const router = useRouter();
@@ -59,19 +60,22 @@ export default function Home() {
   return (
     <Box className={styles.container}>
       <Box className={styles.topContainer}>
-        <Typography variant="h5" className={styles.title}>
-          Find Your Space
-        </Typography>
+        <Box className={styles.field}>
+          <Typography variant="h5" className={styles.title}>
+            Find Your Space
+          </Typography>
 
-        <Typography variant="h5" className={styles.subTitle}>
-          Connect with communities, join real-time discussions, or start your own room instantly.
-        </Typography>
+          <Typography variant="h5" className={styles.subTitle}>
+            Connect with communities, join real-time discussions, or start your own room instantly.
+          </Typography>
+        </Box>
 
         <Box className={styles.field}>
           <TextField
             placeholder="Search rooms, topics, or creators..."
             type="email"
             fullWidth
+            className={styles.textFieldWrapper}
             slotProps={{
               input: {
                 className: (styles.textField),
@@ -86,11 +90,13 @@ export default function Home() {
           <Tabs
             value={value}
             onChange={handleChange}
+            className={styles.tabContainer}
           >
-            <Tab value="active" label="Active" />
-            <Tab value="full" label="Full" />
-            <Tab value="newest" label="Newest" />
+            <Tab value="active" label="Active" className={styles.customTab} />
+            <Tab value="full" label="Full" className={styles.customTab} />
+            <Tab value="newest" label="Newest" className={styles.customTab} />
           </Tabs>
+          <SortListComp />
         </Box>
 
         <Box id="scrollableDiv" className={styles.scrollWrapper}>
