@@ -1,0 +1,96 @@
+"use client"
+
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import { SignupSchemaType } from "@/schemas/signup"
+import { persistor } from "@/redux/store"
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8090";
+
+export const signupUser = createAsyncThunk(
+    "auth/signup",
+    async (data: SignupSchemaType, { rejectWithValue }) => {
+        try {
+            const { confirmPassword, ...payload } = data
+
+            const res = await fetch(`${BACKEND_URL}/api/v1/user/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(payload)
+            })
+
+            const result = await res.json()
+
+            if (!res.ok) throw new Error(result.message)
+
+            return result
+        } catch (error: any) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+export const loginUser = createAsyncThunk(
+    "auth/login",
+    async (
+        { email, password }: { email: string; password: string },
+        { rejectWithValue }
+    ) => {
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/v1/user/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ email, password })
+            })
+
+            const result = await res.json()
+
+            if (!res.ok) throw new Error(result.message)
+
+            return result
+        } catch (error: any) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+export const logoutUser = createAsyncThunk(
+    "auth/logout",
+    async (_, { rejectWithValue }) => {
+        try {
+            await persistor.purge();
+            return null
+        } catch (error: any) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+export const getUserProfile = createAsyncThunk(
+    "auth/getUserProfile",
+    async (_, { rejectWithValue, getState }) => {
+        try {
+            const state = getState() as any;
+            const token = state.authReducer?.token;
+
+            const res = await fetch(`/api/v1/user`, {
+                method: "GET",
+                headers: {
+                    "Authorization": token || ""
+                }
+            })
+
+            const result = await res.json()
+            if (!res.ok) throw new Error(result.message)
+
+            return result
+        } catch (error: any) {
+            return rejectWithValue(error.message)
+        }
+    }
+)

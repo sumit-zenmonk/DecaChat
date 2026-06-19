@@ -1,0 +1,25 @@
+import { Client } from 'pg';
+
+export async function createSchemas() {
+    try {
+        const client = new Client({
+            host: process.env.DB_POSTGRES_HOST,
+            port: Number(process.env.DB_POSTGRES_PORT),
+            user: process.env.DB_POSTGRES_USERNAME,
+            password: process.env.DB_POSTGRES_PASSWORD,
+            database: process.env.DB_POSTGRES_DATABASE,
+        });
+
+        await client.connect();
+
+        await client.query(`CREATE SCHEMA IF NOT EXISTS ${process.env.DB_POSTGRES_USER_SCHEMA || 'user_schema'};`);
+        await client.query(`CREATE SCHEMA IF NOT EXISTS ${process.env.DB_POSTGRES_ROOM_SCHEMA || 'room_schema'};`);
+        await client.query(`CREATE SCHEMA IF NOT EXISTS ${process.env.DB_POSTGRES_CHAT_SCHEMA || 'chat_schema'};`);
+
+        console.log('DB Schema Created SuccessFully');
+        await client.end();
+    }
+    catch (err: any) {
+        console.log(`Creating Schema Err : ${err}`);
+    }
+}

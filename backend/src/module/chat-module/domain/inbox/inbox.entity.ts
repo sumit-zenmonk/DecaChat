@@ -1,0 +1,29 @@
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, } from "typeorm";
+
+@Entity("inbox")
+export class InboxEntity {
+    @PrimaryGeneratedColumn("uuid")
+    uuid: string;
+
+    @Column({ type: "varchar", nullable: false, })
+    event_name: string;
+
+    @Column({ type: "varchar", nullable: false, })
+    handler_name: string;
+
+    @Column({
+        type: "uuid",
+        unique: true,
+        nullable: false
+    })
+    outbox_uuid: string
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
+
+    @DeleteDateColumn({ nullable: true })
+    deleted_at: Date;
+}

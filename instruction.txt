@@ -1,0 +1,14 @@
+Steps To Run This Repo Code (Open 2 Terminal)
+0. -> create 3 duplicate envs in 3 places
+1. -> docker compose up --build (1st terminal command)
+2. -> docker compose exec backend sh (2nd terminal command)
+
+
+For DB Migration
+3. user Module -> npm run build && npm run migration:user:run && npm run seed:user:user
+4. Room Module -> npm run build && npm run migration:room:run && npm run seed:room:user
+5. Chat Module -> npm run build && npm run migration:chat:run && npm run seed:chat:user
+
+
+One Click Copy Paste Above Commands into Single Copy Command
+npm run build && npm run migration:user:run && npm run seed:user:user && npm run migration:room:run && npm run seed:room:user && npm run migration:chat:run && npm run seed:chat:user
