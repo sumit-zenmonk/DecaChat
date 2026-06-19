@@ -1,0 +1,21 @@
+.layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContent {
+    width: 100%;
+    height: 93%;
+    display: flex;
+    flex-direction: row;
+}
+
+.leftContent {
+    width: 20%;
+}
+
+.rightContent {
+    width: 80%;
+}
