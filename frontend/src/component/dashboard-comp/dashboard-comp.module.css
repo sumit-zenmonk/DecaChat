@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .header {
@@ -18,11 +18,22 @@
   color: #111827;
 }
 
-.sidebar {
-  width: 18%;
-  height: 100%;
+.topContainer {
+  width: 100%;
+  height: 90%;
   border-right: 1px solid #222222;
-  padding: 1%;
+  padding: 5%;
+  display: flex;
+  background-color: #1c1b1b;
+  flex-direction: column;
+  gap: 2%;
+}
+
+.bottomContainer {
+  width: 100%;
+  height: 10%;
+  border-right: 1px solid #222222;
+  padding: 5%;
   display: flex;
   background-color: #1c1b1b;
   flex-direction: column;

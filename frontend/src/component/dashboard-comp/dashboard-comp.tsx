@@ -7,6 +7,7 @@ import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaic
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function DashboardComp() {
@@ -23,7 +24,7 @@ export default function DashboardComp() {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.sidebar}>
+      <Box className={styles.topContainer}>
         <Box
           className={`${styles.menuItem} ${activePath === "/" ? styles.active : ""
             }`}
@@ -58,6 +59,13 @@ export default function DashboardComp() {
         >
           <SettingsOutlinedIcon />
           <Typography>Settings</Typography>
+        </Box>
+      </Box>
+
+      <Box className={styles.bottomContainer}>
+        <Box className={styles.menuItem}>
+          <HelpOutlineOutlinedIcon />
+          <Typography>Help</Typography>
         </Box>
       </Box>
     </Box>

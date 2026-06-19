@@ -12,13 +12,14 @@ import { Room } from "@/redux/feature/room/room-type";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SortListComp from "@/component/sort-comp/sort-comp";
+import GroupsIcon from '@mui/icons-material/Groups';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { publicRooms, publicRoomsTotalDocuments, joinedRooms } = useAppSelector((state: RootState) => state.roomReducer);
+  const { publicRooms, publicRoomsTotalDocuments, joinedRooms, viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
-  const { user } = useAppSelector((state: RootState) => state.authReducer);
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const [value, setValue] = useState('active');
@@ -111,6 +112,7 @@ export default function Home() {
             <Box className={styles.roomWrapper}>
               {publicRooms && publicRooms.map((room: Room) => {
                 const isJoined = joinedRooms ? joinedRooms.find((joinRoom) => joinRoom.uuid === room.uuid) : null;
+                const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
 
                 return (
                   <Card
@@ -118,15 +120,13 @@ export default function Home() {
                     className={styles.card}
                     elevation={2}
                   >
-                    {/* <Box className={bannerStyles.banner} style={{ backgroundImage: randomImageUrl() }} >
-                      <Box className={bannerStyles.memberCount}>
-                        {memberCount}/{process.env.ROOM_MEMBER_LIMIT || 10}
-                      </Box>
-                    </Box> */}
-
                     <CardContent className={styles.cardContent}>
-                      <Typography className={styles.roomName}>{room.name}</Typography>
-                      <Typography className={styles.description}>{room.description}</Typography>
+                      <Box className={styles.cardInfoBox}>
+                        <Typography className={styles.roomName}>{room.name}</Typography>
+                        <Typography className={styles.description}>{room.description}</Typography>
+                        <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
+                        <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography>
+                      </Box>
 
                       <Box className={styles.cardButtonBox}>
                         <Button
