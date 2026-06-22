@@ -158,7 +158,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #0e0e0e;
+    background: #1c1c1c;
     transition: transform 0.2s;
     position: relative;
     border: 1px solid #373737;
@@ -242,7 +242,7 @@
 .manageActivityChart {
     width: 100%;
     height: fit-content;
-    background: #0e0e0e;
+    background: #1c1c1c;
     transition: transform 0.2s;
     border: 1px solid #373737;
     border-radius: 10px;
