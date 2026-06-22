@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardContent, CircularProgress, Container, Divider, Modal, Typography } from "@mui/material";
 import styles from "./room.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
@@ -14,6 +14,10 @@ import LinkShareComp from "@/component/link-share-comp/link-share-comp";
 import ChatIcon from '@mui/icons-material/Chat';
 import ShareIcon from '@mui/icons-material/Share';
 import GroupsIcon from '@mui/icons-material/Groups';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import Image from "next/image";
+import { getChatTimeFormat } from "@/utils/time-format";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export default function SpecificRoom() {
   const dispatch = useAppDispatch();
@@ -22,6 +26,7 @@ export default function SpecificRoom() {
   const room_uuid = String(uuid);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
+  const { roomChats } = useAppSelector((state: RootState) => state.chatReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
   const members = roomMembers?.[room_uuid];
   const total_members = roomMembersTotalDocuments?.[room_uuid];
@@ -104,7 +109,7 @@ export default function SpecificRoom() {
         </Box>
       </Box>
 
-      <Box className={styles.roomMemberInfo}>
+      <Box className={styles.roomSideInfo}>
         <Box className={styles.manangeMemberInfo}>
           <Typography variant="h2" className={styles.manangeMemberTitle}>
             <GroupsIcon /> Manage Members
@@ -121,6 +126,10 @@ export default function SpecificRoom() {
             >
               <Box className={styles.roomMemberWrapper}>
                 {members && members.map((member: RoomMember) => {
+                  const lastChat = roomChats[room_uuid]
+                    ?.filter(mem => mem.member.user_uuid === member.user_uuid)
+                    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+
                   return (
                     <Card
                       key={member.uuid}
@@ -128,12 +137,13 @@ export default function SpecificRoom() {
                       elevation={2}
                     >
                       <CardContent className={styles.cardContent}>
-                        <Typography className={styles.roomMemberName}>Name : {member.user.name}</Typography>
-                        <Typography className={styles.email}>Email : {member.user.email}</Typography>
-                        <Typography className={styles.role}>Role : {member.role}</Typography>
-                        <Typography variant="body2" style={{ color: member.user.is_online ? '#4caf50' : '#757575', fontWeight: 'bold' }}>
-                          Status: {member.user.is_online ? 'Online' : 'Offline'}
-                        </Typography>
+                        <Image src={member.user.profile_image} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
+                        <FiberManualRecordIcon className={member.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} />
+
+                        <Box className={styles.cardBoxContent}>
+                          <Typography className={styles.email}>Email : {member.user.email}</Typography>
+                          <Typography className={styles.lastMessage}>Last Message: {lastChat ? getChatTimeFormat(lastChat.created_at) : 'N/A'}</Typography>
+                        </Box>
                       </CardContent>
                     </Card>
                   );
@@ -143,8 +153,12 @@ export default function SpecificRoom() {
           </Box>
         </Box>
 
-        <Box>
-          Activity Overview
+        <Box className={styles.roomActivityInfo}>
+          <Box className={styles.manageActivityInfo}>
+            <Typography variant="h2" className={styles.roomActivityTitle}>
+              <ShowChartIcon /> Activity Overview
+            </Typography>
+          </Box>
         </Box>
       </Box>
 

@@ -123,7 +123,7 @@ export default function Home() {
                     <CardContent className={styles.cardContent}>
                       <Box className={styles.cardInfoBox}>
                         <Typography className={styles.roomName}>{room.name}</Typography>
-                        <Typography className={styles.description}>{room.description}</Typography>
+                        {/* <Typography className={styles.description}>{room.description}</Typography> */}
                         <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
                         {
                           memberCount < Number(process.env.ROOM_MEMBER_LIMIT) || 10 ?
