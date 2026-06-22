@@ -28,7 +28,6 @@ export default function SpecificRoom() {
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomChats } = useAppSelector((state: RootState) => state.chatReducer);
-  const { user } = useAppSelector((state: RootState) => state.authReducer);
   const members = roomMembers?.[room_uuid];
   const total_members = roomMembersTotalDocuments?.[room_uuid];
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);

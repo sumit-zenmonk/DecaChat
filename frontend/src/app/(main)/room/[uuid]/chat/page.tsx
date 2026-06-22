@@ -18,6 +18,8 @@ import { connectUnAuthSocket } from "@/service/socket/socket";
 import { SocketEventSubscribeEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
+import Image from "next/image";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 let unauth_socket: any;
 
 // Dynamically import the EmojiPicker to disable SSR
@@ -124,100 +126,100 @@ export default function SpecificRoomChat() {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.header}>
-        <Typography variant="h4" className={styles.heading}>
-          {members?.[0]?.room?.name || "Specific Room Title"} Chat's
-        </Typography>
+      <Box className={styles.leftContainer}>
+        <Box id="scrollableDiv" className={styles.scrollWrapper}>
+          <InfiniteScroll
+            dataLength={chats.length}
+            next={fetchMoreData}
+            hasMore={chats.length < totalChats}
+            loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
+            inverse={true}
+            // endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
+            scrollableTarget="scrollableDiv"
+          >
+            <Box className={styles.roomChatWrapper}>
+              {chats.map((chat: RoomChat) => {
+                const member = members.find((member) => member.user_uuid == chat.member?.user_uuid);
 
-        <Typography className={styles.subHeading}>
-          {members?.[0]?.room?.description || "Specific Room Description"}
-        </Typography>
-      </Box>
+                return (
+                  <Box key={chat.uuid} className={styles.chatMessage}>
+                    <Box className={styles.avatarBox}>
+                      <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
+                      <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} />
+                    </Box>
 
-      <Box id="scrollableDiv" className={styles.scrollWrapper}>
-        <InfiniteScroll
-          dataLength={chats.length}
-          next={fetchMoreData}
-          hasMore={chats.length < totalChats}
-          loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
-          inverse={true}
-          // endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
-          scrollableTarget="scrollableDiv"
-        >
-          <Box className={styles.roomChatWrapper}>
-            {chats.map((chat: RoomChat) => {
-              const member = members.find((member) => member.user_uuid == chat.member?.user_uuid);
+                    <Box className={styles.messageContent}>
+                      <Box className={styles.messageInfo}>
+                        <Typography variant="caption" className={styles.chatEmail}>
+                          {member ? member.user.email : 'N/A'}
+                        </Typography>
+                        <Typography variant="caption" className={styles.messageTime}>
+                          {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Typography>
+                      </Box>
 
-              return (
-                <Box
-                  key={chat.uuid}
-                  className={`${styles.chatMessage} ${chat.member?.user_uuid === user?.uuid ? styles.myMessage : styles.otherMessage}`}
-                >
-                  <Box className={styles.messageContent}>
-                    <Typography variant="caption" className={chat.member?.user_uuid === user?.uuid ? styles.myEmail : styles.senderEmail}>
-                      {member ? member.user.email : 'N/A'}
-                    </Typography>
-                    <Typography className={styles.messageText}>{chat.message}</Typography>
-                    <Box className={styles.messageFooter}>
-                      <Typography variant="caption" className={styles.messageTime}>
-                        {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </Typography>
-                      {chat.member?.user_uuid === user?.uuid && (
-                        <IconButton size="small" onClick={() => handleDeleteChat(chat.uuid, chat.room_uuid)} className={styles.deleteBtn}>
-                          <DeleteIcon fontSize="inherit" />
-                        </IconButton>
-                      )}
+                      <Box className={styles.messageData}>
+                        {chat.member?.user_uuid === user?.uuid && (
+                          <IconButton size="small" onClick={() => handleDeleteChat(chat.uuid, chat.room_uuid)} className={styles.deleteBtn}>
+                            <DeleteIcon fontSize="inherit" />
+                          </IconButton>
+                        )}
+                        <Typography className={styles.messageText}>{chat.message}</Typography>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
-              );
-            })}
+                );
+              })}
+            </Box>
+          </InfiniteScroll>
+        </Box >
+
+        <Box className={styles.inputContainer}>
+          <Box className={styles.emojiPickerBox}>
+            {isEmojiPickerOpen && (
+              <EmojiPicker onEmojiClick={onEmojiClick} />
+            )}
           </Box>
-        </InfiniteScroll>
 
-        <Box className={styles.emojiPickerBox}>
-          {isEmojiPickerOpen && (
-            <EmojiPicker onEmojiClick={onEmojiClick} />
-          )}
-        </Box>
-
-        {
-          member?.user_uuid
-          &&
-          <Box className={styles.chatContainer}>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <IconButton
-                className={`${styles.actionButton} ${styles.sendButton}`}
-                size="small"
-                onClick={togglePicker}
-              >
-                <EmojiEmotionsIcon />
-              </IconButton>
-            </Box>
-
-            <Box className={styles.inputWrapper}>
-              <TextField
-                className={styles.inputField}
-                placeholder="Type a message"
-                variant="standard"
-                multiline
-                minRows={1}
-                maxRows={10}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyPress}
-              />
-            </Box>
-
+          <Box sx={{ display: 'flex', gap: 1 }}>
             <IconButton
-              className={`${styles.actionButton} ${(message.trim() && message.length <= 2000) ? styles.sendButton : ''}`}
-              onClick={handleSend}
+              className={`${styles.actionButton} ${styles.sendButton}`}
+              size="small"
+              onClick={togglePicker}
             >
-              <SendIcon fontSize="small" />
+              <EmojiEmotionsIcon />
             </IconButton>
-
           </Box>
-        }
+
+          <Box className={styles.inputWrapper}>
+            <TextField
+              placeholder="Join as Member to Chat"
+              multiline
+              minRows={1}
+              maxRows={10}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
+              className={styles.inputField}
+              slotProps={{
+                input: {
+                  className: (styles.inputField),
+                },
+              }}
+            />
+          </Box>
+
+          <IconButton
+            className={`${styles.actionButton} ${(message.trim() && message.length <= 2000) ? styles.sendButton : ''}`}
+            onClick={handleSend}
+          >
+            <SendIcon fontSize="small" />
+          </IconButton>
+        </Box>
+      </Box>
+
+      <Box className={styles.rightContainer}>
+
       </Box >
     </Box >
   );
