@@ -46,8 +46,8 @@ export const LayoutSocketListener = () => {
                 dispatch(removeChat(data));
             });
 
-            auth_socket.on('room.viewer.count', (data: { room_uuid: string; count: number }) => {
-                console.log('room.viewer.count', data);
+            auth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+                console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
                 dispatch(updateRoomViewerCount(data));
             });
 
@@ -58,7 +58,7 @@ export const LayoutSocketListener = () => {
                 auth_socket.off(SocketEventNameEnum.ROOM_MEMBER_DELETED);
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_CREATED);
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_DELETED);
-                auth_socket.off('room.viewer.count');
+                auth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
                 disconnectAuthSocket();
             };
         }

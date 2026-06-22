@@ -33,7 +33,7 @@ export class RoomMemberRepository extends Repository<RoomMemberEntity> {
                 room_uuid: room_uuid
             },
             relations: {
-                room: true,
+                room: { creator: true },
                 user: true,
             },
         });
@@ -46,7 +46,7 @@ export class RoomMemberRepository extends Repository<RoomMemberEntity> {
                 room_uuid
             },
             relations: {
-                room: true,
+                room: { creator: true },
                 user: true
             },
             order: {

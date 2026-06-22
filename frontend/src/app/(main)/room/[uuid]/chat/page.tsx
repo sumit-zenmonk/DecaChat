@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton } from "@mui/material";
-import styles from "./room.module.css";
+import styles from "./chat.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { getRoomMembers } from "@/redux/feature/member/member-action";
@@ -221,6 +221,8 @@ export default function SpecificRoomChat() {
       <Box className={styles.rightContainer}>
 
       </Box >
+
+      <Typography className={styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
     </Box >
   );
 }

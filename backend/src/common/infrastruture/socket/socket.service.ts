@@ -12,7 +12,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtHelperService } from 'src/module/user-module/infrastructure/services/jwt.service';
 import { UserRepository } from 'src/module/user-module/infrastructure/repository/user.repository';
 import * as RoomUserRepository from 'src/module/room-module/infrastructure/repository/user.repository';
-import { SocketEventSubscribeEnum } from './socket.enum';
+import { SocketEventNameEnum, SocketEventSubscribeEnum } from './socket.enum';
 
 @Injectable()
 @WebSocketGateway({
@@ -75,7 +75,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
                 const count = viewers.size;
-                this.server.emit('room.viewer.count', { room_uuid: roomUuid, count });
+                this.server.emit(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
@@ -106,7 +106,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers) {
                 viewers.add(client.id);
                 const count = viewers.size;
-                this.server.emit('room.viewer.count', { room_uuid: roomUuid, count });
+                this.server.emit(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }

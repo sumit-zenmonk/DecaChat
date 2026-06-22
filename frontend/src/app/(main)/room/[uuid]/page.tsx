@@ -62,7 +62,7 @@ export default function SpecificRoom() {
       <Box className={styles.header}>
         <Box className={styles.roomInfo}>
           <Typography variant="h4" className={styles.heading}>
-            {members?.[0] ? members[0].room.name : "Specific Room"}'s Members
+            {members?.[0] ? members[0].room.name : "Specific Room"}
           </Typography>
 
           <Typography className={styles.subHeading}>
@@ -112,7 +112,7 @@ export default function SpecificRoom() {
       <Box className={styles.roomSideInfo}>
         <Box className={styles.manangeMemberInfo}>
           <Typography variant="h2" className={styles.manangeMemberTitle}>
-            <GroupsIcon className={styles.groupIcon}/> Manage Members
+            <GroupsIcon className={styles.groupIcon} /> Manage Members
           </Typography>
 
           <Box id="scrollableDiv" className={styles.scrollWrapper}>
@@ -161,7 +161,13 @@ export default function SpecificRoom() {
           </Box>
 
           <Box className={styles.manageActivityChart}>
-            <BarChartComp />
+            <Typography variant="h2" className={styles.roomActivityChartTitle}>
+              Message Velocity
+            </Typography>
+
+            <Box className={styles.manageActivityChartComp}>
+              <BarChartComp />
+            </Box>
           </Box>
         </Box>
       </Box>

@@ -5,8 +5,12 @@
     flex-direction: row;
     justify-content: space-between;
     background-color: #0f0f0f;
+    position: relative;
 }
-
+.middleTitle{
+    position: absolute;
+    top: 0;
+}
 .leftContainer {
     width: 70%;
     height: 100%;
@@ -63,7 +67,7 @@
 
 .emojiPickerBox {
     position: absolute;
-    bottom: 7%;
+    bottom: 9%;
     left: 17%;
 }
 

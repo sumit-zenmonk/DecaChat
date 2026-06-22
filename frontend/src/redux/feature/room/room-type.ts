@@ -11,7 +11,6 @@ export interface Room {
 
 export interface User {
     uuid: string;
-    name: string;
     email: string;
     created_at: Date,
     updated_at: Date,

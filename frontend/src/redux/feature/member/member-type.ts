@@ -5,14 +5,14 @@ export interface Room {
     name: string;
     description: string;
     creator_uuid: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
+    creator: User;
+    created_at: Date,
+    updated_at: Date,
+    deleted_at: Date,
 }
 
 export interface User {
     uuid: string;
-    name: string;
     email: string;
     is_online: boolean;
     profile_image: string;

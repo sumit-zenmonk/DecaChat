@@ -86,7 +86,7 @@ export default function DashboardComp() {
           useRoomRouteCheck(activePath).uuid && myrooms.filter((room) => room.creator_uuid == user?.uuid) &&
           <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(useRoomRouteCheck(activePath)?.uuid || '')}>
             <HighlightOffIcon />
-            <Typography>Close Room</Typography>
+            <Typography className={styles.deleteRoom}>Close Room</Typography>
           </Box>
         }
 
