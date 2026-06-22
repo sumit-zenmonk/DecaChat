@@ -160,7 +160,10 @@ export default function SpecificRoom() {
               <ShowChartIcon /> Activity Overview
             </Typography>
           </Box>
-          <BarChartComp />
+
+          <Box className={styles.manageActivityChart}>
+            <BarChartComp />
+          </Box>
         </Box>
       </Box>
 

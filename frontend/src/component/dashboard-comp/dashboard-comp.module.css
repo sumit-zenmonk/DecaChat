@@ -24,7 +24,7 @@
   border-right: 1px solid #222222;
   padding: 5%;
   display: flex;
-  background-color: #1c1b1b;
+  background: #121212;
   flex-direction: column;
   gap: 2%;
 }
