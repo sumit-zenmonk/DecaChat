@@ -86,7 +86,7 @@
 }
 
 .viewerCount {
-    color: rgb(117, 255, 117);
+    color: rgb(63, 199, 0);
 }
 
 .roomSideInfo {
@@ -182,7 +182,7 @@
     bottom: 25;
     left: 65;
     border-radius: 100%;
-    fill: rgb(2, 195, 12);
+    fill: rgb(63, 199, 0);
 }
 
 .bottomGrayDotMessaging {
