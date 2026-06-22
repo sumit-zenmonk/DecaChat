@@ -18,6 +18,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import Image from "next/image";
 import { getChatTimeFormat } from "@/utils/time-format";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { BarChartComp } from "@/component/bar-chart-comp/bar-chart-comp";
 
 export default function SpecificRoom() {
   const dispatch = useAppDispatch();
@@ -159,6 +160,7 @@ export default function SpecificRoom() {
               <ShowChartIcon /> Activity Overview
             </Typography>
           </Box>
+          <BarChartComp />
         </Box>
       </Box>
 
