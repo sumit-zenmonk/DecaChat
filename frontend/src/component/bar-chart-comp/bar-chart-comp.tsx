@@ -24,21 +24,40 @@ export const options = {
     plugins: {
         legend: {
             position: 'top' as const,
+            // display: false,
         },
         title: {
-            display: true,
+            display: false,
             text: 'Chart.js Bar Chart',
         },
+        tooltip: {
+            enabled: false,
+        },
+        scales: {
+            y: {
+                ticks: {
+                    display: false,
+                },
+                grid: {
+                    display: false,
+                }
+            },
+            x: {
+                grid: {
+                    display: false,
+                }
+            }
+        }
     },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export const data = {
     labels,
     datasets: [
         {
-            label: 'Dataset 1',
+            label: 'Weekly Reports',
             data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
             backgroundColor: ['#A0A3FF', '#C0C1FF'],
         }
