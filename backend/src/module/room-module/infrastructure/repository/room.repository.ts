@@ -81,6 +81,7 @@ export class RoomRepository extends Repository<RoomEntity> {
             },
             relations: {
                 creator: true,
+                members: true,
             },
             order: {
                 created_at: 'DESC'

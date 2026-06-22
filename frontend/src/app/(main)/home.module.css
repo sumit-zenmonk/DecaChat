@@ -167,6 +167,13 @@
   gap: 10px;
 }
 
+.roomFull {
+  color: rgb(221, 0, 0);
+  display: flex;
+  font-weight: 600;
+  gap: 10px;
+}
+
 .cardButtonBox {
   width: 100%;
   display: flex;

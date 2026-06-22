@@ -32,15 +32,12 @@ export class JoinRoomMemberService {
         }
 
         const isRoomMemberExists = members_data.data.filter((member) => member.user_uuid == req.user.uuid);
-        if (isRoomMemberExists) {
+        if (isRoomMemberExists.length) {
             throw new BadRequestException("Already Member of Room");
         }
 
         await this.roomMemberRepository.createRoomMember({ ...body, user_uuid: req.user.uuid });
         const newMember = await this.roomMemberRepository.findByUserUuidAndRoomUuid(req.user.uuid, body.room_uuid);
-        if (isRoomMemberExists) {
-            throw new BadRequestException("Already Member of Room");
-        }
 
         await this.outboxRepository.createOutboxEntry({
             exchange_name: this.ROOM_EXCHANGE,

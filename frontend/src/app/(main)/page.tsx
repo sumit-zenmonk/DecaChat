@@ -14,6 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import SortListComp from "@/component/sort-comp/sort-comp";
 import GroupsIcon from '@mui/icons-material/Groups';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 
 export default function Home() {
   const router = useRouter();
@@ -27,9 +28,8 @@ export default function Home() {
     setValue(newValue);
   };
 
-
   useEffect(() => {
-    if (!publicRooms.length) {
+    if (!publicRooms.length || !getJoinedRooms.length) {
       dispatch(getJoinedRooms({ limit, offset: 0, })).unwrap();
       dispatch(getPublicRooms({ limit, offset: 0, })).unwrap();
     }
@@ -125,7 +125,11 @@ export default function Home() {
                         <Typography className={styles.roomName}>{room.name}</Typography>
                         <Typography className={styles.description}>{room.description}</Typography>
                         <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
-                        <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography>
+                        {
+                          memberCount < 1 ?
+                            <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography> :
+                            <Typography className={styles.roomFull}><DoDisturbIcon />Room Full</Typography>
+                        }
                       </Box>
 
                       <Box className={styles.cardButtonBox}>
