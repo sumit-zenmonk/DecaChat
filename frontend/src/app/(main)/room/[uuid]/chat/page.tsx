@@ -156,6 +156,9 @@ export default function SpecificRoomChat() {
                         <Typography variant="caption" className={styles.messageTime}>
                           {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </Typography>
+                        {member?.room.creator.uuid === member?.user_uuid && <Typography variant="caption" className={styles.creatorTag}>
+                          CREATOR
+                        </Typography>}
                       </Box>
 
                       <Box className={styles.messageData}>
@@ -219,7 +222,6 @@ export default function SpecificRoomChat() {
       </Box>
 
       <Box className={styles.rightContainer}>
-
       </Box >
 
       <Typography className={styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
