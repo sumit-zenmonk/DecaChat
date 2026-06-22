@@ -58,7 +58,7 @@ export const data = {
     datasets: [
         {
             label: 'Weekly Reports',
-            data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
+            data: labels.map(() => faker.number.int({ min: 0, max: 100 })),
             backgroundColor: ['#A0A3FF', '#C0C1FF'],
         }
     ],
