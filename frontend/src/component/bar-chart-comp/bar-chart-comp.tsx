@@ -31,7 +31,7 @@ export const options = {
             text: 'Chart.js Bar Chart',
         },
         tooltip: {
-            enabled: false,
+            enabled: true,
         },
         scales: {
             y: {
@@ -57,7 +57,7 @@ export const data = {
     labels,
     datasets: [
         {
-            label: 'Weekly Reports',
+            label: 'Message Velocity',
             data: labels.map(() => faker.number.int({ min: 0, max: 100 })),
             backgroundColor: ['#A0A3FF', '#C0C1FF'],
         }
