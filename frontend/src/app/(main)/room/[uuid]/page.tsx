@@ -14,7 +14,7 @@ import LinkShareComp from "@/component/link-share-comp/link-share-comp";
 import ChatIcon from '@mui/icons-material/Chat';
 import ShareIcon from '@mui/icons-material/Share';
 import GroupsIcon from '@mui/icons-material/Groups';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import Image from "next/image";
 import { getChatTimeFormat } from "@/utils/time-format";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -113,7 +113,7 @@ export default function SpecificRoom() {
       <Box className={styles.roomSideInfo}>
         <Box className={styles.manangeMemberInfo}>
           <Typography variant="h2" className={styles.manangeMemberTitle}>
-            <GroupsIcon /> Manage Members
+            <GroupsIcon className={styles.groupIcon}/> Manage Members
           </Typography>
 
           <Box id="scrollableDiv" className={styles.scrollWrapper}>
@@ -157,7 +157,7 @@ export default function SpecificRoom() {
         <Box className={styles.roomActivityInfo}>
           <Box className={styles.manageActivityInfo}>
             <Typography variant="h2" className={styles.roomActivityTitle}>
-              <ShowChartIcon /> Activity Overview
+              <TrendingUpIcon className={styles.chartIcon} /> Activity Overview
             </Typography>
           </Box>
 

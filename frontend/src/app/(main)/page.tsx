@@ -111,7 +111,7 @@ export default function Home() {
           >
             <Box className={styles.roomWrapper}>
               {publicRooms && publicRooms.map((room: Room) => {
-                const isJoined = joinedRooms ? joinedRooms.find((joinRoom) => joinRoom.uuid === room.uuid) : null;
+                const isJoined = joinedRooms ? joinedRooms.find((joinRoom: Room) => joinRoom.uuid === room.uuid) : null;
                 const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
 
                 return (

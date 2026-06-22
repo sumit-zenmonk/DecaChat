@@ -81,7 +81,7 @@
 }
 
 .activeMember {
-    color: rgb(220, 182, 255);
+    color: rgb(205, 148, 255);
 
 }
 
@@ -98,6 +98,11 @@
     padding: 0 1%;
 }
 
+.groupIcon {
+    font-size: 3rem;
+    fill: rgb(205, 148, 255);
+}
+
 .manangeMemberInfo {
     width: 60%;
     height: 100%;
@@ -110,6 +115,9 @@
     font-weight: 600;
     color: rgb(255, 255, 255);
     margin-bottom: 1%;
+    display: flex;
+    align-items: center;
+    gap: 1%;
 }
 
 .scrollWrapper {
@@ -163,7 +171,7 @@
 
 .profileImage {
     width: 10%;
-    border: 4px solid #efd6ff;
+    border: 4px solid #a6a6a6;
     border-radius: 50%;
     position: relative;
 }
@@ -173,12 +181,12 @@
     position: absolute;
     bottom: 25;
     left: 65;
-    color: rgb(0, 182, 9);
     border-radius: 100%;
+    fill: rgb(2, 195, 12);
 }
 
 .bottomGrayDotMessaging {
-    color: rgb(87, 87, 87);
+    fill: rgb(213, 213, 213);
 }
 
 .email,
@@ -219,7 +227,7 @@
 
 .manageActivityInfo {
     width: 100%;
-    height: 5%;
+    height: 8%;
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 1%;
@@ -238,4 +246,9 @@
     transition: transform 0.2s;
     border: 1px solid #373737;
     border-radius: 10px;
+}
+
+.chartIcon {
+    fill: rgb(63, 199, 0);
+    font-size: 3rem;
 }
