@@ -8,33 +8,36 @@
 }
 
 .header {
-    width: 100%;
+    width: 50vmin;
+    height: 10vmin;
     padding-bottom: .5%;
     padding: 2%;
-    border-bottom: 1px solid #c4c4c4;
-    margin-bottom: 1%;
-    border-radius: 16px;
+    border-bottom: 1px solid #808080;
+    background-color: #282828;
+    margin-bottom: .5%;
 }
 
 .heading {
     font-weight: 400;
-    color: #111827;
+    color: #ffffff;
 }
 
 .subHeading {
-    color: #6b7280;
+    color: #b3b3b3;
 }
 
 .socialWrapper {
     width: 100%;
+    height: 80%;
     display: flex;
     flex-wrap: wrap;
     gap: 10%;
+    background-color: #282828;
     align-items: stretch;
     justify-content: center;
     align-items: center;
     overflow: auto;
-    margin-top: 2%;
+    /* margin-top: 2%; */
     padding: 2%;
 }
 
@@ -45,5 +48,5 @@
 }
 
 .socialButton:hover {
-    box-shadow: 0 0 0 15px rgb(233, 233, 233);
+    box-shadow: 0 0 0 5px rgb(233, 233, 233);
 }
