@@ -9,6 +9,12 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useRoomRouteCheck from "@/utils/dyanmic-route.regex";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
+import { enqueueSnackbar } from "notistack";
+import { deleteRoom } from "@/redux/feature/room/room-action";
+import { RootState } from "@/redux/store";
 
 export default function DashboardComp() {
   const pathname = usePathname();
@@ -16,10 +22,23 @@ export default function DashboardComp() {
   const shareUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
   const [activePath, setActivePath] = useState(shareUrl);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { myrooms } = useAppSelector((state: RootState) => state.roomReducer);
+  const { user } = useAppSelector((state: RootState) => state.authReducer);
 
   const handleActivePath = (path: string) => {
     setActivePath(path);
     router.push(path);
+  }
+
+  const handleRoomDelete = async (uuid: string) => {
+    try {
+      await dispatch(deleteRoom({ uuid })).unwrap();
+      router.replace('/');
+    } catch (error: any) {
+      enqueueSnackbar(error, { variant: "error" });
+      console.log(error);
+    }
   }
 
   return (
@@ -63,6 +82,14 @@ export default function DashboardComp() {
       </Box>
 
       <Box className={styles.bottomContainer}>
+        {
+          useRoomRouteCheck(activePath).uuid && myrooms.filter((room) => room.creator_uuid == user?.uuid) &&
+          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(useRoomRouteCheck(activePath)?.uuid || '')}>
+            <HighlightOffIcon />
+            <Typography>Close Room</Typography>
+          </Box>
+        }
+
         <Box className={styles.menuItem}>
           <HelpOutlineOutlinedIcon />
           <Typography>Help</Typography>

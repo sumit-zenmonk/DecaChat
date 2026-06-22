@@ -18,7 +18,7 @@ export class DeleteRoomService {
     async handle(req: Request, uuid: string) {
         const isRoomExists = await this.repository.findByCreatorUuidAndUuid(req.user.uuid, uuid);
         if (!isRoomExists) {
-            throw new BadRequestException("Room Not Found");
+            throw new BadRequestException("Your Room Not Found");
         }
         await this.repository.deleteRoom(uuid);
 
