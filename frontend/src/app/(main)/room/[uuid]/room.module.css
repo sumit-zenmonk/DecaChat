@@ -1,35 +1,91 @@
 .container {
     width: 100%;
-    height: 93%;
+    height: 100%;
     padding: 1% 2%;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 .header {
     width: 100%;
+    height: 20%;
     padding: 1%;
-    border-bottom: .5px solid #c4c4c4;
+    border-bottom: .5px solid #191919;
     margin-bottom: 1%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.roomInfo {
+    width: 40%;
+    height: 100%;
 }
 
 .heading {
     font-weight: 900;
-    color: #111827;
+    color: #e4e4e4;
+    font-size: 3rem;
 }
 
 .subHeading {
-    color: #6b7280;
+    color: #c5c5c5;
 }
 
-.sideButtonCard {
-    width: 14%;
-    position: absolute;
-    top: 65;
-    right: 20;
+.roomButtonCard {
+    width: 20%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    gap: 2.5px;
+    border-radius: 10px;
+}
+
+.roomCard {
+    width: 45%;
+    height: 60%;
+    padding: 7%;
+    background-color: #313030;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid rgb(65, 65, 65);
+}
+
+.roomViewInfo {
+    width: 25%;
+    padding: .5%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+}
+
+.viewInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.viewTitle,
+.viewerCount,
+.activeMember {
+    font-size: 1.5rem;
+    color: #f2eaff;
+    font-weight: 600;
+}
+
+.viewerCount,
+.activeMember {
+    font-weight: 800;
+}
+
+.activeMember {
+    color: rgb(220, 182, 255);
+
+}
+
+.viewerCount {
+    color: rgb(117, 255, 117);
 }
 
 .scrollWrapper {
@@ -41,7 +97,9 @@
 
 .roomMemberWrapper {
     width: 100%;
+    height: 80%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -52,8 +110,24 @@
     padding-bottom: 5%;
 }
 
+.roomMemberInfo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 5%;
+    background-color: rebeccapurple;
+}
+
+.manangeMember {
+    font-size: 1.5rem;
+    color: #f2eaff;
+    font-weight: 600;
+}
+
 .card {
-    width: 20.5%;
+    width: 100.5%;
     margin-bottom: 2%;
     border-radius: 12px;
     overflow: hidden;

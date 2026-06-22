@@ -11,6 +11,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { RoomMember } from "@/redux/feature/member/member-type";
 import { enqueueSnackbar } from "notistack";
 import LinkShareComp from "@/component/link-share-comp/link-share-comp";
+import ChatIcon from '@mui/icons-material/Chat';
+import ShareIcon from '@mui/icons-material/Share';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 export default function SpecificRoom() {
   const dispatch = useAppDispatch();
@@ -18,6 +21,7 @@ export default function SpecificRoom() {
   const { uuid } = useParams();
   const room_uuid = String(uuid);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
+  const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
   const members = roomMembers?.[room_uuid];
   const total_members = roomMembersTotalDocuments?.[room_uuid];
@@ -51,60 +55,97 @@ export default function SpecificRoom() {
   return (
     <Box className={styles.container}>
       <Box className={styles.header}>
-        <Typography variant="h4" className={styles.heading}>
-          {members?.[0] ? members[0].room.name : "Specific Room"}'s Members
-        </Typography>
+        <Box className={styles.roomInfo}>
+          <Typography variant="h4" className={styles.heading}>
+            {members?.[0] ? members[0].room.name : "Specific Room"}'s Members
+          </Typography>
 
-        <Typography className={styles.subHeading}>
-          {members?.[0] ? members[0].room.description : "Specific Room Description"}
-        </Typography>
-      </Box>
+          <Typography className={styles.subHeading}>
+            {members?.[0] ? members[0].room.description : "Specific Room Description"}
+          </Typography>
+        </Box>
 
-      <Box className={styles.sideButtonCard}>
-        <Button
-          onClick={() => router.push(`/room/${room_uuid}/chat`)}
-        >
-          View Chat
-        </Button>
+        <Box className={styles.roomButtonCard}>
+          <Button
+            className={styles.roomCard}
+            onClick={() => router.push(`/room/${room_uuid}/chat`)}
+          >
+            <ChatIcon />
+            View Live Chat
+          </Button>
 
-        <Button
-          className={styles.deleteRoom}
-          onClick={() => setIsLinkOpen(!isLinkOpen)}
-        >
-          Share Room
-        </Button>
-      </Box>
+          <Button
+            className={styles.roomCard}
+            onClick={() => setIsLinkOpen(!isLinkOpen)}
+          >
+            <ShareIcon />
+            Share Room
+          </Button>
+        </Box>
 
-      <Box id="scrollableDiv" className={styles.scrollWrapper}>
-        <InfiniteScroll
-          dataLength={members?.length || 0}
-          next={fetchRooms}
-          hasMore={members?.length < total_members}
-          loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
-          endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
-          scrollableTarget="scrollableDiv"
-        >
-          <Box className={styles.roomMemberWrapper}>
-            {members && members.map((member: RoomMember) => {
-              return (
-                <Card
-                  key={member.uuid}
-                  className={styles.card}
-                  elevation={2}
-                >
-                  <CardContent className={styles.cardContent}>
-                    <Typography className={styles.roomMemberName}>Name : {member.user.name}</Typography>
-                    <Typography className={styles.email}>Email : {member.user.email}</Typography>
-                    <Typography className={styles.role}>Role : {member.role}</Typography>
-                    <Typography variant="body2" style={{ color: member.user.is_online ? '#4caf50' : '#757575', fontWeight: 'bold' }}>
-                      Status: {member.user.is_online ? 'Online' : 'Offline'}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              );
-            })}
+        <Box className={styles.roomViewInfo}>
+          <Box className={styles.viewInfo}>
+            <Typography variant="h2" className={styles.viewTitle}>
+              Active Members
+            </Typography>
+            <Typography variant="h4" className={styles.activeMember}>
+              10
+            </Typography>
           </Box>
-        </InfiniteScroll>
+
+          <Box className={styles.viewInfo}>
+            <Typography variant="h2" className={styles.viewTitle}>
+              Viewers
+            </Typography>
+            <Typography variant="h4" className={styles.viewerCount}>
+              {viewerCounts[room_uuid] || 0}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box className={styles.roomMemberInfo}>
+        <Box className={styles.manangeMemberInfo}>
+          <Typography variant="h2" className={styles.manangeMemberTitle}>
+            <GroupsIcon /> Manage Members
+          </Typography>
+
+          <Box id="scrollableDiv" className={styles.scrollWrapper}>
+            <InfiniteScroll
+              dataLength={members?.length || 0}
+              next={fetchRooms}
+              hasMore={members?.length < total_members}
+              loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
+              endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
+              scrollableTarget="scrollableDiv"
+            >
+              <Box className={styles.roomMemberWrapper}>
+                {members && members.map((member: RoomMember) => {
+                  return (
+                    <Card
+                      key={member.uuid}
+                      className={styles.card}
+                      elevation={2}
+                    >
+                      <CardContent className={styles.cardContent}>
+                        <Typography className={styles.roomMemberName}>Name : {member.user.name}</Typography>
+                        <Typography className={styles.email}>Email : {member.user.email}</Typography>
+                        <Typography className={styles.role}>Role : {member.role}</Typography>
+                        <Typography variant="body2" style={{ color: member.user.is_online ? '#4caf50' : '#757575', fontWeight: 'bold' }}>
+                          Status: {member.user.is_online ? 'Online' : 'Offline'}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </Box>
+            </InfiniteScroll>
+          </Box>
+        </Box>
+
+        <Box>
+          Activity Overview
+        </Box>
       </Box>
 
       <LinkShareComp open={isLinkOpen} onClose={() => setIsLinkOpen(false)} data={{ shareUrl: shareUrl, title: title }} />
