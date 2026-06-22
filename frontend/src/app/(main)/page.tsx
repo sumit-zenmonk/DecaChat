@@ -126,7 +126,7 @@ export default function Home() {
                         <Typography className={styles.description}>{room.description}</Typography>
                         <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
                         {
-                          memberCount < 1 ?
+                          memberCount < Number(process.env.ROOM_MEMBER_LIMIT) || 10 ?
                             <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography> :
                             <Typography className={styles.roomFull}><DoDisturbIcon />Room Full</Typography>
                         }
