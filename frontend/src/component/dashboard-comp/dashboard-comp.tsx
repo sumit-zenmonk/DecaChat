@@ -83,9 +83,9 @@ export default function DashboardComp() {
 
       <Box className={styles.bottomContainer}>
         {
-          getDynamicRoute(activePath).uuid &&
+          getDynamicRoute(activePath).room_uuid &&
           publicRooms.find((room) => room.creator_uuid == user?.uuid) &&
-          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.uuid || '')}>
+          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.room_uuid || '')}>
             <HighlightOffIcon />
             <Typography className={styles.deleteRoom}>Close Room</Typography>
           </Box>

@@ -9,7 +9,6 @@ export class GetRoomByUUIDController {
     @Get('/:room_uuid')
     async getRoomByUUID(@Req() req: Request, @Param('room_uuid') room_uuid: string) {
         const data = await this.getRoomByUUIDService.handle(req, room_uuid);
-        console.log(data);
 
         return {
             data: data,

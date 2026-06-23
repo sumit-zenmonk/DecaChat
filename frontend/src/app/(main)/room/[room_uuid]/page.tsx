@@ -28,10 +28,10 @@ export default function SpecificRoom() {
   const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
 
-  const { uuid } = useParams();
-  const room_uuid = String(uuid);
-  const members = roomMembers?.[room_uuid];
-  const total_members = roomMembersTotalDocuments?.[room_uuid];
+  const { room_uuid } = useParams();
+  const curr_room_uuid = String(room_uuid);
+  const members = roomMembers?.[curr_room_uuid];
+  const total_members = roomMembersTotalDocuments?.[curr_room_uuid];
   const onlineCount = members?.filter(member => member.user.is_online).length;
 
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
@@ -45,7 +45,7 @@ export default function SpecificRoom() {
 
   useEffect(() => {
     if (!getRoomMembers.length) {
-      dispatch(getRoomMembers({ room_uuid: room_uuid, limit: 0, offset: 0 })).unwrap();
+      dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
     }
   }, []);
 
@@ -55,7 +55,7 @@ export default function SpecificRoom() {
 
       const newOffset = offset + limit;
       setOffset(newOffset);
-      await dispatch(getRoomMembers({ room_uuid: room_uuid, limit, offset: newOffset, })).unwrap();
+      await dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit, offset: newOffset, })).unwrap();
     } catch (error: any) {
       enqueueSnackbar(error, { variant: "error" });
       console.log(error);
@@ -110,7 +110,7 @@ export default function SpecificRoom() {
               Viewers
             </Typography>
             <Typography variant="h4" className={styles.viewerCount}>
-              {viewerCounts[room_uuid] || 0}
+              {viewerCounts[curr_room_uuid] || 0}
             </Typography>
           </Box>
         </Box>
@@ -133,7 +133,7 @@ export default function SpecificRoom() {
             >
               <Box className={styles.roomMemberWrapper}>
                 {members && members.map((member: RoomMember) => {
-                  const lastChat = roomChats[room_uuid]
+                  const lastChat = roomChats[curr_room_uuid]
                     ?.filter(mem => mem.member.user_uuid === member.user_uuid)
                     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
 

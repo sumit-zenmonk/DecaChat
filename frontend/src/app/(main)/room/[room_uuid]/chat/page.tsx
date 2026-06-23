@@ -26,8 +26,8 @@ let unauth_socket: any;
 
 export default function SpecificRoomChat() {
   const dispatch = useAppDispatch();
-  const { uuid } = useParams();
-  const room_uuid = String(uuid);
+  const { room_uuid } = useParams();
+  const curr_room_uuid = String(room_uuid);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const { chatDrawerState } = useAppSelector((state: RootState) => state.commonReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
@@ -35,20 +35,22 @@ export default function SpecificRoomChat() {
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
-  const members = roomMembers?.[room_uuid];
-  const memberCount = roomMembersTotalDocuments[room_uuid] || 1;
-  const chats = roomChats?.[room_uuid] || [];
-  const total_members = roomMembersTotalDocuments?.[room_uuid];
-  const totalChats = roomChatsTotalDocuments?.[room_uuid] || 0;
-  const member = roomMembers?.[room_uuid]?.find((member) => member.user_uuid == user?.uuid);
+  const members = roomMembers?.[curr_room_uuid];
+  const memberCount = roomMembersTotalDocuments[curr_room_uuid] || 1;
+  const chats = roomChats?.[curr_room_uuid] || [];
+  const total_members = roomMembersTotalDocuments?.[curr_room_uuid];
+  const totalChats = roomChatsTotalDocuments?.[curr_room_uuid] || 0;
+  const member = roomMembers?.[curr_room_uuid]?.find((member) => member.user_uuid == user?.uuid);
 
   const [offset, setOffset] = useState(0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
 
   useEffect(() => {
-    dispatch(getRoomMembers({ room_uuid: room_uuid, limit: 0, offset: 0 })).unwrap();
-    dispatch(getRoomChats({ room_uuid: room_uuid, limit: limit, offset: 0 })).unwrap();
+    if (!roomMembers[curr_room_uuid]?.length || !roomChats[curr_room_uuid]?.length) {
+      dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
+      dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
+    }
   }, [room_uuid]);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export default function SpecificRoomChat() {
   const fetchMoreData = () => {
     const nextOffset = offset + limit;
     setOffset(nextOffset);
-    dispatch(getRoomChats({ room_uuid: room_uuid, limit: limit, offset: nextOffset }));
+    dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: nextOffset }));
   };
 
   const togglePicker = () => {
@@ -104,7 +106,7 @@ export default function SpecificRoomChat() {
         return;
       }
 
-      await dispatch(createRoomChat({ member_uuid: member?.uuid, message: message, room_uuid })).unwrap();
+      await dispatch(createRoomChat({ member_uuid: member?.uuid, message: message, room_uuid: curr_room_uuid })).unwrap();
 
       setIsEmojiPickerOpen(false);
       setMessage('');
@@ -144,7 +146,7 @@ export default function SpecificRoomChat() {
         enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
         return;
       }
-      await dispatch(createRoomMember({ room_uuid: room_uuid })).unwrap();
+      await dispatch(createRoomMember({ room_uuid: curr_room_uuid })).unwrap();
     } catch (error: any) {
       enqueueSnackbar(error, { variant: "error" });
       console.log(error);

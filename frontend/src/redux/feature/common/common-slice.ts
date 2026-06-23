@@ -12,7 +12,6 @@ const commonSlice = createSlice({
     initialState,
     reducers: {
         togglechatDrawerState: (state) => {
-            console.log('object');
             state.chatDrawerState = !state.chatDrawerState;
         },
     },

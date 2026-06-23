@@ -14,21 +14,21 @@ export default async function proxy(req: NextRequest) {
 
     if (isDynamicPublic) {
         const segments = pathname.split('/');
-        const uuid = segments[2];
+        const room_uuid = segments[2];
         const chat = segments[3];
 
-        if (!uuid) {
+        if (!room_uuid) {
             return NextResponse.redirect(new URL('/', req.url));
         }
         if (chat === 'chat') {
             return NextResponse.next();
         }
         if (!credentials) {
-            return NextResponse.redirect(new URL(`/room/${uuid}/chat`, req.url));
+            return NextResponse.redirect(new URL(`/room/${room_uuid}/chat`, req.url));
         }
 
-        const isRoomOwner = await checkRoomOwnership(credentials, uuid);
-        return isRoomOwner ? NextResponse.next() : NextResponse.redirect(new URL(`/room/${uuid}/chat`, req.url));
+        const isRoomOwner = await checkRoomOwnership(credentials, room_uuid);
+        return isRoomOwner ? NextResponse.next() : NextResponse.redirect(new URL(`/room/${room_uuid}/chat`, req.url));
     }
     if (isAuthenticated && isAuthBlock) {
         return NextResponse.redirect(new URL("/", req.url));
@@ -55,7 +55,6 @@ async function checkRoomOwnership(token: string, room_uuid: string): Promise<boo
     );
 
     const data = await res.json();
-    console.log(data);
     return data ? true : false;
 }
 
