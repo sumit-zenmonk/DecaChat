@@ -297,7 +297,7 @@ export default function SpecificRoomChat() {
               return (
                 <Card
                   key={number}
-                  className={styles.card}
+                  className={styles.dummyCard}
                   elevation={2}
                 >
                   <CardContent className={styles.cardContent}>
