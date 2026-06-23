@@ -3,11 +3,9 @@ const publicRoutes = ['/public', '/login', '/'];
 const publicDynamicRoutes = ['/room'];
 const authBlockRoutes = ['/login'];
 
-export default function proxy(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
     const credentials = req.cookies.get("token")?.value;
-    const role = req.cookies.get("role")?.value;
     const pathname = req.nextUrl.pathname;
-
 
     const isDynamicPublic = publicDynamicRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
     const isPublic = publicRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`) || pathname.endsWith('.svg'));
@@ -15,11 +13,22 @@ export default function proxy(req: NextRequest) {
     const isAuthenticated = Boolean(credentials);
 
     if (isDynamicPublic) {
-        const uuid = pathname.split('/')[2];
+        const segments = pathname.split('/');
+        const uuid = segments[2];
+        const chat = segments[3];
+
         if (!uuid) {
-            return NextResponse.redirect(new URL('/login', req.url));
+            return NextResponse.redirect(new URL('/', req.url));
         }
-        return NextResponse.next();
+        if (chat === 'chat') {
+            return NextResponse.next();
+        }
+        if (!credentials) {
+            return NextResponse.redirect(new URL(`/room/${uuid}/chat`, req.url));
+        }
+
+        const isRoomOwner = await checkRoomOwnership(credentials, uuid);
+        return isRoomOwner ? NextResponse.next() : NextResponse.redirect(new URL(`/room/${uuid}/chat`, req.url));
     }
     if (isAuthenticated && isAuthBlock) {
         return NextResponse.redirect(new URL("/", req.url));
@@ -32,6 +41,22 @@ export default function proxy(req: NextRequest) {
     }
 
     return NextResponse.next();
+}
+
+async function checkRoomOwnership(token: string, room_uuid: string): Promise<boolean> {
+    const res = await fetch(
+        `http://backend:8090/api/v1/room/${room_uuid}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: token,
+            },
+        }
+    );
+
+    const data = await res.json();
+    console.log(data);
+    return data ? true : false;
 }
 
 export const config = {

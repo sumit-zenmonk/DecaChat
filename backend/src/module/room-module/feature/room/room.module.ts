@@ -5,11 +5,13 @@ import { GetRoomListingModule } from "./get-room-listing/get-room-listing.module
 import { DeleteRoomModule } from "./delete-room/delete-room.module";
 import { GetPublicRoomListingModule } from "./get-public-room-listing/get-public-room-listing.module";
 import { GetRoomJoinedListingModule } from "./get-room-joined-listing/get-room-joined-listing.module";
+import { GetRoomByUUIDModule } from "./get-room-by-uuid/get-room-by-uuid.module";
 
 @Module({
     imports: [
         CreateRoomModule,
         GetRoomListingModule,
+        GetRoomByUUIDModule,
         DeleteRoomModule,
         GetPublicRoomListingModule,
         GetRoomJoinedListingModule,
@@ -19,6 +21,7 @@ import { GetRoomJoinedListingModule } from "./get-room-joined-listing/get-room-j
                 children: [
                     { path: '', module: CreateRoomModule },
                     { path: '', module: GetRoomListingModule },
+                    { path: '', module: GetRoomByUUIDModule },
                     { path: '', module: DeleteRoomModule },
                     { path: 'join', module: GetRoomJoinedListingModule },
                     { path: 'public', module: GetPublicRoomListingModule },
