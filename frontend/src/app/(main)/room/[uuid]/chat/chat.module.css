@@ -21,8 +21,21 @@
     color: #e5e5ff;
 }
 
+.middleTitleDrawerOpen {
+    padding: .5%;
+    position: absolute;
+    top: 5%;
+    left: 25%;
+    text-align: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: #212121;
+    border: 1px solid #2c2c2c;
+    color: #e5e5ff;
+}
+
 .leftContainerDrawerOpen {
-    width: 71%;
+    width: 77%;
     height: 92%;
     display: flex;
     flex-direction: column;
@@ -44,14 +57,13 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
     background: #1e1e1e;
     color: rgb(163, 163, 163);
 }
 
 .topBox {
     width: 100%;
+    height: 10%;
     display: flex;
     justify-content: space-between;
     padding: 5%;
@@ -88,9 +100,9 @@
     background-color: #151515;
 }
 
-.bottomBox {
+.middleBox {
     width: 100%;
-    height: 100%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,6 +208,23 @@
     padding-bottom: 2%;
     color: #6b7280;
     top: 0;
+}
+
+.bottomBox {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgb(68, 68, 68);
+    overflow: scroll;
+}
+
+.joinRoomButton {
+    background: #2F2EBE;
+    color: white;
+    padding: 1% 3%;
+    border-radius: 5px;
 }
 
 .emojiPickerBox {

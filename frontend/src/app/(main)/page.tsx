@@ -54,6 +54,11 @@ export default function Home() {
 
   const handleRoomJoin = async (uuid: string) => {
     try {
+      const memberCount = roomMembersTotalDocuments[uuid] || 1;
+      if (memberCount >= ROOM_MEMBER_LIMIT) {
+        enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
+        return;
+      }
       await dispatch(createRoomMember({ room_uuid: uuid })).unwrap();
     } catch (error: any) {
       enqueueSnackbar(error, { variant: "error" });

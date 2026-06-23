@@ -4,7 +4,7 @@ import { Box, Button, CircularProgress, Container, Typography, TextField, IconBu
 import styles from "./chat.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
-import { getRoomMembers } from "@/redux/feature/member/member-action";
+import { createRoomMember, getRoomMembers } from "@/redux/feature/member/member-action";
 import { useParams, useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -21,6 +21,7 @@ import Image from "next/image";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EmojiPicker from 'emoji-picker-react';
 import { RoomMember } from "@/redux/feature/member/member-type";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 let unauth_socket: any;
 
 export default function SpecificRoomChat() {
@@ -75,19 +76,6 @@ export default function SpecificRoomChat() {
     }
   }, [room_uuid, dispatch]);
 
-  const fetchRooms = async () => {
-    try {
-      if (members?.length >= total_members) return;
-
-      const newOffset = offset + limit;
-      setOffset(newOffset);
-      await dispatch(getRoomMembers({ room_uuid: room_uuid, limit, offset: newOffset, })).unwrap();
-    } catch (error: any) {
-      enqueueSnackbar(error, { variant: "error" });
-      console.log(error);
-    }
-  };
-
   const fetchMoreData = () => {
     const nextOffset = offset + limit;
     setOffset(nextOffset);
@@ -135,6 +123,19 @@ export default function SpecificRoomChat() {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       await handleSend();
+    }
+  };
+
+  const handleRoomJoin = async () => {
+    try {
+      if (members?.length || 1 >= ROOM_MEMBER_LIMIT) {
+        enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
+        return;
+      }
+      await dispatch(createRoomMember({ room_uuid: room_uuid })).unwrap();
+    } catch (error: any) {
+      enqueueSnackbar(error, { variant: "error" });
+      console.log(error);
     }
   };
 
@@ -240,7 +241,7 @@ export default function SpecificRoomChat() {
         open={chatDrawerState}
         sx={{
           '& .MuiDrawer-paper': {
-            width: '25%',
+            width: '20%',
             height: '93%',
             marginTop: '3.5%',
           },
@@ -257,7 +258,7 @@ export default function SpecificRoomChat() {
             </Typography>
           </Box>
 
-          <Box className={styles.bottomBox}>
+          <Box className={styles.middleBox}>
             {members && members.map((member: RoomMember) => {
               return (
                 <Card
@@ -296,10 +297,17 @@ export default function SpecificRoomChat() {
               );
             })}
           </Box>
+
+          <Box className={styles.bottomBox}>
+            <Button className={styles.joinRoomButton} onClick={() => handleRoomJoin()}>
+              <PersonAddAlt1Icon />
+              Join as Member
+            </Button>
+          </Box>
         </Box >
       </Drawer>
 
-      <Typography className={styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
+      <Typography className={chatDrawerState ? styles.middleTitleDrawerOpen : styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
     </Box >
   );
 }
