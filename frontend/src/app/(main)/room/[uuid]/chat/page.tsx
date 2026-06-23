@@ -95,6 +95,10 @@ export default function SpecificRoomChat() {
         enqueueSnackbar("message length should be 0-2000", { variant: "warning" });
         return;
       }
+      if (!user) {
+        enqueueSnackbar("Login for conversation", { variant: "info" });
+        return;
+      }
       if (!member?.uuid) {
         enqueueSnackbar("Not a member right now", { variant: "info" });
         return;
@@ -112,6 +116,10 @@ export default function SpecificRoomChat() {
 
   const handleDeleteChat = async (chat_uuid: string, room_uuid: string) => {
     try {
+      if (!user) {
+        enqueueSnackbar("Login for conversation", { variant: "info" });
+        return;
+      }
       await dispatch(deleteRoomChat({ chat_uuid, room_uuid })).unwrap();
       enqueueSnackbar("Message deleted", { variant: "success" });
     } catch (error: any) {
@@ -128,6 +136,10 @@ export default function SpecificRoomChat() {
 
   const handleRoomJoin = async () => {
     try {
+      if (!user) {
+        enqueueSnackbar("Login for conversation", { variant: "info" });
+        return;
+      }
       if (members?.length >= ROOM_MEMBER_LIMIT) {
         enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
         return;

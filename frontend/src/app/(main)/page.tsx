@@ -19,6 +19,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state: RootState) => state.authReducer);
   const { publicRooms, publicRoomsTotalDocuments, joinedRooms, viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);
@@ -54,6 +55,10 @@ export default function Home() {
 
   const handleRoomJoin = async (uuid: string) => {
     try {
+      if (!user) {
+        enqueueSnackbar("Login for conversation", { variant: "info" });
+        return;
+      }
       const memberCount = roomMembersTotalDocuments[uuid] || 1;
       if (memberCount >= ROOM_MEMBER_LIMIT) {
         enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
