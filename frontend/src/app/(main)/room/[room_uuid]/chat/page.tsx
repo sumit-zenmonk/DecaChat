@@ -224,7 +224,7 @@ export default function SpecificRoomChat() {
               }}
             />
 
-            <Box className={styles.emojiPickerBox}>
+            <Box className={chatDrawerState ? styles.emojiPickerBoxDrawerOpen : styles.emojiPickerBox}>
               {isEmojiPickerOpen && (
                 <EmojiPicker onEmojiClick={onEmojiClick} />
               )}

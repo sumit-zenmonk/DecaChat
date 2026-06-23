@@ -232,7 +232,13 @@
 .emojiPickerBox {
     position: absolute;
     bottom: 9%;
-    left: 17%;
+    right: 9%;
+}
+
+.emojiPickerBoxDrawerOpen {
+    position: absolute;
+    bottom: 9%;
+    right: 30%;
 }
 
 .inputContainer {
