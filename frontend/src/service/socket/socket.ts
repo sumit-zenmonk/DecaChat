@@ -23,8 +23,8 @@ export const disconnectAuthSocket = (): void => {
 export const connectUnAuthSocket = (): Socket => {
     if (!unauth_socket) {
         unauth_socket = io(BACKEND_URL, {});
+        console.log('UnAuth socket Connected', unauth_socket);
     }
-    console.log('UnAuth socket Connected', unauth_socket);
     return unauth_socket;
 };
 export const disconnectUnAuthSocket = (): void => {
