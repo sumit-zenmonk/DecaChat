@@ -27,7 +27,7 @@ export default function SpecificRoom() {
   const { roomChats } = useAppSelector((state: RootState) => state.chatReducer);
   const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
-  
+
   const { uuid } = useParams();
   const room_uuid = String(uuid);
   const members = roomMembers?.[room_uuid];
@@ -44,7 +44,9 @@ export default function SpecificRoom() {
   const shareUrl = `${BACKEND_URL}${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
   useEffect(() => {
-    dispatch(getRoomMembers({ room_uuid: room_uuid, limit: 0, offset: 0 })).unwrap();
+    if (!getRoomMembers.length) {
+      dispatch(getRoomMembers({ room_uuid: room_uuid, limit: 0, offset: 0 })).unwrap();
+    }
   }, []);
 
   const fetchRooms = async () => {
