@@ -55,7 +55,7 @@ async function checkRoomOwnership(token: string, room_uuid: string): Promise<boo
     );
 
     const data = await res.json();
-    return data ? true : false;
+    return data.data ? true : false;
 }
 
 export const config = {
