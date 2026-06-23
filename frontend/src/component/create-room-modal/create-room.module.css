@@ -5,9 +5,9 @@
     transform: translate(-50%, -50%);
     width: 100%;
     max-width: 500px;
-    background-color: #1a1a1a;
+    background-color: #0e0e0e;
     border-radius: 16px;
-    color: #4EDEA3;
+    color: #00d994;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -50,31 +50,27 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    border-radius: 16px;
 }
 
 .textField {
     border: 1px solid rgb(165, 165, 165);
-    padding: 1%;
-    border-radius: 16px;
     color: white;
     gap: 10px;
 }
 
 .AddRoomButton {
     font-weight: 700;
-    color: #ffffff;
+    color: #e4e4e4;
     background-color: #0054a7;
-    border-radius: 20px;
 }
 
 .deleteRoom,
 .closebtn {
-    border: 1px solid rgb(59, 59, 59);
-    color: rgb(231, 0, 0);
+    border: 1px solid rgb(28, 28, 28);
+    color: rgb(255, 255, 255);
 }
 
 .deleteRoom:hover,
 .closebtn:hover {
-    background-color: rgb(135, 0, 0);
+    background-color: rgb(107, 0, 0);
 }
