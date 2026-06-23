@@ -2,15 +2,16 @@
 
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
-import { connectAuthSocket, disconnectAuthSocket } from "@/service/socket/socket";
+import { connectAuthSocket, connectUnAuthSocket, disconnectAuthSocket } from "@/service/socket/socket";
 import { SocketEventNameEnum } from "@/service/socket/socket-event.enum";
-import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 
+import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 
 export const LayoutSocketListener = () => {
     const dispatch = useAppDispatch();
     const { token } = useAppSelector((state) => state.authReducer);
+    const unauth_socket = connectUnAuthSocket();
 
     useEffect(() => {
         if (token) {
@@ -62,7 +63,19 @@ export const LayoutSocketListener = () => {
                 disconnectAuthSocket();
             };
         }
-    }, [dispatch, token]);
+
+        if (unauth_socket) {
+            unauth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+                console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
+                dispatch(updateRoomViewerCount(data));
+            });
+
+            return () => {
+                unauth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
+                disconnectAuthSocket();
+            };
+        }
+    }, [dispatch]);
 
     return null;
 };
