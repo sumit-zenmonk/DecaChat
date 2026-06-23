@@ -24,9 +24,6 @@ export default function Home() {
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const [value, setValue] = useState('active');
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
 
   useEffect(() => {
     if (!publicRooms.length || !getJoinedRooms.length) {
@@ -48,7 +45,7 @@ export default function Home() {
     }
   };
 
-  const handleJoin = async (uuid: string) => {
+  const handleRoomJoin = async (uuid: string) => {
     try {
       await dispatch(createRoomMember({ room_uuid: uuid })).unwrap();
     } catch (error: any) {
@@ -57,6 +54,9 @@ export default function Home() {
     }
   };
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   return (
     <Box className={styles.container}>
@@ -90,7 +90,7 @@ export default function Home() {
         <Box className={styles.optionContainer}>
           <Tabs
             value={value}
-            onChange={handleChange}
+            onChange={handleTabChange}
             className={styles.tabContainer}
           >
             <Tab value="active" label="Active" className={styles.customTab} />
@@ -135,7 +135,7 @@ export default function Home() {
                       <Box className={styles.cardButtonBox}>
                         <Button
                           className={styles.joinButton}
-                          onClick={() => handleJoin(room.uuid)}
+                          onClick={() => handleRoomJoin(room.uuid)}
                           disabled={!!isJoined}
                         >
                           {!isJoined ? 'Join Room' : 'Already Joined'}
