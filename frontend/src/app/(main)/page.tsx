@@ -40,6 +40,7 @@ export default function Home() {
       const newOffset = offset + limit;
       setOffset(newOffset);
       await dispatch(getPublicRooms({ limit, offset: newOffset, })).unwrap();
+      await dispatch(getJoinedRooms({ limit, offset: newOffset, })).unwrap();
     } catch (error: any) {
       enqueueSnackbar(error, { variant: "error" });
       console.log(error);
