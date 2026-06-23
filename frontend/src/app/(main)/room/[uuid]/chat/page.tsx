@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton, Drawer } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton, Drawer, Card, CardContent, Avatar } from "@mui/material";
 import styles from "./chat.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
@@ -20,26 +20,30 @@ import { RoomChat } from "@/redux/feature/chat/chat-type";
 import Image from "next/image";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EmojiPicker from 'emoji-picker-react';
+import { RoomMember } from "@/redux/feature/member/member-type";
 let unauth_socket: any;
 
 export default function SpecificRoomChat() {
   const dispatch = useAppDispatch();
   const { uuid } = useParams();
   const room_uuid = String(uuid);
-  const { roomMembers } = useAppSelector((state: RootState) => state.roomMemberReducer);
+  const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const { chatDrawerState } = useAppSelector((state: RootState) => state.commonReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
   const { roomChats, roomChatsTotalDocuments, loading } = useAppSelector((state: RootState) => state.chatReducer);
-
-  const members = roomMembers?.[room_uuid];
-  const chats = roomChats?.[room_uuid] || [];
-  const totalChats = roomChatsTotalDocuments?.[room_uuid] || 0;
-
-  const member = roomMembers?.[room_uuid]?.find((member) => member.user_uuid == user?.uuid);
-  const [offset, setOffset] = useState(0);
-  const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+
+  const members = roomMembers?.[room_uuid];
+  const memberCount = roomMembersTotalDocuments[room_uuid] || 1;
+  const chats = roomChats?.[room_uuid] || [];
+  const total_members = roomMembersTotalDocuments?.[room_uuid];
+  const totalChats = roomChatsTotalDocuments?.[room_uuid] || 0;
+  const member = roomMembers?.[room_uuid]?.find((member) => member.user_uuid == user?.uuid);
+
+  const [offset, setOffset] = useState(0);
+  const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
+  const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
 
   useEffect(() => {
     dispatch(getRoomMembers({ room_uuid: room_uuid, limit: 0, offset: 0 })).unwrap();
@@ -71,6 +75,18 @@ export default function SpecificRoomChat() {
     }
   }, [room_uuid, dispatch]);
 
+  const fetchRooms = async () => {
+    try {
+      if (members?.length >= total_members) return;
+
+      const newOffset = offset + limit;
+      setOffset(newOffset);
+      await dispatch(getRoomMembers({ room_uuid: room_uuid, limit, offset: newOffset, })).unwrap();
+    } catch (error: any) {
+      enqueueSnackbar(error, { variant: "error" });
+      console.log(error);
+    }
+  };
 
   const fetchMoreData = () => {
     const nextOffset = offset + limit;
@@ -224,14 +240,62 @@ export default function SpecificRoomChat() {
         open={chatDrawerState}
         sx={{
           '& .MuiDrawer-paper': {
-            width: '20%',
+            width: '25%',
             height: '93%',
             marginTop: '3.5%',
-          }
+          },
         }}
       >
         <Box className={styles.rightContainer}>
-          hi i am drawer ok
+          <Box className={styles.topBox}>
+            <Typography variant="h5" className={styles.title}>
+              Members
+            </Typography>
+
+            <Typography variant="h5" className={styles.subTitle}>
+              {memberCount}/{ROOM_MEMBER_LIMIT}
+            </Typography>
+          </Box>
+
+          <Box className={styles.bottomBox}>
+            {members && members.map((member: RoomMember) => {
+              return (
+                <Card
+                  key={member.uuid}
+                  className={styles.card}
+                  elevation={2}
+                >
+                  <CardContent className={styles.cardContent}>
+                    <Image src={member.user.profile_image} width={50} height={50} alt="Profile image not found" className={styles.profileSideImage} />
+                    <FiberManualRecordIcon className={member.user.is_online ? styles.bottomGreenDotSideMessaging : styles.bottomGrayDotSideMessaging} />
+
+                    <Box className={styles.cardBoxContent}>
+                      <Typography className={styles.email}>{member.user.email}</Typography>
+                      <Typography className={styles.role}>{member.role.toUpperCase()}</Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              );
+            })}
+            {Array.from({ length: ROOM_MEMBER_LIMIT - members?.length }).map((_, index) => {
+              const number = index + 1;
+              return (
+                <Card
+                  key={number}
+                  className={styles.card}
+                  elevation={2}
+                >
+                  <CardContent className={styles.cardContent}>
+                    <Avatar alt="join to see you" className={styles.sideAvatar}>+</Avatar>
+
+                    <Box className={styles.cardBoxContent}>
+                      <Typography className={styles.email}>Open Slot</Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </Box>
         </Box >
       </Drawer>
 
