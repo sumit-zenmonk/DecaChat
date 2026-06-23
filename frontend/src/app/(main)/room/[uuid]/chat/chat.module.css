@@ -63,10 +63,10 @@
 
 .topBox {
     width: 100%;
-    height: 10%;
+    height: 8%;
     display: flex;
     justify-content: space-between;
-    padding: 5%;
+    padding: 4%;
     border-bottom: 1px solid rgb(49, 49, 49);
 }
 
@@ -102,7 +102,7 @@
 
 .middleBox {
     width: 100%;
-    height: 80%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -212,16 +212,18 @@
 
 .bottomBox {
     width: 100%;
-    height: 10%;
+    height: 7%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    border: 1px solid rgb(68, 68, 68);
+    border-top: 1px solid rgb(54, 54, 54);
     overflow: scroll;
 }
 
 .joinRoomButton {
-    background: #2F2EBE;
+    width: 88%;
+    background: #252598;
     color: white;
     padding: 1% 3%;
     border-radius: 5px;
