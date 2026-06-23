@@ -1,4 +1,4 @@
-export default function useRoomRouteCheck(pathname: string) {
+export default function getDynamicRoute(pathname: string) {
     // Split the URL into segments: ["", "room", "uuid", "chat"]
     const segments = pathname.split('/');
 

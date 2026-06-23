@@ -9,7 +9,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import useRoomRouteCheck from "@/utils/dyanmic-route.regex";
+import getDynamicRoute from "@/utils/dyanmic-route";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { enqueueSnackbar } from "notistack";
@@ -83,8 +83,8 @@ export default function DashboardComp() {
 
       <Box className={styles.bottomContainer}>
         {
-          useRoomRouteCheck(activePath).uuid && myrooms.filter((room) => room.creator_uuid == user?.uuid) &&
-          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(useRoomRouteCheck(activePath)?.uuid || '')}>
+          getDynamicRoute(activePath).uuid && myrooms.filter((room) => room.creator_uuid == user?.uuid) &&
+          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.uuid || '')}>
             <HighlightOffIcon />
             <Typography className={styles.deleteRoom}>Close Room</Typography>
           </Box>
