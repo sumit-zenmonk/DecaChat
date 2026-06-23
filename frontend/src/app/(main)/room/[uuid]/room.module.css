@@ -60,6 +60,12 @@
     border-radius: 10px;
 }
 
+.divider {
+    margin: 5% 0;
+    font-weight: 500;
+    background: rgb(94, 94, 94);
+}
+
 .viewInfo {
     display: flex;
     flex-direction: column;
