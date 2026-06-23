@@ -25,3 +25,18 @@ p {
   text-overflow: ellipsis;
   word-break: break-all;
 }
+
+/* Target the outlined border globally */
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+/* Optional: Prevent border from reappearing on hover */
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+/* Optional: Prevent border from reappearing when focused */
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}

@@ -175,22 +175,6 @@ export default function SpecificRoomChat() {
         </Box >
 
         <Box className={styles.inputContainer}>
-          <Box className={styles.emojiPickerBox}>
-            {isEmojiPickerOpen && (
-              <EmojiPicker onEmojiClick={onEmojiClick} />
-            )}
-          </Box>
-
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <IconButton
-              className={`${styles.actionButton} ${styles.sendButton}`}
-              size="small"
-              onClick={togglePicker}
-            >
-              <EmojiEmotionsIcon />
-            </IconButton>
-          </Box>
-
           <Box className={styles.inputWrapper}>
             <TextField
               placeholder="Join as Member to Chat"
@@ -207,14 +191,29 @@ export default function SpecificRoomChat() {
                 },
               }}
             />
-          </Box>
 
-          <IconButton
-            className={`${styles.actionButton} ${(message.trim() && message.length <= 2000) ? styles.sendButton : ''}`}
-            onClick={handleSend}
-          >
-            <SendIcon fontSize="small" />
-          </IconButton>
+            <Box className={styles.emojiPickerBox}>
+              {isEmojiPickerOpen && (
+                <EmojiPicker onEmojiClick={onEmojiClick} />
+              )}
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <IconButton
+                className={`${styles.actionButton} ${styles.sendButton}`}
+                size="small"
+                onClick={togglePicker}
+              >
+                <EmojiEmotionsIcon />
+              </IconButton>
+            </Box>
+            <IconButton
+              className={`${styles.actionButton} ${(message.trim() && message.length <= 2000) ? styles.sendButton : ''}`}
+              onClick={handleSend}
+            >
+              <SendIcon fontSize="small" />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
 
