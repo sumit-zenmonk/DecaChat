@@ -27,9 +27,14 @@ export default function Home() {
   const [value, setValue] = useState('active');
 
   useEffect(() => {
-    if (!publicRooms.length || !getJoinedRooms.length) {
-      dispatch(getJoinedRooms({ limit, offset: 0, })).unwrap();
+    if (!publicRooms.length) {
       dispatch(getPublicRooms({ limit, offset: 0, })).unwrap();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!getJoinedRooms.length) {
+      dispatch(getJoinedRooms({ limit, offset: 0, })).unwrap();
     }
   }, []);
 
