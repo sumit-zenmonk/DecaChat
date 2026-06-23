@@ -62,6 +62,12 @@
     font-weight: 700;
     color: #f5eeff;
     background-color: #21009a;
+    transition: all ease .2s;
+}
+
+.AddRoomButton:hover {
+    background-color: #2700b2;
+    transform: translateY(-5%);
 }
 
 .deleteRoom,
