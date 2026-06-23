@@ -159,12 +159,16 @@
 }
 
 .messageContent {
-    max-width: 90%;
+    max-width: 100%;
     padding: 0 2%;
     border-radius: 8px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     position: relative;
     margin-bottom: 2%;
+}
+
+.messageContent:hover .deleteBtn {
+    opacity: 1;
 }
 
 .messageInfo {
@@ -174,8 +178,12 @@
     gap: 0 10px;
 }
 
+.messageTime {
+    font-size: 0.7rem;
+    color: #e5e5ff;
+}
+
 .chatEmail {
-    display: block;
     font-weight: 900;
     font-size: 1rem;
     margin-bottom: 1%;
@@ -185,7 +193,6 @@
 .creatorTag {
     color: #00007b;
     background: #7f81ff;
-    padding: .2%;
     border-radius: 2px;
 }
 
@@ -209,15 +216,6 @@
     position: relative;
 }
 
-.messageTime {
-    font-size: 0.7rem;
-    color: #e5e5ff;
-}
-
-.messageContent:hover .deleteBtn {
-    opacity: 1;
-}
-
 .deleteBtn {
     padding: 2px;
     opacity: 0;
@@ -225,9 +223,11 @@
     position: absolute;
     top: 0;
     right: 10;
+    border: 1px solid rgb(87, 87, 87);
 }
 
 .deleteBtn:hover {
     opacity: 1;
     color: #ef4444;
+    border: 1px solid rgb(164, 164, 164);
 }
