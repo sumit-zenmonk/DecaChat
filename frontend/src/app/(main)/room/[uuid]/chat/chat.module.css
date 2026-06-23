@@ -18,6 +18,7 @@
     padding: 5px 10px;
     background-color: #212121;
     border: 1px solid #2c2c2c;
+    color: #e5e5ff;
 }
 
 .leftContainer {
@@ -115,6 +116,7 @@
     border-radius: 50%;
     background: #1e1e1e;
     border: 1px solid white;
+    color: #e5e5ff;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
 }
 
@@ -209,6 +211,7 @@
 
 .messageTime {
     font-size: 0.7rem;
+    color: #e5e5ff;
 }
 
 .messageContent:hover .deleteBtn {

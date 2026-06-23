@@ -165,6 +165,7 @@
   justify-content: baseline;
   align-items: center;
   gap: 10px;
+  color: #e5e5ff;
 }
 
 .roomFull {
