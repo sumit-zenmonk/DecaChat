@@ -11,7 +11,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { enqueueSnackbar } from "notistack";
-import dynamic from 'next/dynamic';
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { connectUnAuthSocket } from "@/service/socket/socket";
@@ -20,10 +19,8 @@ import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
 import Image from "next/image";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import EmojiPicker from 'emoji-picker-react';
 let unauth_socket: any;
-
-// Dynamically import the EmojiPicker to disable SSR
-const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 export default function SpecificRoomChat() {
   const dispatch = useAppDispatch();
