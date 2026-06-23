@@ -11,20 +11,20 @@ import { GetRoomByUUIDModule } from "./get-room-by-uuid/get-room-by-uuid.module"
     imports: [
         CreateRoomModule,
         GetRoomListingModule,
-        GetRoomByUUIDModule,
         DeleteRoomModule,
         GetPublicRoomListingModule,
         GetRoomJoinedListingModule,
+        GetRoomByUUIDModule,
         RouterModule.register([
             {
                 path: 'room',
                 children: [
                     { path: '', module: CreateRoomModule },
                     { path: '', module: GetRoomListingModule },
-                    { path: '', module: GetRoomByUUIDModule },
                     { path: '', module: DeleteRoomModule },
                     { path: 'join', module: GetRoomJoinedListingModule },
                     { path: 'public', module: GetPublicRoomListingModule },
+                    { path: '', module: GetRoomByUUIDModule },
                 ],
             },
         ]),
