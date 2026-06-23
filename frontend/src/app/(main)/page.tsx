@@ -138,7 +138,7 @@ export default function Home() {
                         {/* <Typography className={styles.description}>{room.description}</Typography> */}
                         <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
                         {
-                          memberCount < ROOM_MEMBER_LIMIT ?
+                          memberCount <= ROOM_MEMBER_LIMIT ?
                             <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography> :
                             <Typography className={styles.roomFull}><DoDisturbIcon />Room Full</Typography>
                         }
@@ -148,9 +148,9 @@ export default function Home() {
                         <Button
                           className={styles.joinButton}
                           onClick={() => handleRoomJoin(room.uuid)}
-                          disabled={!!isJoined}
+                          disabled={!!isJoined || memberCount >= ROOM_MEMBER_LIMIT}
                         >
-                          {!isJoined ? 'Join Room' : 'Already Joined'}
+                          {!isJoined ? (memberCount >= ROOM_MEMBER_LIMIT ? 'Room Full' : 'Join Room') : 'Already Joined'}
                         </Button>
 
                         <Button

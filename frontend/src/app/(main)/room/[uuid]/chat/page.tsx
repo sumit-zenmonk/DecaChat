@@ -128,7 +128,7 @@ export default function SpecificRoomChat() {
 
   const handleRoomJoin = async () => {
     try {
-      if (members?.length || 1 >= ROOM_MEMBER_LIMIT) {
+      if (members?.length >= ROOM_MEMBER_LIMIT) {
         enqueueSnackbar("Max Limit Exceeded", { variant: "error" });
         return;
       }
@@ -299,10 +299,15 @@ export default function SpecificRoomChat() {
           </Box>
 
           <Box className={styles.bottomBox}>
-            <Button className={styles.joinRoomButton} onClick={() => handleRoomJoin()}>
-              <PersonAddAlt1Icon />
-              Join as Member
-            </Button>
+            {
+              !member ?
+                <Button className={styles.joinRoomButton} onClick={() => handleRoomJoin()}>
+                  <PersonAddAlt1Icon />
+                  Join as Member
+                </Button>
+                :
+                <></>
+            }
           </Box>
         </Box >
       </Drawer>
