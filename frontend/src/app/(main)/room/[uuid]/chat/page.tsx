@@ -136,7 +136,7 @@ export default function SpecificRoomChat() {
           >
             <Box className={styles.roomChatWrapper}>
               {chats.map((chat: RoomChat) => {
-                const member = members.find((member) => member.user_uuid == chat.member?.user_uuid);
+                const member = members?.find((member) => member.user_uuid == chat.member?.user_uuid);
 
                 return (
                   <Box key={chat.uuid} className={styles.chatMessage}>

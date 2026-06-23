@@ -143,7 +143,7 @@ export default function Home() {
 
                         <Button
                           className={styles.viewButton}
-                          onClick={() => router.push(`/room/${room.uuid}`)}
+                          onClick={() => router.push(`/room/${room.uuid}/chat`)}
                         >
                           View Room
                         </Button>
