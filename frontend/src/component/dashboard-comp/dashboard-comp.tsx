@@ -23,7 +23,7 @@ export default function DashboardComp() {
   const [activePath, setActivePath] = useState(shareUrl);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { myrooms } = useAppSelector((state: RootState) => state.roomReducer);
+  const { publicRooms } = useAppSelector((state: RootState) => state.roomReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
 
   const handleActivePath = (path: string) => {
@@ -83,7 +83,8 @@ export default function DashboardComp() {
 
       <Box className={styles.bottomContainer}>
         {
-          getDynamicRoute(activePath).uuid && myrooms.filter((room) => room.creator_uuid == user?.uuid) &&
+          getDynamicRoute(activePath).uuid &&
+          publicRooms.find((room) => room.creator_uuid == user?.uuid) &&
           <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.uuid || '')}>
             <HighlightOffIcon />
             <Typography className={styles.deleteRoom}>Close Room</Typography>
