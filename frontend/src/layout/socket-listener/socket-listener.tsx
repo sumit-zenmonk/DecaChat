@@ -60,7 +60,6 @@ export const LayoutSocketListener = () => {
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_CREATED);
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_DELETED);
                 auth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                disconnectAuthSocket();
             };
         }
 
@@ -72,7 +71,6 @@ export const LayoutSocketListener = () => {
 
             return () => {
                 unauth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                disconnectAuthSocket();
             };
         }
     }, [dispatch]);
