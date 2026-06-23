@@ -12,6 +12,7 @@ import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined
 import { useState } from "react"
 import CreateRoomModal from "../create-room-modal/create-room-modal"
 import CircleIcon from '@mui/icons-material/Circle';
+import { togglechatDrawerState } from "@/redux/feature/common/common-slice"
 
 export default function HeaderComp() {
     const router = useRouter()
@@ -47,6 +48,10 @@ export default function HeaderComp() {
         setOpenCreateRoomModal(true);
     };
 
+    const handleDrawerToggle = () => {
+        dispatch(togglechatDrawerState());
+    }
+
     return (
         <Box className={styles.container}>
             <Box className={styles.leftContainer}>
@@ -66,7 +71,7 @@ export default function HeaderComp() {
                     <Button className={styles.createRoomButton} onClick={handleAddRoomOpen}>Create New Room</Button>
                 }
 
-                <IconButton className={styles.iconButton}><PeopleOutlineOutlinedIcon /></IconButton>
+                <IconButton className={styles.iconButton} onClick={handleDrawerToggle}><PeopleOutlineOutlinedIcon /></IconButton>
                 <IconButton className={styles.iconButton}><NotificationsNoneOutlinedIcon /></IconButton>
 
                 {user ? (

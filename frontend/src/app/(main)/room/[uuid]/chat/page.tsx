@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton, Drawer } from "@mui/material";
 import styles from "./chat.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
@@ -27,6 +27,7 @@ export default function SpecificRoomChat() {
   const { uuid } = useParams();
   const room_uuid = String(uuid);
   const { roomMembers } = useAppSelector((state: RootState) => state.roomMemberReducer);
+  const { chatDrawerState } = useAppSelector((state: RootState) => state.commonReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
   const { roomChats, roomChatsTotalDocuments, loading } = useAppSelector((state: RootState) => state.chatReducer);
 
@@ -217,8 +218,16 @@ export default function SpecificRoomChat() {
         </Box>
       </Box>
 
-      <Box className={styles.rightContainer}>
-      </Box >
+      <Drawer
+        variant="persistent"
+        anchor="right"
+        open={chatDrawerState}
+        className={styles.rightContainer}
+      >
+        <Box >
+          hi i am drawer ok
+        </Box >
+      </Drawer>
 
       <Typography className={styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
     </Box >
