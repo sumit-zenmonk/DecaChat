@@ -258,6 +258,7 @@ export default function SpecificRoomChat() {
             width: '20%',
             height: '93%',
             marginTop: '3.5%',
+            bgcolor:'transparent'
           },
         }}
       >
