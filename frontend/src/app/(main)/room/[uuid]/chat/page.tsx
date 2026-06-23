@@ -160,7 +160,7 @@ export default function SpecificRoomChat() {
                   <Box key={chat.uuid} className={styles.chatMessage}>
                     <Box className={styles.avatarBox}>
                       <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
-                      <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} />
+                      {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}
                     </Box>
 
                     <Box className={styles.messageContent}>
