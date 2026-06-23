@@ -23,6 +23,7 @@ export default function Home() {
   const { roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const [offset, setOffset] = useState(Number(process.env.NEXT_PUBLIC_PAGE_OFFSET) || 0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
+  const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
   const [value, setValue] = useState('active');
 
   useEffect(() => {
@@ -126,7 +127,7 @@ export default function Home() {
                         {/* <Typography className={styles.description}>{room.description}</Typography> */}
                         <Typography className={styles.memberCount}><VisibilityOutlinedIcon />{viewerCounts[room.uuid] || 0} viewers</Typography>
                         {
-                          memberCount < Number(process.env.ROOM_MEMBER_LIMIT) || 10 ?
+                          memberCount < ROOM_MEMBER_LIMIT ?
                             <Typography className={styles.memberCount}><GroupsIcon />{memberCount} members</Typography> :
                             <Typography className={styles.roomFull}><DoDisturbIcon />Room Full</Typography>
                         }
@@ -143,7 +144,7 @@ export default function Home() {
 
                         <Button
                           className={styles.viewButton}
-                          onClick={() => router.push(`/room/${room.uuid}/chat`)}
+                          onClick={() => router.push(`/room/${room.uuid}`)}
                         >
                           View Room
                         </Button>
