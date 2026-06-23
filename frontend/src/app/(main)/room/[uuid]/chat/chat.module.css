@@ -21,9 +21,17 @@
     color: #e5e5ff;
 }
 
+.leftContainerDrawerOpen {
+    width: 78%;
+    height: 92%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 5%;
+}
+
 .leftContainer {
-    min-width: 100%;
-    max-width: 100%;
+    width: 100%;
     height: 92%;
     display: flex;
     flex-direction: column;
@@ -32,12 +40,13 @@
 }
 
 .rightContainer {
-    width: 30%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: #1e1e1e;
+    color: rgb(163, 163, 163);
 }
 
 .scrollWrapper {

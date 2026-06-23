@@ -124,7 +124,7 @@ export default function SpecificRoomChat() {
 
   return (
     <Box className={styles.container}>
-      <Box className={styles.leftContainer}>
+      <Box className={chatDrawerState ? styles.leftContainerDrawerOpen : styles.leftContainer}>
         <Box id="scrollableDiv" className={styles.scrollWrapper}>
           <InfiniteScroll
             dataLength={chats.length}
@@ -222,9 +222,15 @@ export default function SpecificRoomChat() {
         variant="persistent"
         anchor="right"
         open={chatDrawerState}
-        className={styles.rightContainer}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: '20%',
+            height: '93%',
+            marginTop: '3.5%',
+          }
+        }}
       >
-        <Box >
+        <Box className={styles.rightContainer}>
           hi i am drawer ok
         </Box >
       </Drawer>
