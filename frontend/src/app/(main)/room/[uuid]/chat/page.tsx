@@ -117,10 +117,10 @@ export default function SpecificRoomChat() {
     }
   };
 
-  const handleKeyPress = (e: any) => {
+  const handleKeyPress = async (e: any) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      await handleSend();
     }
   };
 
@@ -134,7 +134,7 @@ export default function SpecificRoomChat() {
             hasMore={chats.length < totalChats}
             loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
             inverse={true}
-            // endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
+            endMessage={<Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
             scrollableTarget="scrollableDiv"
           >
             <Box className={styles.roomChatWrapper}>
