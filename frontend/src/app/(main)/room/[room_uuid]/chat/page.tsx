@@ -22,6 +22,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import EmojiPicker from 'emoji-picker-react';
 import { RoomMember } from "@/redux/feature/member/member-type";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import { RoomMemberRole } from "@/redux/feature/member/room-member.enum";
 let unauth_socket: any;
 
 export default function SpecificRoomChat() {
@@ -40,7 +41,8 @@ export default function SpecificRoomChat() {
   const chats = roomChats?.[curr_room_uuid] || [];
   const total_members = roomMembersTotalDocuments?.[curr_room_uuid];
   const totalChats = roomChatsTotalDocuments?.[curr_room_uuid] || 0;
-  const member = roomMembers?.[curr_room_uuid]?.find((member) => member.user_uuid == user?.uuid);
+  const member = members?.find((member) => member.user_uuid == user?.uuid);
+  const creator = members?.find((member) => member.role == RoomMemberRole.CREATOR);
 
   const [offset, setOffset] = useState(0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
@@ -180,7 +182,7 @@ export default function SpecificRoomChat() {
                     <Box className={styles.messageContent}>
                       <Box className={styles.messageInfo}>
                         <Typography variant="caption" className={styles.chatEmail}>
-                          {member ? member.user.email : 'N/A'}
+                          {member ? (member.user.name || member.user.email) : 'N/A'}
                         </Typography>
                         <Typography variant="caption" className={styles.messageTime}>
                           {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -286,7 +288,7 @@ export default function SpecificRoomChat() {
                     <FiberManualRecordIcon className={member.user.is_online ? styles.bottomGreenDotSideMessaging : styles.bottomGrayDotSideMessaging} />
 
                     <Box className={styles.cardBoxContent}>
-                      <Typography className={styles.email}>{member.user.email}</Typography>
+                      <Typography className={styles.email}>{member.user.name || member.user.email}</Typography>
                       <Typography className={styles.role}>{member.role.toUpperCase()}</Typography>
                     </Box>
                   </CardContent>
@@ -327,7 +329,7 @@ export default function SpecificRoomChat() {
         </Box >
       </Drawer>
 
-      <Typography className={chatDrawerState ? styles.middleTitleDrawerOpen : styles.middleTitle}>Room created by {member?.room.creator.email || 'N/A'} • Welcome to DecaChat</Typography>
+      <Typography className={chatDrawerState ? styles.middleTitleDrawerOpen : styles.middleTitle}>Room created by {creator?.user.name || creator?.user.email || 'N/A'} • Welcome to DecaChat</Typography>
     </Box >
   );
 }

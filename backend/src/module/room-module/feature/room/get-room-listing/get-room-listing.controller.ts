@@ -7,10 +7,10 @@ export class GetRoomListingController {
     constructor(private readonly getRoomListingService: GetRoomListingService) { }
 
     @Get()
-    async getRoomListing(@Req() req: Request, @Query('offset') offset?: number, @Query('limit') limit?: number) {
+    async getRoomListing(@Req() req: Request, @Query('offset') offset?: number, @Query('limit') limit?: number, @Query('search') search?: string) {
         const curr_limit = limit ?? Number(process.env.page_limit) ?? 10;
         const curr_offset = offset ?? Number(process.env.page_offset) ?? 0;
-        const { data, totalDocuments } = await this.getRoomListingService.handle(req, offset, limit);
+        const { data, totalDocuments } = await this.getRoomListingService.handle(req, offset, limit, search);
 
         return {
             data: data,

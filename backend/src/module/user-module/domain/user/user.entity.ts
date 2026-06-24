@@ -8,6 +8,9 @@ export class UserEntity {
     @Column({ type: "varchar", nullable: false, unique: true })
     email: string;
 
+    @Column({ type: "varchar", nullable: true })
+    name: string;
+
     @CreateDateColumn()
     created_at: Date;
 

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { DataSource, Not, Repository } from "typeorm";
+import { DataSource, Not, Repository, ILike } from "typeorm";
 import { InjectDataSource } from "@nestjs/typeorm";
 import { RoomEntity } from "../../domain/room/room.entity";
 import { UserEntity } from "../../domain/user/user.entity";
@@ -56,11 +56,16 @@ export class RoomRepository extends Repository<RoomEntity> {
         return room;
     }
 
-    async getRoomListing(user: Partial<UserEntity>, offset?: number, limit?: number) {
+    async getRoomListing(user: Partial<UserEntity>, offset?: number, limit?: number, search?: string) {
+        const whereClause = search
+            ? [
+                  { creator_uuid: user.uuid, name: ILike(`%${search}%`) },
+                  { creator_uuid: user.uuid, description: ILike(`%${search}%`) },
+              ]
+            : { creator_uuid: user.uuid };
+
         const [data, total] = await this.findAndCount({
-            where: {
-                creator_uuid: user.uuid
-            },
+            where: whereClause,
             relations: {
                 creator: true,
             },
@@ -74,11 +79,16 @@ export class RoomRepository extends Repository<RoomEntity> {
         return { data, total };
     }
 
-    async getRoomJoinedListing(user: Partial<UserEntity>, offset?: number, limit?: number) {
+    async getRoomJoinedListing(user: Partial<UserEntity>, offset?: number, limit?: number, search?: string) {
+        const whereClause = search
+            ? [
+                  { members: { user_uuid: user.uuid }, name: ILike(`%${search}%`) },
+                  { members: { user_uuid: user.uuid }, description: ILike(`%${search}%`) },
+              ]
+            : { members: { user_uuid: user.uuid } };
+
         const [data, total] = await this.findAndCount({
-            where: {
-                members: { user_uuid: user.uuid }
-            },
+            where: whereClause,
             relations: {
                 creator: true,
                 members: true,
@@ -93,8 +103,16 @@ export class RoomRepository extends Repository<RoomEntity> {
         return { data, total };
     }
 
-    async getPublicRoomListing(offset?: number, limit?: number) {
+    async getPublicRoomListing(offset?: number, limit?: number, search?: string) {
+        const whereClause = search
+            ? [
+                  { name: ILike(`%${search}%`) },
+                  { description: ILike(`%${search}%`) },
+              ]
+            : undefined;
+
         const [data, total] = await this.findAndCount({
+            where: whereClause,
             relations: {
                 creator: true,
             },

@@ -16,6 +16,7 @@ export class LoginUserController {
             user: {
                 email: isUserExists.email,
                 uuid: isUserExists.uuid,
+                name: isUserExists.name,
             }
         }
     }

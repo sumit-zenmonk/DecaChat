@@ -7,8 +7,8 @@ export class GetPublicRoomListingService {
         private readonly repository: RoomRepository,
     ) { }
 
-    async handle(offset?: number, limit?: number) {
-        const { data, total } = await this.repository.getPublicRoomListing(offset, limit);
+    async handle(offset?: number, limit?: number, search?: string) {
+        const { data, total } = await this.repository.getPublicRoomListing(offset, limit, search);
 
         return {
             data: data,

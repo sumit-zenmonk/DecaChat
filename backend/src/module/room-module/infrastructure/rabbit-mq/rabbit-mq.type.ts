@@ -2,6 +2,8 @@
 export interface UserRegisteredMQEventPayload {
     uuid: string;
     email: string;
+    name?: string;
+    profile_image?: string;
     created_at?: Date;
     updated_at?: Date;
     deleted_at?: Date;

@@ -11,6 +11,9 @@ export class UserEntity {
     email: string;
 
     @Column({ type: "varchar", nullable: true })
+    name: string;
+
+    @Column({ type: "varchar", nullable: true })
     profile_image: string;
 
     @Column({ type: "boolean", default: false })

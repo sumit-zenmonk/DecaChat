@@ -42,7 +42,7 @@ export const createRoom = createAsyncThunk<
 
 export const getMyRooms = createAsyncThunk<
     { data: Room[], totalDocuments: number, message: string, limit: number, offset: number },
-    { limit?: number; offset?: number },
+    { limit?: number; offset?: number; search?: string },
     { state: RootState }
 >(
     "room/your",
@@ -50,6 +50,7 @@ export const getMyRooms = createAsyncThunk<
         {
             limit = LIMIT,
             offset = OFFSET,
+            search = "",
         },
         { getState, rejectWithValue }
     ) => {
@@ -57,7 +58,7 @@ export const getMyRooms = createAsyncThunk<
             const token = getState().authReducer.token || "";
 
             const res = await fetch(
-                `${BACKEND_URL}/api/v1/room?limit=${limit}&offset=${offset}`,
+                `${BACKEND_URL}/api/v1/room?limit=${limit}&offset=${offset}&search=${encodeURIComponent(search)}`,
                 {
                     method: "GET",
                     headers: {
@@ -81,7 +82,7 @@ export const getMyRooms = createAsyncThunk<
 
 export const getPublicRooms = createAsyncThunk<
     { data: Room[], totalDocuments: number, message: string, limit: number, offset: number },
-    { limit?: number; offset?: number },
+    { limit?: number; offset?: number; search?: string },
     { state: RootState }
 >(
     "room/public",
@@ -89,13 +90,14 @@ export const getPublicRooms = createAsyncThunk<
         {
             limit = LIMIT,
             offset = OFFSET,
+            search = "",
         },
         { rejectWithValue }
     ) => {
         try {
 
             const res = await fetch(
-                `${BACKEND_URL}/api/v1/room/public?limit=${limit}&offset=${offset}`,
+                `${BACKEND_URL}/api/v1/room/public?limit=${limit}&offset=${offset}&search=${encodeURIComponent(search)}`,
                 {
                     method: "GET",
                     headers: {
@@ -118,7 +120,7 @@ export const getPublicRooms = createAsyncThunk<
 
 export const getJoinedRooms = createAsyncThunk<
     { data: Room[], totalDocuments: number, message: string, limit: number, offset: number },
-    { limit?: number; offset?: number },
+    { limit?: number; offset?: number; search?: string },
     { state: RootState }
 >(
     "room/joined",
@@ -126,6 +128,7 @@ export const getJoinedRooms = createAsyncThunk<
         {
             limit = LIMIT,
             offset = OFFSET,
+            search = "",
         },
         { getState, rejectWithValue }
     ) => {
@@ -133,7 +136,7 @@ export const getJoinedRooms = createAsyncThunk<
             const token = getState().authReducer.token || "";
 
             const res = await fetch(
-                `${BACKEND_URL}/api/v1/room/join?limit=${limit}&offset=${offset}`,
+                `${BACKEND_URL}/api/v1/room/join?limit=${limit}&offset=${offset}&search=${encodeURIComponent(search)}`,
                 {
                     method: "GET",
                     headers: {

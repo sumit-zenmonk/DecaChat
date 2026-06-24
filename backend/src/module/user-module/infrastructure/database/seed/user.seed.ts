@@ -35,6 +35,7 @@ async function create() {
             const created_user = await queryRunner.manager.save(UserEntity, {
                 uuid: user.uuid,
                 email: user.email,// faker.internet.email(),
+                name: faker.person.fullName(),
             });
 
             console.log(created_user);

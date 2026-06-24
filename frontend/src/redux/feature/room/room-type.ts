@@ -12,6 +12,8 @@ export interface Room {
 export interface User {
     uuid: string;
     email: string;
+    name: string | null;
+    profile_image: string | null;
     created_at: Date,
     updated_at: Date,
     deleted_at: Date,

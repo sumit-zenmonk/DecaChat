@@ -6,10 +6,10 @@ export class GetPublicRoomListingController {
     constructor(private readonly getPublicRoomListingService: GetPublicRoomListingService) { }
 
     @Get()
-    async getPublicRoomListing(@Query('offset') offset?: number, @Query('limit') limit?: number) {
+    async getPublicRoomListing(@Query('offset') offset?: number, @Query('limit') limit?: number, @Query('search') search?: string) {
         const curr_limit = limit ?? Number(process.env.page_limit) ?? 10;
         const curr_offset = offset ?? Number(process.env.page_offset) ?? 0;
-        const { data, totalDocuments } = await this.getPublicRoomListingService.handle(offset, limit);
+        const { data, totalDocuments } = await this.getPublicRoomListingService.handle(offset, limit, search);
 
         return {
             data: data,

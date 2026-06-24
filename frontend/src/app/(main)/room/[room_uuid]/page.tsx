@@ -44,7 +44,7 @@ export default function SpecificRoom() {
   const shareUrl = `${BACKEND_URL}${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
   useEffect(() => {
-    if (!getRoomMembers.length) {
+    if (!roomMembers[curr_room_uuid]?.length) {
       dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
     }
   }, []);
@@ -148,6 +148,7 @@ export default function SpecificRoom() {
                         <FiberManualRecordIcon className={member.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} />
 
                         <Box className={styles.cardBoxContent}>
+                          <Typography className={styles.email}>Name : {member.user.name || 'N/A'}</Typography>
                           <Typography className={styles.email}>Email : {member.user.email}</Typography>
                           <Typography className={styles.lastMessage}>Last Message: {lastChat ? getChatTimeFormat(lastChat.created_at) : 'N/A'}</Typography>
                         </Box>

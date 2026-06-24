@@ -26,18 +26,22 @@ export default function Home() {
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
   const [value, setValue] = useState('active');
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    if (!publicRooms.length) {
-      dispatch(getPublicRooms({ limit, offset: 0, })).unwrap();
-    }
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      setOffset(0);
+      dispatch(getPublicRooms({ limit, offset: 0, search: searchQuery })).unwrap();
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
 
   useEffect(() => {
-    if (!getJoinedRooms.length) {
+    if (!joinedRooms.length && user) {
       dispatch(getJoinedRooms({ limit, offset: 0, })).unwrap();
     }
-  }, []);
+  }, [user]);
 
   const fetchRooms = async () => {
     try {
@@ -45,8 +49,10 @@ export default function Home() {
 
       const newOffset = offset + limit;
       setOffset(newOffset);
-      await dispatch(getPublicRooms({ limit, offset: newOffset, })).unwrap();
-      await dispatch(getJoinedRooms({ limit, offset: newOffset, })).unwrap();
+      await dispatch(getPublicRooms({ limit, offset: newOffset, search: searchQuery })).unwrap();
+      if (user) {
+        await dispatch(getJoinedRooms({ limit, offset: newOffset, })).unwrap();
+      }
     } catch (error: any) {
       enqueueSnackbar(error, { variant: "error" });
       console.log(error);
@@ -75,6 +81,27 @@ export default function Home() {
     setValue(newValue);
   };
 
+  const getFilteredRooms = () => {
+    if (!publicRooms) return [];
+    switch (value) {
+      case 'active':
+        return publicRooms.filter((room) => {
+          const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
+          return memberCount < ROOM_MEMBER_LIMIT;
+        });
+      case 'full':
+        return publicRooms.filter((room) => {
+          const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
+          return memberCount >= ROOM_MEMBER_LIMIT;
+        });
+      case 'newest':
+      default:
+        return publicRooms;
+    }
+  };
+
+  const filteredRooms = getFilteredRooms();
+
   return (
     <Box className={styles.container}>
       <Box className={styles.topContainer}>
@@ -91,9 +118,11 @@ export default function Home() {
         <Box className={styles.field}>
           <TextField
             placeholder="Search rooms, topics, or creators..."
-            type="email"
+            type="text"
             fullWidth
             className={styles.textFieldWrapper}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             slotProps={{
               input: {
                 className: (styles.textField),
@@ -119,7 +148,7 @@ export default function Home() {
 
         <Box id="scrollableDiv" className={styles.scrollWrapper}>
           <InfiniteScroll
-            dataLength={publicRooms?.length || 0}
+            dataLength={filteredRooms?.length || 0}
             next={fetchRooms}
             hasMore={publicRooms?.length < publicRoomsTotalDocuments}
             loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
@@ -127,7 +156,7 @@ export default function Home() {
             scrollableTarget="scrollableDiv"
           >
             <Box className={styles.roomWrapper}>
-              {publicRooms && publicRooms.map((room: Room) => {
+              {filteredRooms && filteredRooms.map((room: Room) => {
                 const isJoined = joinedRooms ? joinedRooms.find((joinRoom: Room) => joinRoom.uuid === room.uuid) : null;
                 const memberCount = roomMembersTotalDocuments[room.uuid] || 1;
 

@@ -8,8 +8,8 @@ export class GetRoomJoinedListingService {
         private readonly repository: RoomRepository,
     ) { }
 
-    async handle(req: Request, offset?: number, limit?: number) {
-        const { data, total } = await this.repository.getRoomJoinedListing(req.user, offset, limit);
+    async handle(req: Request, offset?: number, limit?: number, search?: string) {
+        const { data, total } = await this.repository.getRoomJoinedListing(req.user, offset, limit, search);
 
         return {
             data: data,

@@ -14,6 +14,7 @@ export interface Room {
 export interface User {
     uuid: string;
     email: string;
+    name: string | null;
     is_online: boolean;
     profile_image: string;
     created_at: string;

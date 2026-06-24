@@ -5,6 +5,7 @@ import { UserRepository } from "src/module/user-module/infrastructure/repository
 import { JwtHelperService } from "src/module/user-module/infrastructure/services/jwt.service";
 import { OutboxRepository } from "src/module/user-module/infrastructure/repository/outbox.repository";
 import { UserPublishEventEnum } from "src/module/chat-module/domain/user/user.event";
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class LoginUserService {
@@ -20,7 +21,10 @@ export class LoginUserService {
         //check if already exists using this email
         let isUserExists = await this.userRepository.findByEmail(body.email);
         if (!isUserExists) {
-            const RegisteredUser = await this.userRepository.register(body);
+            const RegisteredUser = await this.userRepository.register({
+                ...body,
+                name: faker.person.fullName(),
+            });
             await this.outboxRepository.createOutboxEntry({
                 exchange_name: this.USER_EXCHANGE,
                 routing_key: '',
