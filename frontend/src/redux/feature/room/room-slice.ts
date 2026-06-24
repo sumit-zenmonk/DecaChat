@@ -69,6 +69,12 @@ const roomSlice = createSlice({
             .addCase(deleteRoom.fulfilled, (state, action) => {
                 state.myrooms = state.myrooms.filter((room) => room.uuid !== action.payload.uuid);
                 state.myRoomsTotalDocuments -= 1;
+
+                state.publicRooms = state.publicRooms.filter((room) => room.uuid !== action.payload.uuid);
+                state.publicRoomsTotalDocuments -= 1;
+
+                state.joinedRooms = state.joinedRooms.filter((room) => room.uuid !== action.payload.uuid);
+                state.joinedRoomsTotalDocuments -= 1;
             })
             .addCase(deleteRoomMember.fulfilled, (state, action) => {
                 state.joinedRooms = state.joinedRooms.filter((room) => room.uuid !== action.payload.room_uuid);
