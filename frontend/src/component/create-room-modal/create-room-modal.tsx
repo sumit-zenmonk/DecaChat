@@ -27,8 +27,8 @@ export default function CreateRoomModal({ isOpen, onClose }: RoomModalProps) {
     } = useForm<CreateRoomSchemaSchemaType>({
         resolver: zodResolver(CreateRoomSchema),
         defaultValues: {
-            description: "",
-            name: ""
+            description: "Make your space better for every member.........",
+            name: "Your Space"
         },
     });
 

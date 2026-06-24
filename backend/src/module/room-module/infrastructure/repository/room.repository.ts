@@ -59,9 +59,11 @@ export class RoomRepository extends Repository<RoomEntity> {
     async getRoomListing(user: Partial<UserEntity>, offset?: number, limit?: number, search?: string) {
         const whereClause = search
             ? [
-                  { creator_uuid: user.uuid, name: ILike(`%${search}%`) },
-                  { creator_uuid: user.uuid, description: ILike(`%${search}%`) },
-              ]
+                { creator_uuid: user.uuid, name: ILike(`%${search}%`) },
+                { creator_uuid: user.uuid, description: ILike(`%${search}%`) },
+                { members: { user_uuid: user.uuid }, creator: { name: ILike(`%${search}%`) } },
+                { members: { user_uuid: user.uuid }, creator: { email: ILike(`%${search}%`) } },
+            ]
             : { creator_uuid: user.uuid };
 
         const [data, total] = await this.findAndCount({
@@ -82,9 +84,11 @@ export class RoomRepository extends Repository<RoomEntity> {
     async getRoomJoinedListing(user: Partial<UserEntity>, offset?: number, limit?: number, search?: string) {
         const whereClause = search
             ? [
-                  { members: { user_uuid: user.uuid }, name: ILike(`%${search}%`) },
-                  { members: { user_uuid: user.uuid }, description: ILike(`%${search}%`) },
-              ]
+                { members: { user_uuid: user.uuid }, name: ILike(`%${search}%`) },
+                { members: { user_uuid: user.uuid }, description: ILike(`%${search}%`) },
+                { members: { user_uuid: user.uuid }, creator: { name: ILike(`%${search}%`) } },
+                { members: { user_uuid: user.uuid }, creator: { email: ILike(`%${search}%`) } },
+            ]
             : { members: { user_uuid: user.uuid } };
 
         const [data, total] = await this.findAndCount({
@@ -106,9 +110,11 @@ export class RoomRepository extends Repository<RoomEntity> {
     async getPublicRoomListing(offset?: number, limit?: number, search?: string) {
         const whereClause = search
             ? [
-                  { name: ILike(`%${search}%`) },
-                  { description: ILike(`%${search}%`) },
-              ]
+                { name: ILike(`%${search}%`) },
+                { description: ILike(`%${search}%`) },
+                { creator: { name: ILike(`%${search}%`) } },
+                { creator: { email: ILike(`%${search}%`) } },
+            ]
             : undefined;
 
         const [data, total] = await this.findAndCount({
