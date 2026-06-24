@@ -8,7 +8,6 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
 
 ChartJS.register(
     CategoryScale,
@@ -51,19 +50,10 @@ export const options = {
     },
 };
 
-const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+interface BarChartProps {
+    data: any;
+}
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Message Velocity',
-            data: labels.map(() => faker.number.int({ min: 0, max: 100 })),
-            backgroundColor: ['#A0A3FF', '#C0C1FF'],
-        }
-    ],
-};
-
-export function BarChartComp() {
+export function BarChartComp({ data }: BarChartProps) {
     return <Bar options={options} data={data} />;
 }

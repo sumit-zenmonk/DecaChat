@@ -2,10 +2,11 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { RoomChatState } from "./chat-type";
-import { createRoomChat, deleteRoomChat, getRoomChats } from "./chat-action";
+import { createRoomChat, deleteRoomChat, getRoomChats, getRoomChatsAnalytics } from "./chat-action";
 
 const initialState: RoomChatState = {
     roomChats: {},
+    roomChatAnalytic: {},
     roomChatsTotalDocuments: {},
     loading: false,
     error: null,
@@ -83,6 +84,19 @@ const roomSlice = createSlice({
             .addCase(deleteRoomChat.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+            })
+            .addCase(getRoomChatsAnalytics.fulfilled, (state, action) => {
+                const { data, room_uuid } = action.payload;
+                state.loading = false;
+                state.error = null;
+                state.roomChatAnalytic[room_uuid] = data;
+            })
+            .addCase(getRoomChatsAnalytics.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(getRoomChatsAnalytics.pending, (state) => {
+                state.loading = true;
             })
     },
 });

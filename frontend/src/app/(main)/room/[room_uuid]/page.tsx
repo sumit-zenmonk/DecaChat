@@ -19,12 +19,13 @@ import Image from "next/image";
 import { getChatTimeFormat } from "@/utils/time-format";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { BarChartComp } from "@/component/bar-chart-comp/bar-chart-comp";
+import { getRoomChatsAnalytics } from "@/redux/feature/chat/chat-action";
 
 export default function SpecificRoom() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isLinkOpen, setIsLinkOpen] = useState<boolean>(false);
-  const { roomChats } = useAppSelector((state: RootState) => state.chatReducer);
+  const { roomChats, roomChatAnalytic } = useAppSelector((state: RootState) => state.chatReducer);
   const { viewerCounts } = useAppSelector((state: RootState) => state.roomReducer);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
 
@@ -46,6 +47,7 @@ export default function SpecificRoom() {
   useEffect(() => {
     if (!roomMembers[curr_room_uuid]?.length) {
       dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
+      dispatch(getRoomChatsAnalytics({ room_uuid: curr_room_uuid })).unwrap();
     }
   }, []);
 
@@ -60,6 +62,24 @@ export default function SpecificRoom() {
       enqueueSnackbar(error, { variant: "error" });
       console.log(error);
     }
+  };
+
+
+  const labels = roomChatAnalytic[curr_room_uuid]?.map(item => {
+    const dateObj = new Date(item.date);
+    // Format to a readable string, e.g., "Jun 24"
+    return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  });
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Message Velocity',
+        data: roomChatAnalytic[curr_room_uuid]?.map(item => item.count) || 0,
+        backgroundColor: ['#A0A3FF', '#C0C1FF'],
+      },
+    ],
   };
 
   return (
@@ -174,7 +194,7 @@ export default function SpecificRoom() {
             </Typography>
 
             <Box className={styles.manageActivityChartComp}>
-              <BarChartComp />
+              <BarChartComp data={chartData} />
             </Box>
           </Box>
         </Box>

@@ -20,6 +20,11 @@ export interface RoomChat {
     };
 }
 
+export interface RoomChatAnalytic {
+    date: string,
+    count: number
+}
+
 export interface RoomChatCreatePayload {
     member_uuid: string;
     room_uuid: string;
@@ -29,6 +34,7 @@ export interface RoomChatCreatePayload {
 
 export interface RoomChatState {
     roomChats: Record<string, RoomChat[]>;
+    roomChatAnalytic: Record<string, RoomChatAnalytic[]>;
     roomChatsTotalDocuments: Record<string, number>;
     loading: boolean;
     error: string | null;

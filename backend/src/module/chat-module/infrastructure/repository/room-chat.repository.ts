@@ -49,6 +49,21 @@ export class RoomChatRepository extends Repository<RoomChatEntity> {
         return { data, total };
     }
 
+    async getRoomChatWeeklyAnalytics(room_uuid: string, startOfWeek: Date, endOfWeek: Date) {
+        const result = await this
+            .createQueryBuilder('chat')
+            .select('DATE(chat.created_at)', 'date')
+            .addSelect('COUNT(chat.uuid)', 'count')
+            .where('chat.room_uuid = :room_uuid', { room_uuid })
+            .andWhere('chat.created_at >= :startOfWeek', { startOfWeek })
+            .andWhere('chat.created_at < :endOfWeek', { endOfWeek })
+            .groupBy('DATE(chat.created_at)')
+            .orderBy('date', 'ASC')
+            .getRawMany();
+
+        return result;
+    }
+
     async deleteRoomChat(uuid: string) {
         await this.softDelete(uuid);
         return;

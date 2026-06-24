@@ -78,6 +78,42 @@ export const getRoomChats = createAsyncThunk<
     }
 );
 
+export const getRoomChatsAnalytics = createAsyncThunk<
+    { data: any, room_uuid: string, message: string },
+    { room_uuid: string },
+    { state: RootState }
+>(
+    "room/chats/analytics",
+    async (
+        {
+            room_uuid,
+        },
+        { rejectWithValue }
+    ) => {
+        try {
+
+            const res = await fetch(
+                `${BACKEND_URL}/api/v1/room/chat/analytics/${room_uuid}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const result = await res.json();
+            if (!res.ok) {
+                throw new Error(result.message);
+            }
+
+            return { ...result, room_uuid: room_uuid };
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 export const deleteRoomChat = createAsyncThunk<
     { message: string, room_uuid: string, chat_uuid: string, user_uuid: string },
     { chat_uuid: string, room_uuid: string },
