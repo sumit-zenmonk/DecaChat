@@ -38,9 +38,9 @@ export default function Home() {
     }, [searchQuery]);
 
     useEffect(() => {
-        if (!myrooms.length && user) {
+        // if (!myrooms.length && user) {
             dispatch(getMyRooms({ limit, offset: 0, })).unwrap();
-        }
+        // }
     }, [user]);
 
     const fetchRooms = async () => {

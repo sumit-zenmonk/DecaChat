@@ -46,21 +46,21 @@ export default function SpecificRoom() {
   const shareUrl = `${BACKEND_URL}${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
   useEffect(() => {
-    if (!roomMembers[curr_room_uuid]?.length) {
+    // if (!roomMembers[curr_room_uuid]?.length) {
       dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
-    }
+    // }
   }, []);
 
   useEffect(() => {
-    if (!roomChats[curr_room_uuid]?.length) {
+    // if (!roomChats[curr_room_uuid]?.length) {
       dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
-    }
+    // }
   }, []);
 
   useEffect(() => {
-    if (!roomChatAnalytic[curr_room_uuid]?.length) {
+    // if (!roomChatAnalytic[curr_room_uuid]?.length) {
       dispatch(getRoomChatsAnalytics({ room_uuid: curr_room_uuid })).unwrap();
-    }
+    // }
   }, []);
 
   const fetchRooms = async () => {

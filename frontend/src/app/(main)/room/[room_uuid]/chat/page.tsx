@@ -49,15 +49,15 @@ export default function SpecificRoomChat() {
   const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
 
   useEffect(() => {
-    if (!roomChats[curr_room_uuid]?.length) {
+    // if (!roomChats[curr_room_uuid]?.length) {
       dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
-    }
+    // }
   }, [room_uuid]);
 
   useEffect(() => {
-    if (!roomMembers[curr_room_uuid]?.length) {
+    // if (!roomMembers[curr_room_uuid]?.length) {
       dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
-    }
+    // }
   }, [room_uuid]);
 
   useEffect(() => {
