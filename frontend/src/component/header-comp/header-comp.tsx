@@ -13,6 +13,7 @@ import { useState } from "react"
 import CreateRoomModal from "../create-room-modal/create-room-modal"
 import CircleIcon from '@mui/icons-material/Circle';
 import { togglechatDrawerState } from "@/redux/feature/common/common-slice"
+import { disconnectAuthSocket, disconnectUnAuthSocket } from "@/service/socket/socket"
 
 export default function HeaderComp() {
     const router = useRouter()
@@ -28,7 +29,9 @@ export default function HeaderComp() {
 
     const handleLogOut = async () => {
         try {
-            await dispatch(logoutUser()).unwrap()
+            await dispatch(logoutUser()).unwrap();
+            disconnectAuthSocket();
+            disconnectUnAuthSocket();
             localStorage.clear()
             router.replace("/")
         } catch (err: any) {
