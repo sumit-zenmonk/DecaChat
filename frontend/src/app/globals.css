@@ -20,6 +20,15 @@ body {
   text-transform: none;
 }
 
+.MuiDivider-root::before,
+.MuiDivider-root::after {
+  border-top: 1px solid rgba(255, 255, 255, 0.135);
+}
+
+.MuiDivider-wrapper {
+  width: 30%;
+}
+
 p {
   overflow: hidden;
   text-overflow: ellipsis;

@@ -129,6 +129,7 @@
 }
 
 .divider {
+    width: 50%;
     margin: 4% 0;
     font-weight: 500;
 }
