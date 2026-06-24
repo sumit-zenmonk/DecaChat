@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
-import { connectAuthSocket, connectUnAuthSocket, disconnectAuthSocket, disconnectUnAuthSocket } from "@/service/socket/socket";
+import { connectAuthSocket, connectUnAuthSocket } from "@/service/socket/socket";
 import { SocketEventNameEnum } from "@/service/socket/socket-event.enum";
 
 import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
@@ -60,7 +60,6 @@ export const LayoutSocketListener = () => {
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_CREATED);
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_DELETED);
                 auth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                disconnectAuthSocket();
             };
         }
 
@@ -72,7 +71,6 @@ export const LayoutSocketListener = () => {
 
             return () => {
                 unauth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                disconnectUnAuthSocket();
             };
         }
     }, [dispatch]);

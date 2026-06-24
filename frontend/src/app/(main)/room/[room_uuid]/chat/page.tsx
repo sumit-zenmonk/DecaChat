@@ -13,8 +13,8 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { enqueueSnackbar } from "notistack";
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { connectUnAuthSocket, disconnectUnAuthSocket } from "@/service/socket/socket";
-import { SocketEventGroupRoomEnum } from "@/service/socket/socket-event.enum";
+import { connectUnAuthSocket } from "@/service/socket/socket";
+import { SocketEventGroupRoomEnum, SocketEventNameEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
 import Image from "next/image";
@@ -23,6 +23,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { RoomMember } from "@/redux/feature/member/member-type";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { RoomMemberRole } from "@/redux/feature/member/room-member.enum";
+import { updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 let unauth_socket: any;
 
 export default function SpecificRoomChat() {
@@ -78,10 +79,13 @@ export default function SpecificRoomChat() {
 
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
+      unauth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+        console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
+        dispatch(updateRoomViewerCount(data));
+      });
 
       return () => {
         unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
-        disconnectUnAuthSocket();
       };
     }
   }, [room_uuid, dispatch]);
