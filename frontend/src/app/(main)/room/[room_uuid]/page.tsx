@@ -68,7 +68,7 @@ export default function SpecificRoom() {
   const labels = roomChatAnalytic[curr_room_uuid]?.map(item => {
     const dateObj = new Date(item.date);
     // Format to a readable string, e.g., "Jun 24"
-    return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return dateObj.toLocaleDateString('en-US', { weekday: 'short' });
   });
 
   const chartData = {
