@@ -14,7 +14,7 @@ import { enqueueSnackbar } from "notistack";
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { connectUnAuthSocket, disconnectUnAuthSocket } from "@/service/socket/socket";
-import { SocketEventSubscribeEnum } from "@/service/socket/socket-event.enum";
+import { SocketEventGroupRoomEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
 import Image from "next/image";
@@ -64,23 +64,23 @@ export default function SpecificRoomChat() {
     unauth_socket = connectUnAuthSocket();
 
     if (room_uuid) {
-      unauth_socket.emit(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CONNECT, { room_uuid });
+      unauth_socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_CONNECT, { room_uuid });
 
       const handleSocketNewChat = (data: any) => {
-        console.log("Received :", SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_CREATED, data);
+        console.log("Received :", SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, data);
         dispatch(addChat(data));
       };
 
       const handleSocketDeleteChat = (data: any) => {
-        console.log("Received :", SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_DELETED, data);
+        console.log("Received :", SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, data);
         dispatch(removeChat(data));
       };
 
-      unauth_socket.on(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_CREATED, handleSocketNewChat);
-      unauth_socket.on(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_DELETED, handleSocketDeleteChat);
+      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
+      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
 
       return () => {
-        unauth_socket.off(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_CREATED, handleSocketNewChat);
+        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
         disconnectUnAuthSocket();
       };
     }

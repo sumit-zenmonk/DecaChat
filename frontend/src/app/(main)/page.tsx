@@ -38,9 +38,9 @@ export default function Home() {
   }, [searchQuery]);
 
   useEffect(() => {
-    // if (!joinedRooms.length && user) {
+    if (user) {
       dispatch(getJoinedRooms({ limit, offset: 0, })).unwrap();
-    // }
+    }
   }, [user]);
 
   const fetchRooms = async () => {

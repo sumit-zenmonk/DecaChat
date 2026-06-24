@@ -8,8 +8,8 @@ export enum SocketEventNameEnum {
     ROOM_VIEWER_COUNT = 'room.viewer.count',
 }
 
-export enum SocketEventSubscribeEnum {
-    SUBSCRIBE_ROOM_CONNECT = 'subscribe.room.connect',
-    SUBSCRIBE_ROOM_CHAT_CREATED = 'subscribe.room.chat.created',
-    SUBSCRIBE_ROOM_CHAT_DELETED = 'subscribe.room.chat.deleted',
+export enum SocketEventGroupRoomEnum {
+    GROUP_ROOM_CONNECT = 'group.room.connect',
+    GROUP_ROOM_CHAT_CREATED = 'group.room.chat.created',
+    GROUP_ROOM_CHAT_DELETED = 'group.room.chat.deleted',
 }

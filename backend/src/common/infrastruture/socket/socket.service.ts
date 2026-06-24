@@ -8,11 +8,11 @@ import {
     WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtHelperService } from 'src/module/user-module/infrastructure/services/jwt.service';
 import { UserRepository } from 'src/module/user-module/infrastructure/repository/user.repository';
 import * as RoomUserRepository from 'src/module/room-module/infrastructure/repository/user.repository';
-import { SocketEventNameEnum, SocketEventSubscribeEnum } from './socket.enum';
+import { SocketEventNameEnum, SocketEventGroupRoomEnum } from './socket.enum';
 
 @Injectable()
 @WebSocketGateway({
@@ -24,6 +24,8 @@ import { SocketEventNameEnum, SocketEventSubscribeEnum } from './socket.enum';
 export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     server: Server;
+
+    private readonly logger = new Logger(SocketService.name);
 
     private activeUsers = new Map<string, string>();
     // user_uuid -> socket_id
@@ -41,7 +43,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         try {
             const token = client.handshake.auth.token || client.handshake.headers.authorization;
             if (!token) {
-                console.log(`Unauth Socket Request Connected`);
+                this.logger.log(`Unauth Socket Request Connected`);
                 return;
             }
 
@@ -54,7 +56,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             }
 
             this.activeUsers.set(decoded.uuid, client.id);
-            console.log(`User connected: ${decoded.uuid}`);
+            this.logger.log(`User connected: ${decoded.uuid}`);
             await this.userRoomRepository.updateOnlineStatus(decoded.uuid, true);
         } catch (e) {
             client.disconnect();
@@ -65,7 +67,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         for (const [uuid, socketId] of this.activeUsers.entries()) {
             if (socketId === client.id) {
                 this.activeUsers.delete(uuid);
-                console.log(`User disconnected: ${uuid}`);
+                this.logger.log(`User disconnected: ${uuid}`);
                 await this.userRoomRepository.updateOnlineStatus(uuid, false);
                 break;
             }
@@ -75,7 +77,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
                 const count = viewers.size;
-                this.server.emit(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                await this.emitToRoom(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
@@ -83,18 +85,18 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     // send message to receiver only
     async emitToUser(userUuid: string, event: string, data: any) {
         const socketId = this.activeUsers.get(userUuid);
+        this.logger.debug(`Socket event fired to user: event -> ${event} socketId -> ${socketId}`);
         if (socketId) {
-            console.log(`Socket event fired to user: ${event}`);
-            this.server.to(socketId).emit(event, data);
+            await this.server.to(socketId).emit(event, data);
         }
     }
 
-    @SubscribeMessage(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CONNECT)
-    handleRoomConnection(
+    @SubscribeMessage(SocketEventGroupRoomEnum.GROUP_ROOM_CONNECT)
+    async handleRoomConnection(
         @MessageBody() data: any,
         @ConnectedSocket() client: Socket
     ) {
-        console.log(`Unauth Room Connected: ${data.room_uuid}`);
+        this.logger.log(`Unauth Room Connected: ${data.room_uuid}`);
         client.join(data.room_uuid);
 
         const roomUuid = data.room_uuid;
@@ -106,14 +108,15 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers) {
                 viewers.add(client.id);
                 const count = viewers.size;
-                this.server.emit(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                this.logger.debug(`Socket event fired in room: ${SocketEventNameEnum.ROOM_VIEWER_COUNT}`);
+                await this.emitToRoom(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
 
     // send message to room
-    async emitToRoom(room_uuid: string, event: string, data: any) {
-        console.log(`Socket event fired in room: ${event}`);
-        this.server.to(room_uuid).emit(event, data);
+    async emitToRoom(event: string, data: any) {
+        this.logger.debug(`Socket event fired in room: ${event}`);
+        await this.server.emit(event, data);
     }
 }
