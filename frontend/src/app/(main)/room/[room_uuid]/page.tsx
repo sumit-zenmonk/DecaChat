@@ -194,7 +194,7 @@ export default function SpecificRoom() {
             </Typography>
 
             <Box className={styles.manageActivityChartComp}>
-              <BarChartComp data={chartData} />
+              <BarChartComp chartData={chartData} />
             </Box>
           </Box>
         </Box>

@@ -51,12 +51,17 @@ export const options = {
 };
 
 interface BarChartProps {
-    data: {
-        labels: [],
-        datasets: [];
+    chartData: {
+        labels: string[];
+        datasets:
+        {
+            label: string;
+            data: number[];
+            backgroundColor: string[];
+        }[];
     }
 }
 
-export function BarChartComp({ data }: BarChartProps) {
-    return <Bar options={options} data={data} />;
+export function BarChartComp({ chartData }: BarChartProps) {
+    return <Bar options={options} data={chartData} />;
 }

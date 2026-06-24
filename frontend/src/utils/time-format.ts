@@ -1,4 +1,4 @@
-export function getChatTimeFormat(createdAt: Date) {
+export function getChatTimeFormat(createdAt: any) {
     const now = new Date() as any;
     const postDate = new Date(createdAt) as any;
     const seconds = Math.floor((now - postDate) / 1000);
