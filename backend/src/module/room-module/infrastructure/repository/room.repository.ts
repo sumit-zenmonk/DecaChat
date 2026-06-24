@@ -70,6 +70,7 @@ export class RoomRepository extends Repository<RoomEntity> {
             where: whereClause,
             relations: {
                 creator: true,
+                members: true,
             },
             order: {
                 created_at: 'DESC'
@@ -121,6 +122,7 @@ export class RoomRepository extends Repository<RoomEntity> {
             where: whereClause,
             relations: {
                 creator: true,
+                members: true,
             },
             order: {
                 created_at: 'DESC'

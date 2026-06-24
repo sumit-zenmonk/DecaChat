@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AfterLoad, Column, CreateDateColumn, DeleteDateColumn, Entity, Generated, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from "../user/user.entity";
 import { RoomMemberEntity } from "../room-member/room-member.entity";
 
@@ -22,6 +22,16 @@ export class RoomEntity {
 
     @OneToMany(() => RoomMemberEntity, (member) => member.room)
     members: RoomMemberEntity[];
+
+    @AfterLoad()
+    countPhotos() {
+        if (this.members) {
+            this.membersCount = this.members.length;
+        } else {
+            this.membersCount = 0;
+        }
+    }
+    membersCount: number;
 
     @CreateDateColumn()
     created_at: Date;

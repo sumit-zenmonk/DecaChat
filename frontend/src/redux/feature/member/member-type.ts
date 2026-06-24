@@ -6,6 +6,7 @@ export interface Room {
     description: string;
     creator_uuid: string;
     creator: User;
+    membersCount: number;
     created_at: Date,
     updated_at: Date,
     deleted_at: Date,
