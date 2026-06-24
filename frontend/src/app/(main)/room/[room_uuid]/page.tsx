@@ -20,6 +20,7 @@ import { getChatTimeFormat } from "@/utils/time-format";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { BarChartComp } from "@/component/bar-chart-comp/bar-chart-comp";
 import { getRoomChats, getRoomChatsAnalytics } from "@/redux/feature/chat/chat-action";
+import CircleIcon from '@mui/icons-material/Circle';
 
 export default function SpecificRoom() {
   const router = useRouter();
@@ -178,9 +179,13 @@ export default function SpecificRoom() {
                         <FiberManualRecordIcon className={member.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} />
 
                         <Box className={styles.cardBoxContent}>
-                          <Typography className={styles.email}>Name : {member.user.name || 'N/A'}</Typography>
-                          <Typography className={styles.email}>Email : {member.user.email}</Typography>
-                          <Typography className={styles.lastMessage}>Last Message: {lastChat ? getChatTimeFormat(lastChat.created_at) : 'N/A'}</Typography>
+                          <Typography className={styles.name}>{member.user.name || 'N/A'}</Typography>
+
+                          <Box className={styles.downBox}>
+                            <Typography className={styles.email}>{member.user.email}</Typography>
+                            <CircleIcon className={styles.downBoxIcon} />
+                            <Typography className={styles.lastMessage}>Last Message: {lastChat ? getChatTimeFormat(lastChat.created_at) : 'N/A'}</Typography>
+                          </Box>
                         </Box>
                       </CardContent>
                     </Card>

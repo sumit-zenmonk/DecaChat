@@ -102,7 +102,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 1%;
 }
 
 .groupIcon {
@@ -111,7 +110,7 @@
 }
 
 .manangeMemberInfo {
-    width: 60%;
+    width: 70%;
     height: 100%;
     font-size: 1.2rem;
     font-weight: 600;
@@ -158,6 +157,13 @@
     flex-direction: column;
 }
 
+.downBox {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+}
+
 .card {
     width: 95%;
     overflow: hidden;
@@ -165,7 +171,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #151515;
+    background: #181818;
     transition: transform 0.2s;
     position: relative;
     border: 1px solid #373737;
@@ -196,15 +202,21 @@
     fill: rgb(213, 213, 213);
 }
 
+.name,
 .email,
 .lastMessage {
     font-size: 0.875rem;
     font-weight: 700;
-    color: #eeeeee;
+    color: #e0e0e0;
 }
 
+.downBoxIcon {
+    color: #cecece;
+}
+
+.email,
 .lastMessage {
-    color: #a9a9a9;
+    color: #adadad;
 }
 
 .loader {
@@ -224,7 +236,7 @@
 }
 
 .roomActivityInfo {
-    width: 40%;
+    width: 30%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -256,7 +268,7 @@
     width: 100%;
     min-height: 35%;
     max-height: 90%;
-    background: #151515;
+    background: #181818;
     transition: transform 0.2s;
     border: 1px solid #373737;
     border-radius: 10px;
@@ -267,8 +279,11 @@
 
 .manageActivityChartComp {
     max-width: 100%;
-    max-height: 100%;
-    background: #1c1c1c;
+    height: 100%;
+    background: #282828;
+    border: 1px solid #373737;
+    border-radius: 10px;
+    padding: 2% 5%;
 }
 
 .chartIcon {
