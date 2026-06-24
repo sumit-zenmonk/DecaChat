@@ -13,7 +13,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { enqueueSnackbar } from "notistack";
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { connectUnAuthSocket } from "@/service/socket/socket";
+import { connectUnAuthSocket, disconnectUnAuthSocket } from "@/service/socket/socket";
 import { SocketEventSubscribeEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
@@ -50,13 +50,13 @@ export default function SpecificRoomChat() {
 
   useEffect(() => {
     // if (!roomChats[curr_room_uuid]?.length) {
-      dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
+    dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
     // }
   }, [room_uuid]);
 
   useEffect(() => {
     // if (!roomMembers[curr_room_uuid]?.length) {
-      dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
+    dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
     // }
   }, [room_uuid]);
 
@@ -81,6 +81,7 @@ export default function SpecificRoomChat() {
 
       return () => {
         unauth_socket.off(SocketEventSubscribeEnum.SUBSCRIBE_ROOM_CHAT_CREATED, handleSocketNewChat);
+        disconnectUnAuthSocket();
       };
     }
   }, [room_uuid, dispatch]);
