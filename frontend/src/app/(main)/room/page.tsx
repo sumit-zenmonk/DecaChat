@@ -111,7 +111,7 @@ export default function Home() {
                     </Typography>
 
                     <Typography variant="h5" className={styles.subTitle}>
-                        Communicate with others and grow your network .
+                        Manage your space and grow your network.
                     </Typography>
                 </Box>
 

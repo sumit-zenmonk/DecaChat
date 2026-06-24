@@ -92,7 +92,7 @@ export default function DashboardComp() {
             joinedRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid == user?.uuid
           ) &&
           < Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.room_uuid || '')}>
-            <HighlightOffIcon />  
+            <HighlightOffIcon />
             <Typography className={styles.deleteRoom}>Close Room</Typography>
           </Box>
         }

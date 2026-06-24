@@ -8,6 +8,8 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { BarChartProps } from './bar-chat-comp.interface';
+import { BarChartOptions } from './bar-chat-comp.config';
 
 ChartJS.register(
     CategoryScale,
@@ -18,50 +20,6 @@ ChartJS.register(
     Legend
 );
 
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const,
-            display: false,
-        },
-        title: {
-            display: false,
-            text: 'Chart.js Bar Chart',
-        },
-        tooltip: {
-            enabled: true,
-        },
-        scales: {
-            y: {
-                ticks: {
-                    display: false,
-                },
-                grid: {
-                    display: false,
-                }
-            },
-            x: {
-                grid: {
-                    display: false,
-                }
-            }
-        }
-    },
-};
-
-interface BarChartProps {
-    chartData: {
-        labels: string[];
-        datasets:
-        {
-            label: string;
-            data: number[];
-            backgroundColor: string[];
-        }[];
-    }
-}
-
 export function BarChartComp({ chartData }: BarChartProps) {
-    return <Bar options={options} data={chartData} />;
+    return <Bar options={BarChartOptions} data={chartData} />;
 }
