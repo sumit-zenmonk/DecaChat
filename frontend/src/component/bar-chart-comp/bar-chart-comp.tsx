@@ -51,7 +51,10 @@ export const options = {
 };
 
 interface BarChartProps {
-    data: any;
+    data: {
+        labels: [],
+        datasets: [];
+    }
 }
 
 export function BarChartComp({ data }: BarChartProps) {
