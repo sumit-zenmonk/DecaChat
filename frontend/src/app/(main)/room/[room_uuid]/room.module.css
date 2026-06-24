@@ -193,7 +193,8 @@
 .bottomGrayDotMessaging {
     position: absolute;
     bottom: 25;
-    left: 65;
+    left: 75;
+    font-size: 1.5rem;
     border-radius: 100%;
     fill: rgb(50, 157, 0);
 }
