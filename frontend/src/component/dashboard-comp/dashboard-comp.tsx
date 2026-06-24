@@ -30,7 +30,8 @@ export default function DashboardComp() {
 
   const handleActivePath = (path: string) => {
     setActivePath(path);
-    router.push(path);
+    console.log(path);
+    router.replace(path);
   }
 
   const handleRoomDelete = async (uuid: string) => {
@@ -56,9 +57,9 @@ export default function DashboardComp() {
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activePath === "/rooms" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/room" ? styles.active : ""
             }`}
-          onClick={() => handleActivePath("/rooms")}
+          onClick={() => handleActivePath("/room")}
         >
           <RoomPreferencesIcon />
           <Typography>Your Rooms</Typography>

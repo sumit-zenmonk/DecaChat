@@ -18,7 +18,11 @@ export default async function proxy(req: NextRequest) {
         const chat = segments[3];
 
         if (!room_uuid) {
-            return NextResponse.redirect(new URL('/', req.url));
+            if (credentials) {
+                return NextResponse.next();
+            } else {
+                return NextResponse.redirect(new URL('/', req.url));
+            }
         }
         if (chat === 'chat') {
             return NextResponse.next();

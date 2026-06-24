@@ -61,12 +61,12 @@ export class RoomRepository extends Repository<RoomEntity> {
             ? [
                 { creator_uuid: user.uuid, name: ILike(`%${search}%`) },
                 { creator_uuid: user.uuid, description: ILike(`%${search}%`) },
-                { members: { user_uuid: user.uuid }, creator: { name: ILike(`%${search}%`) } },
-                { members: { user_uuid: user.uuid }, creator: { email: ILike(`%${search}%`) } },
+                { creator_uuid: user.uuid, creator: { name: ILike(`%${search}%`) } },
+                { creator_uuid: user.uuid, creator: { email: ILike(`%${search}%`) } },
             ]
             : { creator_uuid: user.uuid };
 
-        const [data, total] = await this.findAndCount({
+            const [data, total] = await this.findAndCount({
             where: whereClause,
             relations: {
                 creator: true,
