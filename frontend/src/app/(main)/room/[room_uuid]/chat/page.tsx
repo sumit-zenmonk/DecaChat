@@ -179,30 +179,35 @@ export default function SpecificRoomChat() {
             scrollableTarget="scrollableDiv"
           >
             <Box className={styles.roomChatWrapper}>
-              {chats.map((chat: RoomChat) => {
+              {chats.map((chat: RoomChat, index: number) => {
                 const member = members?.find((member) => member.user_uuid == chat.member?.user_uuid);
+                const profileShown = (!chats[index - 1] || chats[index - 1].member_uuid !== chat.member_uuid);
 
                 return (
                   <Box key={chat.uuid} className={styles.chatMessage}>
-                    <Box className={styles.avatarBox}>
-                      <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
-                      {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}
-                    </Box>
-
-                    <Box className={styles.messageContent}>
-                      <Box className={styles.messageInfo}>
-                        <Typography variant="caption" className={styles.chatEmail}>
-                          {member ? (member.user.name || member.user.email) : 'N/A'}
-                        </Typography>
-                        <Typography variant="caption" className={styles.messageTime}>
-                          {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </Typography>
-                        {member?.room.creator.uuid === member?.user_uuid && <Typography variant="caption" className={styles.creatorTag}>
-                          CREATOR
-                        </Typography>}
+                    {profileShown &&
+                      <Box className={styles.avatarBox}>
+                        <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
+                        {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}
                       </Box>
+                    }
 
-                      <Box className={styles.messageData}>
+                    <Box className={profileShown ? styles.messageContent : styles.messageContentProfileNotShown}>
+                      {profileShown &&
+                        <Box className={styles.messageInfo}>
+                          <Typography variant="caption" className={styles.chatEmail}>
+                            {member ? (member.user.name || member.user.email) : 'N/A'}
+                          </Typography>
+                          <Typography variant="caption" className={styles.messageTime}>
+                            {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </Typography>
+                          {member?.room.creator.uuid === member?.user_uuid && <Typography variant="caption" className={styles.creatorTag}>
+                            CREATOR
+                          </Typography>}
+                        </Box>
+                      }
+
+                      <Box className={profileShown ? styles.messageData : styles.messageDataProfileNotShown}>
                         {chat.member?.user_uuid === user?.uuid && (
                           <IconButton size="small" onClick={() => handleDeleteChat(chat.uuid, chat.room_uuid)} className={styles.deleteBtn}>
                             <DeleteIcon fontSize="inherit" />

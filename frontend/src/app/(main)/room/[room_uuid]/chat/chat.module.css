@@ -24,7 +24,7 @@
 .middleTitleDrawerOpen {
     padding: .5%;
     position: absolute;
-    top: 5%;
+    top: 5;
     left: 25%;
     text-align: center;
     border-radius: 20px;
@@ -45,11 +45,11 @@
 
 .leftContainer {
     width: 100%;
-    height: 92%;
+    height: 94.5%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .rightContainer {
@@ -300,6 +300,7 @@
 
 .chatMessage {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     margin-bottom: 8px;
@@ -336,13 +337,14 @@
     fill: rgb(213, 213, 213);
 }
 
-.messageContent {
-    max-width: 100%;
-    padding: 0 2%;
+.messageContent,
+.messageContentProfileNotShown {
+    max-width: 85%;
+    max-height: 100%;
+    padding: 0 1%;
     border-radius: 8px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     position: relative;
-    margin-bottom: 2%;
 }
 
 .messageContent:hover .deleteBtn {
@@ -375,23 +377,34 @@
 }
 
 .messageText {
+    width: 100%;
+    height: 100%;
     word-break: break-word;
     font-size: 0.95rem;
     /* line-height: 1.4; */
     padding: 0 3%;
     color: #c9c9c9;
+    overflow: auto;
 }
 
-.messageData {
+.messageData,
+.messageDataProfileNotShown {
     min-width: 10%;
-    max-width: 90%;
+    max-width: 95%;
+    min-height: 10%;
+    max-height: 90%;
     display: flex;
     align-items: center;
     padding: 1%;
     background: #1e1e1e;
     border: 1px solid rgb(60, 60, 60);
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
+}
+
+.messageDataProfileNotShown {
+    width: 100%;
+    margin-left: 5.5%;
 }
 
 .deleteBtn {
