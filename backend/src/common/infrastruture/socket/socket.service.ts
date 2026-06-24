@@ -77,17 +77,8 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
                 const count = viewers.size;
-                await this.emitToRoom(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                await this.emitToRoom(roomUuid, SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
-        }
-    }
-
-    // send message to receiver only
-    async emitToUser(userUuid: string, event: string, data: any) {
-        const socketId = this.activeUsers.get(userUuid);
-        this.logger.debug(`Socket event fired to user: event -> ${event} socketId -> ${socketId}`);
-        if (socketId) {
-            await this.server.to(socketId).emit(event, data);
         }
     }
 
@@ -109,14 +100,25 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
                 viewers.add(client.id);
                 const count = viewers.size;
                 this.logger.debug(`Socket event fired in room: ${SocketEventNameEnum.ROOM_VIEWER_COUNT}`);
-                await this.emitToRoom(SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                await this.emitToRoom(roomUuid, SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
 
     // send message to room
-    async emitToRoom(event: string, data: any) {
-        this.logger.debug(`Socket event fired in room: ${event}`);
-        await this.server.emit(event, data);
+    async emitToRoom(room_uuid: string, event: string, data: any) {
+        this.logger.debug(`Socket event fired to room: event -> ${event} and room_uuid -> ${room_uuid}`);
+        await this.server.to(room_uuid).emit(event, data);
+        return;
+    }
+
+    // send message to receiver only
+    async emitToUser(userUuid: string, event: string, data: any) {
+        const socketId = this.activeUsers.get(userUuid);
+        this.logger.debug(`Socket event fired to user: event -> ${event} and socketId -> ${socketId}`);
+        if (socketId) {
+            await this.server.to(socketId).emit(event, data);
+        }
+        return;
     }
 }
