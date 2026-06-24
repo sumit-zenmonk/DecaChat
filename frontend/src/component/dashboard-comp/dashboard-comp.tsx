@@ -30,7 +30,6 @@ export default function DashboardComp() {
 
   const handleActivePath = (path: string) => {
     setActivePath(path);
-    console.log(path);
     router.replace(path);
   }
 

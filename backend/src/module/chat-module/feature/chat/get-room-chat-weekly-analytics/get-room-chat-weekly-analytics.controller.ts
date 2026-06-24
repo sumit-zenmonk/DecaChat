@@ -7,7 +7,6 @@ export class GetRoomChatWeeklyAnalyticsController {
 
     @Get('/:room_uuid')
     async getRoomChatWeeklyAnalytics(@Param('room_uuid') room_uuid: string) {
-        console.log(room_uuid);
         const data = await this.getRoomChatWeeklyAnalyticsService.handle(room_uuid);
 
         return {
