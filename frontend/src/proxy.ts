@@ -15,7 +15,7 @@ export default async function proxy(req: NextRequest) {
     if (isDynamicPublic) {
         const segments = pathname.split('/');
         const room_uuid = segments[2];
-        const chat = segments[3];
+        const nextsegment = segments[3];
 
         if (!room_uuid) {
             if (credentials) {
@@ -24,7 +24,7 @@ export default async function proxy(req: NextRequest) {
                 return NextResponse.redirect(new URL('/', req.url));
             }
         }
-        if (chat === 'chat') {
+        if (nextsegment === 'chat' || nextsegment === 'join') {
             return NextResponse.next();
         }
         if (!credentials) {

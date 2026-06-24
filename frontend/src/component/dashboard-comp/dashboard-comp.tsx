@@ -66,9 +66,9 @@ export default function DashboardComp() {
         </Box>
 
         <Box
-          className={`${styles.menuItem} ${activePath === "/rooms/join" ? styles.active : ""
+          className={`${styles.menuItem} ${activePath === "/room/join" ? styles.active : ""
             }`}
-          onClick={() => handleActivePath("/rooms/join")}
+          onClick={() => handleActivePath("/room/join")}
         >
           <GroupsIcon />
           <Typography>Joined Rooms</Typography>
