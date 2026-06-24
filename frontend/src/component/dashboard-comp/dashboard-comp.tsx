@@ -25,7 +25,7 @@ export default function DashboardComp() {
   const [activePath, setActivePath] = useState(shareUrl);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { publicRooms } = useAppSelector((state: RootState) => state.roomReducer);
+  const { publicRooms, joinedRooms, myrooms } = useAppSelector((state: RootState) => state.roomReducer);
   const { user } = useAppSelector((state: RootState) => state.authReducer);
 
   const handleActivePath = (path: string) => {
@@ -85,10 +85,14 @@ export default function DashboardComp() {
 
       <Box className={styles.bottomContainer}>
         {
-          getDynamicRoute(activePath).room_uuid &&
-          publicRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid == user?.uuid &&
-          <Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.room_uuid || '')}>
-            <HighlightOffIcon />
+          getDynamicRoute(activePath).room_uuid
+          && (
+            publicRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid == user?.uuid ||
+            myrooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid == user?.uuid ||
+            joinedRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid == user?.uuid
+          ) &&
+          < Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.room_uuid || '')}>
+            <HighlightOffIcon />  
             <Typography className={styles.deleteRoom}>Close Room</Typography>
           </Box>
         }
@@ -98,6 +102,6 @@ export default function DashboardComp() {
           <Typography>Help</Typography>
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 }

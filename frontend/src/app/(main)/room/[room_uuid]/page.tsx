@@ -19,7 +19,7 @@ import Image from "next/image";
 import { getChatTimeFormat } from "@/utils/time-format";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { BarChartComp } from "@/component/bar-chart-comp/bar-chart-comp";
-import { getRoomChatsAnalytics } from "@/redux/feature/chat/chat-action";
+import { getRoomChats, getRoomChatsAnalytics } from "@/redux/feature/chat/chat-action";
 
 export default function SpecificRoom() {
   const router = useRouter();
@@ -47,6 +47,17 @@ export default function SpecificRoom() {
   useEffect(() => {
     if (!roomMembers[curr_room_uuid]?.length) {
       dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!roomChats[curr_room_uuid]?.length) {
+      dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!roomChatAnalytic[curr_room_uuid]?.length) {
       dispatch(getRoomChatsAnalytics({ room_uuid: curr_room_uuid })).unwrap();
     }
   }, []);
