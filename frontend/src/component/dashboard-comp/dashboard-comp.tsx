@@ -29,12 +29,22 @@ export default function DashboardComp() {
   const { user } = useAppSelector((state: RootState) => state.authReducer);
 
   const handleActivePath = (path: string) => {
+    if ((path == "/room" || path == "/room/join") && !user) {
+      enqueueSnackbar("Login First", { variant: "warning" });
+      return;
+    }
+
     setActivePath(path);
     router.replace(path);
   }
 
   const handleRoomDelete = async (uuid: string) => {
     try {
+      if (!user) {
+        enqueueSnackbar("Login First", { variant: "warning" });
+        return;
+      }
+
       await dispatch(deleteRoom({ uuid })).unwrap();
       router.replace('/');
     } catch (error: any) {
