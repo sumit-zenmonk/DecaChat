@@ -43,7 +43,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         try {
             const token = client.handshake.auth.token || client.handshake.headers.authorization;
             if (!token) {
-                this.logger.log(`Unauth Socket Request Connected`);
+                this.logger.log(`Unauth Socket Request Connected User`);
                 return;
             }
 
@@ -56,7 +56,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             }
 
             this.activeUsers.set(decoded.uuid, client.id);
-            this.logger.log(`User connected: ${decoded.uuid}`);
+            this.logger.log(`Auth Socket Request Connected User: ${decoded.uuid}`);
             await this.userRoomRepository.updateOnlineStatus(decoded.uuid, true);
             this.server.emit(SocketEventBroadcastEnum.USER_ONLINE_STATUS, { user_uuid: decoded.uuid, is_online: true });
         } catch (e) {
@@ -68,7 +68,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         for (const [uuid, socketId] of this.activeUsers.entries()) {
             if (socketId === client.id) {
                 this.activeUsers.delete(uuid);
-                this.logger.log(`User disconnected: ${uuid}`);
+                this.logger.log(`Auth Socket Request Disconnected User: ${uuid}`);
                 await this.userRoomRepository.updateOnlineStatus(uuid, false);
                 this.server.emit(SocketEventBroadcastEnum.USER_ONLINE_STATUS, { user_uuid: uuid, is_online: false });
                 break;
@@ -89,7 +89,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         @MessageBody() data: any,
         @ConnectedSocket() client: Socket
     ) {
-        this.logger.log(`Unauth Room Connected: ${data.room_uuid}`);
+        this.logger.log(`Unauth Socket Request Connected Room: ${data.room_uuid}`);
         client.join(data.room_uuid);
 
         const roomUuid = data.room_uuid;
@@ -111,7 +111,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         @MessageBody() data: any,
         @ConnectedSocket() client: Socket
     ) {
-        this.logger.log(`Group Room disconnected: ${client.id}`);
+        this.logger.log(`Unauth Socket Request Disconnected Room: ${client.id}`);
         for (const [roomUuid, viewers] of this.roomViewers.entries()) {
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
