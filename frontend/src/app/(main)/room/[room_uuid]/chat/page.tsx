@@ -207,7 +207,7 @@ export default function SpecificRoomChat() {
                         </Box>
                       }
 
-                      <Box className={profileShown ? styles.messageData : styles.messageDataProfileNotShown}>
+                      <Box className={profileShown ? styles.messageData : chatDrawerState ? styles.messageDataProfileNotShownDrawerOpen : styles.messageDataProfileNotShown}>
                         {chat.member?.user_uuid === user?.uuid && (
                           <IconButton size="small" onClick={() => handleDeleteChat(chat.uuid, chat.room_uuid)} className={styles.deleteBtn}>
                             <DeleteIcon fontSize="inherit" />

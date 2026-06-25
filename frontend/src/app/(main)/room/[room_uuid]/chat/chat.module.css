@@ -199,8 +199,8 @@
     gap: 2%;
     align-items: stretch;
     overflow: auto;
-    padding-top: 1%;
-    padding-bottom: 5%;
+    padding-top: 2%;
+    padding-bottom: 1%;
 }
 
 .loader {
@@ -393,6 +393,7 @@
 }
 
 .messageData,
+.messageDataProfileNotShownDrawerOpen,
 .messageDataProfileNotShown {
     min-width: 30%;
     max-width: 95%;
@@ -407,9 +408,17 @@
     position: relative;
 }
 
+.messageDataProfileNotShownDrawerOpen,
 .messageDataProfileNotShown {
     width: fit-content;
+}
+
+.messageDataProfileNotShown {
     margin-left: 80px;
+}
+
+.messageDataProfileNotShownDrawerOpen {
+    margin-left: 60px;
 }
 
 .deleteBtn {
