@@ -70,12 +70,7 @@ export const LayoutSocketListener = () => {
                 dispatch(updateRoomViewerCount(data));
             });
 
-            unauth_socket.on(SocketEventBroadcastEnum.USER_ONLINE_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
-                console.log(SocketEventBroadcastEnum.USER_ONLINE_STATUS, data);
-                dispatch(updateMemberOnlineStatus(data));
-            });
             return () => {
-                unauth_socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
                 unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
             };
         }
