@@ -111,9 +111,8 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         @MessageBody() data: any,
         @ConnectedSocket() client: Socket
     ) {
-        this.logger.debug(data, client.id, this.roomViewers);
+        this.logger.log(`Group Room disconnected: ${client.id}`);
         for (const [roomUuid, viewers] of this.roomViewers.entries()) {
-            this.logger.debug(viewers.has(client.id));
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
                 const count = viewers.size;
