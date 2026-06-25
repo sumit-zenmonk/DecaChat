@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import type { Request } from "express";
 import { RoomRepository } from "src/module/room-module/infrastructure/repository/room.repository";
 import { SocketService } from "src/common/infrastruture/socket/socket.service";
-import { SocketEventNameEnum } from "src/common/infrastruture/socket/socket.enum";
+import { SocketEventUserEnum } from "src/common/infrastruture/socket/socket.enum";
 import { OutboxRepository } from "src/module/room-module/infrastructure/repository/outbox.repository";
 import { RoomPublishEventEnum } from "src/module/room-module/domain/room/room.event";
 
@@ -29,7 +29,7 @@ export class DeleteRoomService {
             message_payload: { room_uuid: isRoomExists.uuid },
         });
 
-        await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_DELETED, { uuid });
+        await this.socketService.emitToUser(req.user.uuid, SocketEventUserEnum.ROOM_DELETED, { uuid });
         return;
     }
 }

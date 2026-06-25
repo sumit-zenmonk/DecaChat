@@ -63,12 +63,10 @@ import { ChatModule } from './module/chat-module/feature/chat/chat.module';
           options as DataSourceOptions,
         ),
     }),
-    UserModule,
     UserCronModule.CronModule,
+    UserModule,
 
     // Room Module
-    RoomRabbitMQModule,
-    RoomCronModule.CronModule,
     TypeOrmModule.forRootAsync({
       name: process.env.DB_POSTGRES_ROOM_SCHEMA || 'room_schema',
       useFactory: () => ({
@@ -82,12 +80,12 @@ import { ChatModule } from './module/chat-module/feature/chat/chat.module';
           options as DataSourceOptions,
         ),
     }),
+    RoomRabbitMQModule,
+    RoomCronModule.CronModule,
     RoomModule,
     RoomMemberModule,
 
     // Chat Module
-    ChatRabbitMQModule,
-    ChatCronModule.CronModule,
     TypeOrmModule.forRootAsync({
       name: process.env.DB_POSTGRES_CHAT_SCHEMA || 'chat_schema',
       useFactory: () => ({
@@ -101,6 +99,8 @@ import { ChatModule } from './module/chat-module/feature/chat/chat.module';
           options as DataSourceOptions,
         ),
     }),
+    ChatRabbitMQModule,
+    ChatCronModule.CronModule,
     ChatModule,
   ],
   controllers: [AppController],

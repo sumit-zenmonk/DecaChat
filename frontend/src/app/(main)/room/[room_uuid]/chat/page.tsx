@@ -14,7 +14,7 @@ import { enqueueSnackbar } from "notistack";
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { connectUnAuthSocket } from "@/service/socket/socket";
-import { SocketEventGroupRoomEnum, SocketEventNameEnum } from "@/service/socket/socket-event.enum";
+import { SocketEventGroupRoomEnum, SocketEventUserEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
 import Image from "next/image";
@@ -79,8 +79,8 @@ export default function SpecificRoomChat() {
 
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
-      unauth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
-        console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
+      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+        console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
         dispatch(updateRoomViewerCount(data));
       });
 

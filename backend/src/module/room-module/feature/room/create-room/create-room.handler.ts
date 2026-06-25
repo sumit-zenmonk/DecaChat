@@ -3,7 +3,7 @@ import { CreateRoomDto } from "./create-room.dto";
 import type { Request } from "express";
 import { RoomRepository } from "src/module/room-module/infrastructure/repository/room.repository";
 import { SocketService } from "src/common/infrastruture/socket/socket.service";
-import { SocketEventNameEnum } from "src/common/infrastruture/socket/socket.enum";
+import { SocketEventUserEnum } from "src/common/infrastruture/socket/socket.enum";
 import { RoomMemberRepository } from "src/module/room-module/infrastructure/repository/room-member.repository";
 import { RoomMemberRole } from "src/module/room-module/domain/room-member/room-member.enum";
 import { OutboxRepository } from "src/module/room-module/infrastructure/repository/outbox.repository";
@@ -38,7 +38,7 @@ export class CreateRoomService {
             message_payload: room as RoomEntity,
         });
 
-        await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_CREATED, room);
+        await this.socketService.emitToUser(req.user.uuid, SocketEventUserEnum.ROOM_CREATED, room);
         return;
     }
 }

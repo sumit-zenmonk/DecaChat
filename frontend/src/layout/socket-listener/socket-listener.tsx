@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { connectAuthSocket, connectUnAuthSocket } from "@/service/socket/socket";
-import { SocketEventNameEnum } from "@/service/socket/socket-event.enum";
+import { SocketEventBroadcastEnum, SocketEventGroupRoomEnum, SocketEventUserEnum } from "@/service/socket/socket-event.enum";
 
 import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
@@ -18,71 +18,71 @@ export const LayoutSocketListener = () => {
         if (token) {
             const auth_socket = connectAuthSocket(token);
 
-            auth_socket.on(SocketEventNameEnum.ROOM_CREATED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_CREATED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_CREATED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_CREATED, data);
                 dispatch(addMyRoom(data));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_DELETED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_DELETED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_DELETED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_DELETED, data);
                 dispatch(removeMyRoom(data.uuid));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_MEMBER_CREATED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_MEMBER_CREATED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_MEMBER_CREATED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_MEMBER_CREATED, data);
                 dispatch(addJoinedRoom(data));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_MEMBER_DELETED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_MEMBER_DELETED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_MEMBER_DELETED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_MEMBER_DELETED, data);
                 dispatch(removeJoinedRoom(data.room_uuid));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_CHAT_CREATED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_CHAT_CREATED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_CHAT_CREATED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_CHAT_CREATED, data);
                 dispatch(addChat(data));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_CHAT_DELETED, (data) => {
-                console.log(SocketEventNameEnum.ROOM_CHAT_DELETED, data);
+            auth_socket.on(SocketEventUserEnum.ROOM_CHAT_DELETED, (data) => {
+                console.log(SocketEventUserEnum.ROOM_CHAT_DELETED, data);
                 dispatch(removeChat(data));
             });
 
-            auth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
-                console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
+            auth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+                console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
                 dispatch(updateRoomViewerCount(data));
             });
 
-            auth_socket.on(SocketEventNameEnum.USER_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
-                console.log(SocketEventNameEnum.USER_STATUS, data);
+            auth_socket.on(SocketEventBroadcastEnum.USER_ONLINE_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
+                console.log(SocketEventBroadcastEnum.USER_ONLINE_STATUS, data);
                 dispatch(updateMemberOnlineStatus(data));
             });
 
             return () => {
-                auth_socket.off(SocketEventNameEnum.ROOM_CREATED);
-                auth_socket.off(SocketEventNameEnum.ROOM_DELETED);
-                auth_socket.off(SocketEventNameEnum.ROOM_MEMBER_CREATED);
-                auth_socket.off(SocketEventNameEnum.ROOM_MEMBER_DELETED);
-                auth_socket.off(SocketEventNameEnum.ROOM_CHAT_CREATED);
-                auth_socket.off(SocketEventNameEnum.ROOM_CHAT_DELETED);
-                auth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                auth_socket.off(SocketEventNameEnum.USER_STATUS);
+                auth_socket.off(SocketEventUserEnum.ROOM_CREATED);
+                auth_socket.off(SocketEventUserEnum.ROOM_DELETED);
+                auth_socket.off(SocketEventUserEnum.ROOM_MEMBER_CREATED);
+                auth_socket.off(SocketEventUserEnum.ROOM_MEMBER_DELETED);
+                auth_socket.off(SocketEventUserEnum.ROOM_CHAT_CREATED);
+                auth_socket.off(SocketEventUserEnum.ROOM_CHAT_DELETED);
+                auth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
+                auth_socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
             };
         }
 
         if (unauth_socket) {
-            unauth_socket.on(SocketEventNameEnum.ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
-                console.log(SocketEventNameEnum.ROOM_VIEWER_COUNT, data);
+            unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
+                console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
                 dispatch(updateRoomViewerCount(data));
             });
 
-            unauth_socket.on(SocketEventNameEnum.USER_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
-                console.log(SocketEventNameEnum.USER_STATUS, data);
+            unauth_socket.on(SocketEventBroadcastEnum.USER_ONLINE_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
+                console.log(SocketEventBroadcastEnum.USER_ONLINE_STATUS, data);
                 dispatch(updateMemberOnlineStatus(data));
             });
             return () => {
-                unauth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
-                unauth_socket.off(SocketEventNameEnum.USER_STATUS);
+                unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
+                unauth_socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
             };
         }
     }, [dispatch, token]);

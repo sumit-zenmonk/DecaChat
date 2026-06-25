@@ -4,7 +4,7 @@ import type { Request } from "express";
 import { RoomRepository } from "src/module/room-module/infrastructure/repository/room.repository";
 import { RoomMemberRepository } from "src/module/room-module/infrastructure/repository/room-member.repository";
 import { SocketService } from "src/common/infrastruture/socket/socket.service";
-import { SocketEventNameEnum } from "src/common/infrastruture/socket/socket.enum";
+import { SocketEventUserEnum } from "src/common/infrastruture/socket/socket.enum";
 import { OutboxRepository } from "src/module/room-module/infrastructure/repository/outbox.repository";
 import { RoomMemberEntity } from "src/module/room-module/domain/room-member/room-member.entity";
 import { RoomMemberPublishEventEnum } from "src/module/room-module/domain/room-member/room-member-event.entity";
@@ -46,7 +46,7 @@ export class JoinRoomMemberService {
             message_payload: newMember as RoomMemberEntity,
         });
 
-        await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_MEMBER_CREATED, isRoomExists);
+        await this.socketService.emitToUser(req.user.uuid, SocketEventUserEnum.ROOM_MEMBER_CREATED, isRoomExists);
         return;
     }
 }

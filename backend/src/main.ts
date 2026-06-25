@@ -3,7 +3,7 @@ process.env.TZ = 'Asia/Kolkata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { AllExceptionsFilter } from './common/infrastruture/filters/all-exceptions.filter';
+import { CommonExceptionsFilter } from './common/infrastruture/filters/common-exceptions.filter';
 import { createSchemas } from './common/infrastruture/db/bootstrap/db_schema.create';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 
@@ -27,7 +27,7 @@ async function bootstrap() {
   }));
 
   app.setGlobalPrefix('/api/v1');
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new CommonExceptionsFilter());
 
   await app.listen(process.env.PORT ?? 8090);
 }

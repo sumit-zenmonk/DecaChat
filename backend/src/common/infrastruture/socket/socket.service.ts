@@ -12,7 +12,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { JwtHelperService } from 'src/module/user-module/infrastructure/services/jwt.service';
 import { UserRepository } from 'src/module/user-module/infrastructure/repository/user.repository';
 import * as RoomUserRepository from 'src/module/room-module/infrastructure/repository/user.repository';
-import { SocketEventNameEnum, SocketEventGroupRoomEnum } from './socket.enum';
+import { SocketEventUserEnum, SocketEventGroupRoomEnum, SocketEventBroadcastEnum } from './socket.enum';
 
 @Injectable()
 @WebSocketGateway({
@@ -58,7 +58,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             this.activeUsers.set(decoded.uuid, client.id);
             this.logger.log(`User connected: ${decoded.uuid}`);
             await this.userRoomRepository.updateOnlineStatus(decoded.uuid, true);
-            this.server.emit(SocketEventNameEnum.USER_STATUS, { user_uuid: decoded.uuid, is_online: true });
+            this.server.emit(SocketEventBroadcastEnum.USER_ONLINE_STATUS, { user_uuid: decoded.uuid, is_online: true });
         } catch (e) {
             client.disconnect();
         }
@@ -70,7 +70,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
                 this.activeUsers.delete(uuid);
                 this.logger.log(`User disconnected: ${uuid}`);
                 await this.userRoomRepository.updateOnlineStatus(uuid, false);
-                this.server.emit(SocketEventNameEnum.USER_STATUS, { user_uuid: uuid, is_online: false });
+                this.server.emit(SocketEventBroadcastEnum.USER_ONLINE_STATUS, { user_uuid: uuid, is_online: false });
                 break;
             }
         }
@@ -79,7 +79,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers.has(client.id)) {
                 viewers.delete(client.id);
                 const count = viewers.size;
-                await this.emitToRoom(roomUuid, SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                await this.emitToRoom(roomUuid, SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
@@ -101,7 +101,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers) {
                 viewers.add(client.id);
                 const count = viewers.size;
-                await this.emitToRoom(roomUuid, SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+                await this.emitToRoom(roomUuid, SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
     }
