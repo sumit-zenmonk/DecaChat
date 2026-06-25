@@ -1,5 +1,3 @@
-"use client"
-
 import styles from "./main.module.css";
 import { Box } from "@mui/material";
 import HeaderComp from '@/component/header-comp/header-comp';

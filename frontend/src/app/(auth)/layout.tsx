@@ -1,5 +1,3 @@
-"use client"
-
 import { Box } from "@mui/material";
 import styles from "./auth.module.css";
 

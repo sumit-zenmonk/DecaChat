@@ -1,13 +1,9 @@
-"use client"
-
 import './globals.css'
 
-import { Provider } from "react-redux";
-import { persistor, store } from "@/redux/store";
 import { LayoutSocketListener } from '@/layout/socket-listener/socket-listener';
-import { SnackbarProvider } from 'notistack';
-import { PersistGate } from "redux-persist/lib/integration/react";
 import { StyledEngineProvider } from "@mui/material";
+import StoreProvideLayout from '@/layout/store/provider';
+import SnackBarLayout from '@/layout/snackbar/snackbar';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
@@ -15,16 +11,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <StyledEngineProvider injectFirst>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-                <LayoutSocketListener />
-                {children}
-              </SnackbarProvider>
-            </PersistGate>
-          </Provider>
+          <StoreProvideLayout >
+            <SnackBarLayout>
+              <LayoutSocketListener />
+              {children}
+            </SnackBarLayout>
+          </StoreProvideLayout >
         </StyledEngineProvider>
       </body>
-    </html>
+    </html >
   );
 }
