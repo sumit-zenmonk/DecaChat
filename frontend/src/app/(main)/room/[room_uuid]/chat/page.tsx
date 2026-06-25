@@ -13,7 +13,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import { enqueueSnackbar } from "notistack";
 import { createRoomChat, deleteRoomChat, getRoomChats } from "@/redux/feature/chat/chat-action";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { connectUnAuthSocket } from "@/service/socket/socket";
+import { connectSocket } from "@/service/socket/socket";
 import { SocketEventGroupRoomEnum, SocketEventUserEnum } from "@/service/socket/socket-event.enum";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
 import { RoomChat } from "@/redux/feature/chat/chat-type";
@@ -23,8 +23,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { RoomMember } from "@/redux/feature/member/member-type";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { RoomMemberRole } from "@/redux/feature/member/room-member.enum";
-import { updateRoomViewerCount } from "@/redux/feature/room/room-slice";
-let unauth_socket: any;
+let socket: any;
 
 export default function SpecificRoomChat() {
   const dispatch = useAppDispatch();
@@ -32,7 +31,7 @@ export default function SpecificRoomChat() {
   const curr_room_uuid = String(room_uuid);
   const { roomMembers, roomMembersTotalDocuments } = useAppSelector((state: RootState) => state.roomMemberReducer);
   const { chatDrawerState } = useAppSelector((state: RootState) => state.commonReducer);
-  const { user } = useAppSelector((state: RootState) => state.authReducer);
+  const { user, token } = useAppSelector((state: RootState) => state.authReducer);
   const { roomChats, roomChatsTotalDocuments, loading } = useAppSelector((state: RootState) => state.chatReducer);
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
@@ -67,10 +66,10 @@ export default function SpecificRoomChat() {
   }, [room_uuid]);
 
   useEffect(() => {
-    unauth_socket = connectUnAuthSocket();
+    socket = connectSocket(token || undefined);
 
     if (room_uuid) {
-      unauth_socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_CONNECT, { room_uuid });
+      socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_CONNECT, { room_uuid });
 
       const handleSocketNewChat = (data: any) => {
         console.log("Received :", SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, data);
@@ -82,13 +81,13 @@ export default function SpecificRoomChat() {
         dispatch(removeChat(data));
       };
 
-      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
-      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
+      socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
+      socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
 
       return () => {
-        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED);
-        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED);
-        unauth_socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_DISCONNECT, { room_uuid });
+        socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED);
+        socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED);
+        socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_DISCONNECT, { room_uuid });
       };
     }
   }, [room_uuid, dispatch]);
