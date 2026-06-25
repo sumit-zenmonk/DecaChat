@@ -6,6 +6,7 @@ export enum SocketEventNameEnum {
     ROOM_CHAT_CREATED = 'room.chat.created',
     ROOM_CHAT_DELETED = 'room.chat.deleted',
     ROOM_VIEWER_COUNT = 'room.viewer.count',
+    USER_STATUS = 'user.status',
 }
 
 export enum SocketEventGroupRoomEnum {

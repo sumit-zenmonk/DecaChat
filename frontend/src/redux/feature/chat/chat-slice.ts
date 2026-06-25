@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RoomChatState } from "./chat-type";
 import { createRoomChat, deleteRoomChat, getRoomChats, getRoomChatsAnalytics } from "./chat-action";
+import { deleteRoom } from "../room/room-action";
 
 const initialState: RoomChatState = {
     roomChats: {},
@@ -97,6 +98,18 @@ const roomSlice = createSlice({
             })
             .addCase(getRoomChatsAnalytics.pending, (state) => {
                 state.loading = true;
+            })
+            .addCase(deleteRoom.fulfilled, (state, action) => {
+                const room_uuid = action.payload.uuid;
+                if (state.roomChats) {
+                    delete state.roomChats[room_uuid];
+                }
+                if (state.roomChatAnalytic) {
+                    delete state.roomChatAnalytic[room_uuid];
+                }
+                if (state.roomChatsTotalDocuments) {
+                    delete state.roomChatsTotalDocuments[room_uuid];
+                }
             })
     },
 });

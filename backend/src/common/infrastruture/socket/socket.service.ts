@@ -58,6 +58,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             this.activeUsers.set(decoded.uuid, client.id);
             this.logger.log(`User connected: ${decoded.uuid}`);
             await this.userRoomRepository.updateOnlineStatus(decoded.uuid, true);
+            this.server.emit(SocketEventNameEnum.USER_STATUS, { user_uuid: decoded.uuid, is_online: true });
         } catch (e) {
             client.disconnect();
         }
@@ -69,6 +70,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
                 this.activeUsers.delete(uuid);
                 this.logger.log(`User disconnected: ${uuid}`);
                 await this.userRoomRepository.updateOnlineStatus(uuid, false);
+                this.server.emit(SocketEventNameEnum.USER_STATUS, { user_uuid: uuid, is_online: false });
                 break;
             }
         }

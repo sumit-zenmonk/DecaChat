@@ -75,6 +75,10 @@ const roomSlice = createSlice({
 
                 state.joinedRooms = state.joinedRooms.filter((room) => room.uuid !== action.payload.uuid);
                 state.joinedRoomsTotalDocuments -= 1;
+
+                if (state.viewerCounts) {
+                    delete state.viewerCounts[action.payload.uuid];
+                }
             })
             .addCase(deleteRoomMember.fulfilled, (state, action) => {
                 state.joinedRooms = state.joinedRooms.filter((room) => room.uuid !== action.payload.room_uuid);

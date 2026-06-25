@@ -7,6 +7,7 @@ import { SocketEventNameEnum } from "@/service/socket/socket-event.enum";
 
 import { addJoinedRoom, addMyRoom, removeJoinedRoom, removeMyRoom, updateRoomViewerCount } from "@/redux/feature/room/room-slice";
 import { addChat, removeChat } from "@/redux/feature/chat/chat-slice";
+import { updateMemberOnlineStatus } from "@/redux/feature/member/member-slice";
 
 export const LayoutSocketListener = () => {
     const dispatch = useAppDispatch();
@@ -52,6 +53,11 @@ export const LayoutSocketListener = () => {
                 dispatch(updateRoomViewerCount(data));
             });
 
+            auth_socket.on(SocketEventNameEnum.USER_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
+                console.log(SocketEventNameEnum.USER_STATUS, data);
+                dispatch(updateMemberOnlineStatus(data));
+            });
+
             return () => {
                 auth_socket.off(SocketEventNameEnum.ROOM_CREATED);
                 auth_socket.off(SocketEventNameEnum.ROOM_DELETED);
@@ -60,6 +66,7 @@ export const LayoutSocketListener = () => {
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_CREATED);
                 auth_socket.off(SocketEventNameEnum.ROOM_CHAT_DELETED);
                 auth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
+                auth_socket.off(SocketEventNameEnum.USER_STATUS);
             };
         }
 
@@ -69,11 +76,16 @@ export const LayoutSocketListener = () => {
                 dispatch(updateRoomViewerCount(data));
             });
 
+            unauth_socket.on(SocketEventNameEnum.USER_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
+                console.log(SocketEventNameEnum.USER_STATUS, data);
+                dispatch(updateMemberOnlineStatus(data));
+            });
             return () => {
                 unauth_socket.off(SocketEventNameEnum.ROOM_VIEWER_COUNT);
+                unauth_socket.off(SocketEventNameEnum.USER_STATUS);
             };
         }
-    }, [dispatch]);
+    }, [dispatch, token]);
 
     return null;
 };

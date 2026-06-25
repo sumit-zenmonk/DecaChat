@@ -47,19 +47,19 @@ export default function SpecificRoom() {
 
   useEffect(() => {
     // if (!roomMembers[curr_room_uuid]?.length) {
-      dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
+    dispatch(getRoomMembers({ room_uuid: curr_room_uuid, limit: 0, offset: 0 })).unwrap();
     // }
   }, []);
 
   useEffect(() => {
     // if (!roomChats[curr_room_uuid]?.length) {
-      dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
+    dispatch(getRoomChats({ room_uuid: curr_room_uuid, limit: limit, offset: 0 })).unwrap();
     // }
   }, []);
 
   useEffect(() => {
     // if (!roomChatAnalytic[curr_room_uuid]?.length) {
-      dispatch(getRoomChatsAnalytics({ room_uuid: curr_room_uuid })).unwrap();
+    dispatch(getRoomChatsAnalytics({ room_uuid: curr_room_uuid })).unwrap();
     // }
   }, []);
 
@@ -76,22 +76,27 @@ export default function SpecificRoom() {
     }
   };
 
-  const labels = roomChatAnalytic[curr_room_uuid]?.map(item => {
-    const dateObj = new Date(item.date);
-    // Format to a readable string, e.g., "Jun 24"
-    return dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-  });
+  const chartData = useMemo(() => {
+    const weekdayCounts: Record<string, number> = {};
+    (roomChatAnalytic[curr_room_uuid] || []).forEach(item => {
+      const weekday = new Date(item.date).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
+      weekdayCounts[weekday] = Number(item.count) || 0;
+    });
 
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Message Velocity',
-        data: roomChatAnalytic[curr_room_uuid]?.map(item => item.count) || 0,
-        backgroundColor: ['#A0A3FF', '#C0C1FF'],
-      },
-    ],
-  };
+    const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const data = labels.map(day => weekdayCounts[day] || 0);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Message Velocity',
+          data,
+          backgroundColor: ['#F2EFFF', '#A0A3FF', '#C0C1FF', '#E1E0FF'],
+        },
+      ],
+    };
+  }, [roomChatAnalytic, curr_room_uuid]);
 
   return (
     <Box className={styles.container}>
