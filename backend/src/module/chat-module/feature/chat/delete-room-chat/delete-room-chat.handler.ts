@@ -22,7 +22,7 @@ export class DeleteRoomChatService {
 
         await this.roomRepository.deleteRoomChat(uuid);
 
-        await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_CHAT_CREATED, { chat_uuid: isRoomChatExists.uuid, room_uuid: isRoomChatExists.room_uuid });
+        // await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_CHAT_CREATED, { chat_uuid: isRoomChatExists.uuid, room_uuid: isRoomChatExists.room_uuid });
         await this.socketService.emitToRoom(isRoomChatExists.room_uuid, SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, { chat_uuid: isRoomChatExists.uuid, room_uuid: isRoomChatExists.room_uuid });
         return;
     }

@@ -26,7 +26,7 @@ export class CreateRoomChatService {
         });
         const chat = await this.roomChatRepository.findByUuid(newChat.uuid);
 
-        await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_CHAT_CREATED, chat);
+        // await this.socketService.emitToUser(req.user.uuid, SocketEventNameEnum.ROOM_CHAT_CREATED, chat);
         await this.socketService.emitToRoom(body.room_uuid, SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, chat);
         return;
     }
