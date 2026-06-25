@@ -189,7 +189,7 @@ export default function SpecificRoomChat() {
                 const profileShown = (!chats[index - 1] || chats[index - 1].member_uuid !== chat.member_uuid);
 
                 return (
-                  <Box key={chat.uuid} className={styles.chatMessage}>
+                  <Box key={chat.uuid} className={profileShown ? styles.chatMessage : styles.chatMessageProfileNotShown}>
                     <Box className={profileShown ? styles.avatarBox : styles.avatarBoxProfileNotShown}>
                       <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
                       {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}

@@ -89,7 +89,6 @@
     height: 95%;
     overflow: auto;
     border-radius: 16px;
-    padding-bottom: 1%;
     background-color: #151515;
 }
 
@@ -101,8 +100,6 @@
     align-items: center;
     overflow: auto;
     gap: 1%;
-    padding-top: 1%;
-    padding-bottom: 5%;
 }
 
 .cardContent {
@@ -294,14 +291,19 @@
     box-shadow: 0 0 2 rgb(255, 255, 255);
 }
 
-.chatMessage {
+.chatMessage,
+.chatMessageProfileNotShown {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
-    margin-bottom: 8px;
+    margin-bottom: 1%;
     padding: 0 16px;
     position: relative;
+}
+
+.chatMessageProfileNotShown {
+    margin-top: -.5%;
 }
 
 .avatarBox,
@@ -360,7 +362,7 @@
 }
 
 .messageInfoProfileNotShown {
-    visibility: hidden;
+    display: none;
 }
 
 .messageTime {
