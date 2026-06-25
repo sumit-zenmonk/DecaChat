@@ -71,22 +71,7 @@ export default function SpecificRoomChat() {
     if (room_uuid) {
       socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_CONNECT, { room_uuid });
 
-      const handleSocketNewChat = (data: any) => {
-        console.log("Received :", SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, data);
-        dispatch(addChat(data));
-      };
-
-      const handleSocketDeleteChat = (data: any) => {
-        console.log("Received :", SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, data);
-        dispatch(removeChat(data));
-      };
-
-      socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
-      socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
-
       return () => {
-        socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED);
-        socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED);
         socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_DISCONNECT, { room_uuid });
       };
     }

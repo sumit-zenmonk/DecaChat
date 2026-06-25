@@ -54,6 +54,16 @@ export const LayoutSocketListener = () => {
             console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
             dispatch(updateRoomViewerCount(data));
         });
+
+        socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, (data: any) => {
+            console.log(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, data);
+            dispatch(addChat(data));
+        });
+        socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, (data: any) => {
+            console.log(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, data);
+            dispatch(removeChat(data));
+        });
+
         return () => {
             socket.off(SocketEventUserEnum.ROOM_CREATED);
             socket.off(SocketEventUserEnum.ROOM_DELETED);
@@ -61,8 +71,10 @@ export const LayoutSocketListener = () => {
             socket.off(SocketEventUserEnum.ROOM_MEMBER_DELETED);
             socket.off(SocketEventUserEnum.ROOM_CHAT_CREATED);
             socket.off(SocketEventUserEnum.ROOM_CHAT_DELETED);
-            socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
             socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
+            socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
+            socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED);
+            socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED);
         };
 
     }, [dispatch, token]);
