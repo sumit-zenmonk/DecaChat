@@ -48,11 +48,6 @@ export const LayoutSocketListener = () => {
                 dispatch(removeChat(data));
             });
 
-            auth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
-                console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
-                dispatch(updateRoomViewerCount(data));
-            });
-
             auth_socket.on(SocketEventBroadcastEnum.USER_ONLINE_STATUS, (data: { user_uuid: string; is_online: boolean }) => {
                 console.log(SocketEventBroadcastEnum.USER_ONLINE_STATUS, data);
                 dispatch(updateMemberOnlineStatus(data));
@@ -65,7 +60,6 @@ export const LayoutSocketListener = () => {
                 auth_socket.off(SocketEventUserEnum.ROOM_MEMBER_DELETED);
                 auth_socket.off(SocketEventUserEnum.ROOM_CHAT_CREATED);
                 auth_socket.off(SocketEventUserEnum.ROOM_CHAT_DELETED);
-                auth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
                 auth_socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
             };
         }
@@ -81,8 +75,8 @@ export const LayoutSocketListener = () => {
                 dispatch(updateMemberOnlineStatus(data));
             });
             return () => {
-                unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
                 unauth_socket.off(SocketEventBroadcastEnum.USER_ONLINE_STATUS);
+                unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT);
             };
         }
     }, [dispatch, token]);

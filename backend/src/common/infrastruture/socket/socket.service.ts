@@ -106,6 +106,22 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
         }
     }
 
+    @SubscribeMessage(SocketEventGroupRoomEnum.GROUP_ROOM_DISCONNECT)
+    async handleRoomDisConnection(
+        @MessageBody() data: any,
+        @ConnectedSocket() client: Socket
+    ) {
+        this.logger.debug(data, client.id, this.roomViewers);
+        for (const [roomUuid, viewers] of this.roomViewers.entries()) {
+            this.logger.debug(viewers.has(client.id));
+            if (viewers.has(client.id)) {
+                viewers.delete(client.id);
+                const count = viewers.size;
+                await this.emitToRoom(roomUuid, SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
+            }
+        }
+    }
+
     // send message to room
     async emitToRoom(room_uuid: string, event: string, data: any) {
         this.logger.log(`Socket event fired to room: event -> ${event} and room_uuid -> ${room_uuid}`);

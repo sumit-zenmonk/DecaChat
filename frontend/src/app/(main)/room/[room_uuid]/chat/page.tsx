@@ -84,13 +84,11 @@ export default function SpecificRoomChat() {
 
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
       unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED, handleSocketDeleteChat);
-      unauth_socket.on(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, (data: { room_uuid: string; count: number }) => {
-        console.log(SocketEventGroupRoomEnum.GROUP_ROOM_VIEWER_COUNT, data);
-        dispatch(updateRoomViewerCount(data));
-      });
 
       return () => {
-        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED, handleSocketNewChat);
+        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_CREATED);
+        unauth_socket.off(SocketEventGroupRoomEnum.GROUP_ROOM_CHAT_DELETED);
+        unauth_socket.emit(SocketEventGroupRoomEnum.GROUP_ROOM_DISCONNECT, { room_uuid });
       };
     }
   }, [room_uuid, dispatch]);
