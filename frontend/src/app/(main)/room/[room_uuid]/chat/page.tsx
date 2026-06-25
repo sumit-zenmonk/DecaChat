@@ -2,7 +2,7 @@
 
 import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton, Drawer, Card, CardContent, Avatar } from "@mui/material";
 import styles from "./chat.module.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { createRoomMember, getRoomMembers } from "@/redux/feature/member/member-action";
 import { useParams, useRouter } from "next/navigation";
