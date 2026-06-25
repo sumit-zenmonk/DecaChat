@@ -2,7 +2,7 @@
 
 import { Box, Button, CircularProgress, Container, Typography, TextField, IconButton, Drawer, Card, CardContent, Avatar } from "@mui/material";
 import styles from "./chat.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { createRoomMember, getRoomMembers } from "@/redux/feature/member/member-action";
 import { useParams, useRouter } from "next/navigation";
@@ -36,6 +36,7 @@ export default function SpecificRoomChat() {
   const { roomChats, roomChatsTotalDocuments, loading } = useAppSelector((state: RootState) => state.chatReducer);
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const messageEndSmoothScrollRef = useRef<HTMLDivElement>(null)
 
   const members = roomMembers?.[curr_room_uuid];
   const memberCount = roomMembersTotalDocuments[curr_room_uuid] || 1;
@@ -48,6 +49,10 @@ export default function SpecificRoomChat() {
   const [offset, setOffset] = useState(0);
   const limit = Number(process.env.NEXT_PUBLIC_PAGE_LIMIT) || 10;
   const ROOM_MEMBER_LIMIT = Number(process.env.NEXT_PUBLIC_ROOM_MEMBER_LIMIT) || 10;
+
+  useEffect(() => {
+    messageEndSmoothScrollRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [chats])
 
   useEffect(() => {
     // if (!roomChats[curr_room_uuid]?.length) {
@@ -219,6 +224,7 @@ export default function SpecificRoomChat() {
                   </Box>
                 );
               })}
+              <Box ref={messageEndSmoothScrollRef} />
             </Box>
           </InfiniteScroll>
         </Box >
