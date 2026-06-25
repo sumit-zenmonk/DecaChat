@@ -101,7 +101,6 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
             if (viewers) {
                 viewers.add(client.id);
                 const count = viewers.size;
-                this.logger.debug(`Socket event fired in room: ${SocketEventNameEnum.ROOM_VIEWER_COUNT}`);
                 await this.emitToRoom(roomUuid, SocketEventNameEnum.ROOM_VIEWER_COUNT, { room_uuid: roomUuid, count });
             }
         }
@@ -109,7 +108,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
 
     // send message to room
     async emitToRoom(room_uuid: string, event: string, data: any) {
-        this.logger.debug(`Socket event fired to room: event -> ${event} and room_uuid -> ${room_uuid}`);
+        this.logger.log(`Socket event fired to room: event -> ${event} and room_uuid -> ${room_uuid}`);
         await this.server.to(room_uuid).emit(event, data);
         return;
     }
@@ -117,7 +116,7 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     // send message to receiver only
     async emitToUser(userUuid: string, event: string, data: any) {
         const socketId = this.activeUsers.get(userUuid);
-        this.logger.debug(`Socket event fired to user: event -> ${event} and socketId -> ${socketId}`);
+        this.logger.log(`Socket event fired to user: event -> ${event} and socketId -> ${socketId}`);
         if (socketId) {
             await this.server.to(socketId).emit(event, data);
         }
