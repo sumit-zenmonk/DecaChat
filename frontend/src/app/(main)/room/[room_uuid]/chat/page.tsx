@@ -190,29 +190,25 @@ export default function SpecificRoomChat() {
 
                 return (
                   <Box key={chat.uuid} className={styles.chatMessage}>
-                    {profileShown &&
-                      <Box className={styles.avatarBox}>
-                        <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
-                        {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}
+                    <Box className={profileShown ? styles.avatarBox : styles.avatarBoxProfileNotShown}>
+                      <Image src={member?.user.profile_image || ''} width={100} height={100} alt="Profile image not found" className={styles.profileImage} />
+                      {/* <FiberManualRecordIcon className={member?.user.is_online ? styles.bottomGreenDotMessaging : styles.bottomGrayDotMessaging} /> */}
+                    </Box>
+
+                    <Box className={styles.messageContent}>
+                      <Box className={profileShown ? styles.messageInfo : styles.messageInfoProfileNotShown}>
+                        <Typography variant="caption" className={styles.chatEmail}>
+                          {member ? (member.user.name || member.user.email) : 'N/A'}
+                        </Typography>
+                        <Typography variant="caption" className={styles.messageTime}>
+                          {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Typography>
+                        {member?.room.creator.uuid === member?.user_uuid && <Typography variant="caption" className={styles.creatorTag}>
+                          CREATOR
+                        </Typography>}
                       </Box>
-                    }
 
-                    <Box className={profileShown ? styles.messageContent : styles.messageContentProfileNotShown}>
-                      {profileShown &&
-                        <Box className={styles.messageInfo}>
-                          <Typography variant="caption" className={styles.chatEmail}>
-                            {member ? (member.user.name || member.user.email) : 'N/A'}
-                          </Typography>
-                          <Typography variant="caption" className={styles.messageTime}>
-                            {new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </Typography>
-                          {member?.room.creator.uuid === member?.user_uuid && <Typography variant="caption" className={styles.creatorTag}>
-                            CREATOR
-                          </Typography>}
-                        </Box>
-                      }
-
-                      <Box className={profileShown ? styles.messageData : chatDrawerState ? styles.messageDataProfileNotShownDrawerOpen : styles.messageDataProfileNotShown}>
+                      <Box className={styles.messageData}>
                         {chat.member?.user_uuid === user?.uuid && (
                           <IconButton size="small" onClick={() => handleDeleteChat(chat.uuid, chat.room_uuid)} className={styles.deleteBtn}>
                             <DeleteIcon fontSize="inherit" />

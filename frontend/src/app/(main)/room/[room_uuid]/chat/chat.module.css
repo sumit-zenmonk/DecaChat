@@ -156,6 +156,7 @@
 .profileSideImage:hover {
     cursor: grab;
 }
+
 .bottomGreenDotSideMessaging,
 .bottomGrayDotSideMessaging {
     position: absolute;
@@ -303,9 +304,14 @@
     position: relative;
 }
 
-.avatarBox {
-    width: 4%;
+.avatarBox,
+.avatarBoxProfileNotShown {
+    width: 3%;
     position: relative;
+}
+
+.avatarBoxProfileNotShown {
+    visibility: hidden;
 }
 
 .profileImage {
@@ -331,8 +337,7 @@
     fill: rgb(213, 213, 213);
 }
 
-.messageContent,
-.messageContentProfileNotShown {
+.messageContent {
     min-width: 5%;
     max-width: 85%;
     max-height: 100%;
@@ -342,19 +347,20 @@
     position: relative;
 }
 
-.messageContentProfileNotShown {
-    min-width: 20%;
-}
-
 .chatMessage:hover .deleteBtn {
     opacity: 1;
 }
 
-.messageInfo {
+.messageInfo,
+.messageInfoProfileNotShown {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 0 10px;
+}
+
+.messageInfoProfileNotShown {
+    visibility: hidden;
 }
 
 .messageTime {
@@ -386,9 +392,7 @@
     overflow: auto;
 }
 
-.messageData,
-.messageDataProfileNotShownDrawerOpen,
-.messageDataProfileNotShown {
+.messageData {
     min-width: 30%;
     max-width: 95%;
     min-height: 10%;
@@ -400,19 +404,6 @@
     border: 1px solid rgb(60, 60, 60);
     border-radius: 5px;
     position: relative;
-}
-
-.messageDataProfileNotShownDrawerOpen,
-.messageDataProfileNotShown {
-    width: fit-content;
-}
-
-.messageDataProfileNotShown {
-    margin-left: 80px;
-}
-
-.messageDataProfileNotShownDrawerOpen {
-    margin-left: 60px;
 }
 
 .deleteBtn {
