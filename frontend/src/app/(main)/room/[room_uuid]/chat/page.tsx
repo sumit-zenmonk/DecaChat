@@ -179,7 +179,6 @@ export default function SpecificRoomChat() {
             next={fetchMoreData}
             hasMore={chats.length < totalChats}
             loader={<Box className={styles.loader}><CircularProgress size={30} /></Box>}
-            inverse={true}
             endMessage={!chats.length && <Typography className={styles.endMessage}>Yay! You have seen it all</Typography>}
             scrollableTarget="scrollableDiv"
           >
