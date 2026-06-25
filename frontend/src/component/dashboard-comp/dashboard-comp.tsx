@@ -31,11 +31,11 @@ export default function DashboardComp() {
 
   useEffect(() => {
     setCreatorUuid(
-      publicRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid ??
-      myrooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid ??
-      joinedRooms.find((room) => room.uuid == curr_room_uuid)?.creator_uuid
+      publicRooms.find((room) => room.uuid === curr_room_uuid)?.creator_uuid ??
+      myrooms.find((room) => room.uuid === curr_room_uuid)?.creator_uuid ??
+      joinedRooms.find((room) => room.uuid === curr_room_uuid)?.creator_uuid
     );
-  }, [room_uuid]);
+  }, [curr_room_uuid]);
 
   const handleActivePath = (path: string) => {
     if ((path == "/room" || path == "/room/join") && !user) {
@@ -104,10 +104,8 @@ export default function DashboardComp() {
 
       <Box className={styles.bottomContainer}>
         {
-          getDynamicRoute(activePath).room_uuid
-          && (
-            creatorUuid && creatorUuid == user?.uuid
-          ) &&
+          getDynamicRoute(activePath).room_uuid &&
+          (creatorUuid && creatorUuid == user?.uuid) &&
           < Box className={styles.deleteRoom} onClick={() => handleRoomDelete(getDynamicRoute(activePath)?.room_uuid || '')}>
             <HighlightOffIcon />
             <Typography className={styles.deleteRoom}>Close Room</Typography>

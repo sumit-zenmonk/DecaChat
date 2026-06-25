@@ -150,10 +150,12 @@
 
 .profileSideImage {
     width: 15%;
-    border: 2px solid #a6a6a6;
     border-radius: 100%;
 }
 
+.profileSideImage:hover {
+    cursor: grab;
+}
 .bottomGreenDotSideMessaging,
 .bottomGrayDotSideMessaging {
     position: absolute;
@@ -302,14 +304,13 @@
 }
 
 .avatarBox {
-    width: 5%;
+    width: 4%;
     position: relative;
 }
 
 .profileImage {
     width: 100%;
     height: fit-content;
-    border: 1px solid #959595;
     border-radius: 50%;
 }
 
