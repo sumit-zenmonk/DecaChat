@@ -1,3 +1,19 @@
+Only to create graph images or .gv files
+(https://manishbit97.medium.com/identifying-circular-dependencies-in-nestjs-using-madge-de137cd7f74f)
+    Installation
+        npm -g install madge
+        sudo apt-get install graphviz #( On Ubuntu )
+
+    Generate Dependency Graph
+        madge --image graph.png --extensions ts ./backend/src
+
+    Generate Circular Dependency Graph
+        madge --image graph.png --extensions ts --circular ./backend/src/
+
+    Generating .gv file using madge 
+        madge --dot --extensions ts ./backend/src/ > graph.gv
+
+
 Steps To Run This Repo Code (Open 2 Terminal)
 0. -> create 3 duplicate envs in 3 places
 1. -> docker compose up --build (1st terminal command)
