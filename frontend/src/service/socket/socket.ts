@@ -4,7 +4,7 @@ let socket: Socket | null = null
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8090";
 
 export const connectSocket = (token?: string): Socket => {
-    if (!socket) {
+    if (!socket || (!socket.auth && token)) {
         socket = io(BACKEND_URL,
             token ? { auth: { token } } : {}
         )
